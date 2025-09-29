@@ -1,0 +1,1172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PALEPU PHARMA DISTRIBUTORS (SS) - Sales Return Manager</title>
+  <link rel="icon" 
+        href="https://media.licdn.com/dms/image/v2/D5603AQHMvZTgZ4pbzA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1682685098699?e=2147483647&v=beta&t=87_-l2z-dvgwfndQGnhEdmTpcvEr5Updl0nb71DfHHs" 
+        type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* 1. MODERNIZED BASE STYLES */
+    :root{
+      font-family:'Roboto', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; /* Changed font */
+  --primary-color: #FF4C60;       /* Energetic Coral Red */
+  --primary-dark: #C33744;        /* Deep Crimson */
+  --secondary-color: #4A90E2;     /* Bright Royal Blue */
+  --upload-color: #F5A623;        /* Warm Golden Orange */
+  --background-color: #F0F4F8;    /* Light Desaturated Blue */
+  --card-bg: #FFFFFF;             /* Clean White */
+  --text-color: #1F2937;          /* Rich Charcoal */
+  --light-gray: #D1D5DB;          /* Soft Gray */
+  --medium-gray: #6B7280;         /* Muted Medium Gray */
+  --border-color: #E5E7EB;        /* Light Border Gray */
+  --error-color: #EF4444;         /* Strong Red for errors */
+    }
+    body{
+      padding: 30px 15px; /* Increased padding */
+      background: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+  
+  }
+    
+    /* 2. CARD STYLING */
+    .card{
+      background: var(--card-bg);
+      border-radius: 12px; /* Softer corners */
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* More pronounced, modern shadow */
+      padding: 30px; /* Increased padding */
+      max-width: 1100px; /* Slightly wider max-width for better item table space */
+      margin: 0 auto;
+    }
+    
+    /* 3. HEADINGS & LABELS */
+    h1{
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 0 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border-color); /* Subtle separator */
+    }
+    label{
+      display: block;
+      font-size: 13px;
+      color: var(--medium-gray);
+      font-weight: 500;
+      margin-bottom: 4px;
+      text-transform: uppercase; /* Clearer labels */
+    }
+    
+    /* 4. FORM INPUTS & SELECTS */
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(4,1fr); /* Changed to 4 columns for better field grouping */
+      gap: 20px; /* Increased gap */
+      margin-bottom: 20px;
+    }
+    /* Adjusted grid for mobile (optional but good practice) */
+    @media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.grid{grid-template-columns:1fr}}
+
+    input[type=text], input[type=date], input[type=number], select, textarea{
+      width: 100%;
+      padding: 10px 12px; /* Slightly more padding */
+      border-radius: 8px; /* Softer corners */
+      border: 1px solid var(--border-color);
+      box-sizing: border-box;
+      font-size: 14px;
+      color: var(--text-color);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1); /* Subtle focus ring */
+      outline: none;
+    }
+    select:disabled, input:read-only {
+      background-color: #f8f9fa;
+      cursor: default;
+      color: var(--medium-gray);
+    }
+    textarea{resize:vertical;min-height:60px;}
+    .full{grid-column:span 4} /* Updated span for 4-column grid */
+    @media(max-width:1000px){.full{grid-column:span 2}}
+    @media(max-width:600px){.full{grid-column:span 1}}
+    
+    /* 5. TABLE STYLING */
+    table{
+      width: 100%;
+      border-collapse: separate; /* Changed to separate for rounded cell corners */
+      border-spacing: 0;
+      margin-top: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden; /* Ensures table content respects border-radius */
+    }
+    th,td{
+      padding: 10px 8px;
+      border: 0; /* Removing individual cell borders to rely on row borders/spacing */
+      text-align: left;
+      border-bottom: 1px solid var(--border-color); /* Light row separator */
+    }
+    th{
+      background: #e9ecef; /* Light header background */
+      color: var(--text-color);
+      font-weight: 500;
+      font-size: 14px;
+      text-transform: uppercase;
+      white-space: nowrap; /* PREVENTS HEADER TEXT FROM WRAPPING */
+    }
+    /* Remove bottom border on last row of the table body */
+    #itemsTable tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* 6. TABLE INPUTS */
+    .item-row input, .item-row select, .item-row textarea {
+      padding: 6px 8px; /* Slightly more space */
+      font-size: 13px; /* Slightly smaller font */
+      border-radius: 6px;
+      min-height: auto;
+    }
+    .item-row input[readonly] { /* Style for calculated fields */
+        font-weight: bold;
+        background-color: #f8f9fa;
+        border: none;
+    }
+    .item-row textarea {
+      min-height: 35px; /* Adjusting min-height to fit better */
+      padding: 6px 8px;
+    }
+    /* ADJUSTED COLUMN ALIGNMENT AFTER REMOVING 'NATURE' */
+    .item-row td:nth-child(1), .item-row td:nth-child(5) {
+        text-align: center;
+    }
+    .item-row td:nth-child(6), .item-row td:nth-child(7), .item-row td:nth-child(8), .item-row td:nth-child(9), .item-row td:nth-child(10) {
+        text-align: right;
+    }
+    
+    /* 7. BUTTONS & ACTIONS */
+    .actions{
+      display: flex;
+      gap: 12px; /* Increased gap */
+      align-items: center;
+      margin-top: 15px;
+    }
+    button{
+      padding: 10px 18px; /* More substantial buttons */
+      border-radius: 8px;
+      border: 0;
+      background: var(--primary-color);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+    }
+    button:hover{
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 8px rgba(0, 123, 255, 0.3);
+    }
+    button.ghost{
+      background: var(--card-bg);
+      color: var(--medium-gray);
+      border: 1px solid var(--border-color);
+      box-shadow: none;
+    }
+    button.ghost:hover{
+      background: #f8f9fa;
+      color: var(--text-color);
+      transform: none;
+      box-shadow: none;
+    }
+    .right{text-align:right}
+    .small{font-size:13px;padding:8px 12px}
+    .remove{
+      background: var(--error-color);
+      box-shadow: 0 4px 6px rgba(220, 53, 69, 0.2);
+    }
+    .remove:hover{
+      background: #c82333;
+      box-shadow: 0 6px 8px rgba(220, 53, 69, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* SPECIFIC BUTTON COLORS */
+    #generate { 
+        background: #607346 !important; /* PREVIEW: Earthy Green */
+        box-shadow: 0 4px 6px rgba(96, 115, 70, 0.2) !important;
+    }
+    #generate:hover { 
+        background: #4b5c37 !important;
+        box-shadow: 0 6px 8px rgba(96, 115, 70, 0.3) !important;
+    }
+    #submitToSheet { 
+        background: var(--upload-color) !important; /* UPLOAD: Vibrant Orange */
+        box-shadow: 0 4px 6px rgba(255, 137, 4, 0.2) !important;
+    }
+    #submitToSheet:hover { 
+        background: #e67a00 !important;
+        box-shadow: 0 6px 8px rgba(255, 137, 4, 0.3) !important;
+    }
+    #downloadXlsx { 
+        background: var(--secondary-color) !important; /* DOWNLOAD: Dark Green */
+        box-shadow: 0 4px 6px rgba(33, 115, 70, 0.2) !important;
+    }
+    #downloadXlsx:hover { 
+        background: #1a5c37 !important;
+        box-shadow: 0 6px 8px rgba(33, 115, 70, 0.3) !important;
+    }
+    #sendMail { 
+        background: var(--primary-color) !important; /* SEND MAIL: Primary Blue */
+    }
+
+    /* 8. RESULT/PREVIEW AREA */
+    .result{
+      margin-top: 25px;
+      padding: 20px;
+      background: #fcfcfd; /* Very light background for contrast */
+      border-radius: 10px;
+      border: 2px dashed #d6eaff; /* Light blue dashed border */
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Inner shadow for depth */
+      color: var(--text-color);
+    }
+    
+    /* 9. STATUS MESSAGE */
+    .status-message {
+      font-weight: 500;
+      color: var(--upload-color); /* Matches the upload button theme */
+      margin-left: 15px;
+      font-size: 15px;
+      display: inline-block;
+    }
+    
+    /* 10. TOTAL VALUE DISPLAY */
+    .total-value-container {
+        margin-top: 15px;
+        padding: 10px 15px;
+        background: #fff3cd; /* Light warning color for emphasis */
+        border: 1px solid #ffeeba;
+        border-radius: 8px;
+        display: inline-block;
+    }
+    strong#totalValueDisplay {
+        font-size: 18px;
+        color: #856404; /* Darker text for readability */
+        font-weight: 700;
+    }
+
+    /* 11. PRINT STYLES */
+    @media print {
+      body * { visibility: hidden; }
+      #printArea, #printArea * { visibility: visible; }
+      #printArea { 
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        padding: 10px;
+      }
+      .card { box-shadow: none; border-radius: 0; padding: 0; }
+      /* Reset preview/print-specific styles */
+      #printArea h2 { font-size: 18px; }
+      #printContent p { font-size: 11px !important; }
+      #printContent table { border-radius: 0; border: 1px solid #333; font-size: 10px !important; }
+      #printContent th, #printContent td { padding: 4px; border-color: #333; }
+      #printContent th { background: #eee; }
+    }
+
+    /* 12. NEW, IMPROVED PREVIEW/REPORT STYLES */
+    
+    /* --- Main Company Header (New) --- */
+    .report-company-name {
+        text-align: center;
+        font-weight: 700;
+        font-size: 26px; /* Larger company name */
+        color: #000; /* Black for strong header */
+        margin-bottom: 5px;
+        text-transform: uppercase;
+    }
+    
+    /* --- Report Title (Modified per user request: Large and Bold) --- */
+    .report-title {
+        text-align: center;
+        font-weight: 900; /* Extra bold */
+        font-size: 28px; /* Much larger */
+        color: var(--primary-dark);
+        margin: 0 0 20px 0; /* More space below */
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ddd;
+        text-transform: uppercase;
+    }
+    
+    /* --- Report Metadata (Modified) --- */
+    .report-header {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Changed to 3 columns for density */
+        gap: 10px;
+        padding: 10px;
+        margin-bottom: 20px;
+        background: #f8f9fa; /* Light background for the info block */
+        border-radius: 8px;
+        border: 1px solid #eee;
+    }
+    .report-meta-item {
+        font-size: 13px;
+        padding: 0;
+        line-height: 1.2;
+    }
+    .report-meta-item strong {
+        color: var(--medium-gray);
+        font-weight: 500;
+        display: block; /* Strong label above value */
+        text-transform: uppercase;
+        font-size: 11px;
+        margin-bottom: 2px;
+    }
+    
+    /* --- Report Table (Modified) --- */
+    .report-table {
+        margin-top: 10px;
+        border: 1px solid var(--border-color) !important;
+        border-collapse: collapse !important;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .report-table th, .report-table td {
+        padding: 8px 10px;
+        font-size: 12px; /* Slightly larger font */
+        border: 1px solid #eee; /* Clear cell borders */
+    }
+    .report-table th {
+        background: var(--primary-dark);
+        color: white; /* Darker header with white text */
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+    .report-table tr:nth-child(even) {
+        background-color: #fcfcfc; /* Zebra striping for readability */
+    }
+    .report-table tr:hover {
+        background-color: #f0f8ff;
+    }
+
+    /* --- Report Totals (Modified) --- */
+    .report-footer-total {
+        text-align: right;
+        font-size: 18px;
+        font-weight: 700;
+        padding: 15px 20px;
+        margin-top: 20px;
+        background: #e6f7ff; /* Light blue background for emphasis */
+        border-top: 3px solid var(--primary-color);
+        border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+    }
+    .report-footer-total span {
+        color: var(--primary-dark);
+        font-size: 24px; /* Grand Total is very prominent */
+        margin-left: 15px;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="card">
+    <h1>PALEPU PHARMA DISTRIBUTORS (SS)</h1>
+    <div class="grid">
+      <div>
+        <label for="date">C.INV DATE</label>
+        <input id="date" type="date">
+      </div>
+      <div>
+        <label for="cInvNo">C.INV NO.</label>
+        <input id="cInvNo" type="text" placeholder="Customer Inv. No." oninput="this.value = this.value.toUpperCase()">
+      </div>
+      <div>
+        <label for="stockist">STOCKIST NAME</label>
+        <select id="stockist">
+			<option value="">-- Select stockist --</option>
+			<option value="TCBE02" data-area="COIMBATORE" data-team="TN 01">ADHINANDIN AGENCIES</option>
+			<option value="TVLR02" data-area="VELLORE" data-team="TN 01">AISWARYAM PHARMA</option>
+			<option value="TRMD04" data-area="RAMANATHAPURAM" data-team="TN 01">AL SARORAJ PHARMACEUTICALS</option>
+			<option value="TVPM01" data-area="VILLUPURAM" data-team="TN 01">ALAMELU ENTERPRISES</option>
+			<option value="TTJR03" data-area="THANJAVUR" data-team="TN 01">AN.M MEDICAL AGENCIES</option>
+			<option value="TCHN33" data-area="CHENNAI" data-team="TN 01">ANGEL PHARMACEUTICALS</option>
+			<option value="TTIV01" data-area="TIRUVALLUR" data-team="TN 01">BALAJI MEDICAL AGENCY</option>
+			<option value="TSVG01" data-area="SIVAGANGAI" data-team="TN 01">BALAJI PHARMACEUTICALS</option>
+			<option value="TTVR01" data-area="TIRUVALLUR" data-team="TN 01">CHELLAS PHARMA DISTRIBUTORS</option>
+			<option value="TTRY12" data-area="TRICHY" data-team="TN 01">COVAI PHARMA</option>
+			<option value="TNGR05" data-area="NAGARCOIL" data-team="TN 01">CSK LIFE CARE</option>
+			<option value="TDMP01" data-area="DHARMAPURI" data-team="TN 01">DHARMAPURI PHARMA AGENCY</option>
+			<option value="TTIV02" data-area="TIRUVALLUR" data-team="TN 01">GOPI MEDICAL AGENCY</option>
+			<option value="TTNV01" data-area="TIRUNELVELI" data-team="TN 01">GVS PHARMACEUTICALS</option>
+			<option value="TCHN05" data-area="CHENNAI" data-team="TN 01">INCAMED HEALTHCARE PVT LTD</option>
+			<option value="TRMD01" data-area="RAMANATHAPURAM" data-team="TN 01">JANANI PHARMACEUTICALS</option>
+			<option value="TCHN07" data-area="CHENNAI" data-team="TN 01">JAYASANTHI PHARMA AND VACCINE</option>
+			<option value="TVPM02" data-area="VILLUPURAM" data-team="TN 01">JEE PHARMACEUTICALS</option>
+			<option value="TCHN09" data-area="CHENNAI" data-team="TN 01">KAMALAM MEDICAL CORPORATION</option>
+			<option value="TCDM01" data-area="CUDDALORE" data-team="TN 01">KANNAN AGENCIES</option>
+			<option value="TTNM01" data-area="THIRUVANNAMALAI" data-team="TN 01">KM AGENCIES</option>
+			<option value="TTIR07" data-area="TIRUPUR" data-team="TN 01">KONGU MEDICAL DISTRIBUTION</option>
+			<option value="TCHN10" data-area="CHENNAI" data-team="TN 01">LIFE CARE PHARMA PVT LTD</option>
+			<option value="TCHN11" data-area="CHENNAI" data-team="TN 01">LPH PHARMA PVT LTD</option>
+			<option value="TMDU03" data-area="MADURAI" data-team="TN 01">MADURAI HOSPITAL SUPPLIERS</option>
+			<option value="TMDU04" data-area="MADURAI" data-team="TN 01">MADURAI PHARMACEUTICAL DISTRIBUTOR</option>
+			<option value="TMDU05" data-area="MADURAI" data-team="TN 01">MANI PHARMACEUTICALS</option>
+			<option value="TPDY01" data-area="PONDICHERRY" data-team="TN 01">MARUTHI AGENCY</option>
+			<option value="TTJR01" data-area="THANJAVUR" data-team="TN 01">MEDI SALES</option>
+			<option value="TKKM03" data-area="KUMBAKONAM" data-team="TN 01">MEENA PHARMA</option>
+			<option value="TTNM02" data-area="THIRUVANNAMALAI" data-team="TN 01">MOHANA AGENCIES</option>
+			<option value="TPOL02" data-area="CHENNAI" data-team="TN 01">NAGAMMAI PHARMA</option>
+			<option value="TVPM03" data-area="VILLUPURAM" data-team="TN 01">NATIONAL AGENCIES</option>
+			<option value="TVLR09" data-area="VELLORE" data-team="TN 01">NEW LIFE ENTERPRISES</option>
+			<option value="TCHN36" data-area="CHENNAI" data-team="TN 01">NEW RRPD PVT LTD</option>
+			<option value="TTIR03" data-area="TIRUPUR" data-team="TN 02">NOYYAL PHARMA DISTRIBUTORS</option>
+			<option value="TKPM03" data-area="KANCHIPURAM" data-team="TN 01">PALEPU PHARMA DISTRIBUTORS PVT LTD</option>
+			<option value="TMDU15" data-area="MADURAI" data-team="TN 01">PALEPU PHARMA DISTRIBUTORS PVT LTD - MDU</option>
+			<option value="TCHN32" data-area="CHENNAI" data-team="TN 01">PALEPU PHARMA DISTRIBUTORS PVT LTD (MYLA</option>
+			<option value="TCHN26" data-area="CHENNAI" data-team="TN 01">PALEPU PHARMA DISTRIBUTORS PVT LTD,KOTTI</option>
+			<option value="TCHN28" data-area="CHENNAI" data-team="TN 01">PALEPU PHARMA DISTRIBUTORS PVT LTD,MUGA</option>
+			<option value="TCHN27" data-area="CHENNAI" data-team="TN 01">PALEPU PHARMA DISTRIBUTORS PVT LTD,THAM</option>
+			<option value="TCHN15" data-area="CHENNAI" data-team="TN 01">PALEPU PHARMA PVT LTD MYLAPORE</option>
+			<option value="TTIV04" data-area="CHENNAI" data-team="TN 01">PERFECT MEDICAL ENTERPRISES PVT LTD</option>
+			<option value="TCBE07" data-area="COIMBATORE" data-team="TN 01">PURANI HOSPITAL SUPPLIES PVT LTD</option>
+			<option value="TCHN31" data-area="CHENNAI" data-team="TN 01">PURANI HOSPITAL SUPPLIES PVT LTD-CHENNAI</option>
+			<option value="TTNV02" data-area="TIRUNELVELI" data-team="TN 01">R K MEDICALS AND AGENCY</option>
+			<option value="TNGL01" data-area="NAGARCOIL" data-team="TN 01">R.P. PHARMACEUTICALS</option>
+			<option value="TVLR07" data-area="VELLORE" data-team="TN 01">RAGHAVA PHARMA</option>
+			<option value="TTNV03" data-area="TIRUNELVELI" data-team="TN 01">RAJAMANNAR MEDICAL AGENCIES</option>
+			<option value="TDMP02" data-area="DHARMAPURI" data-team="TN 01">RATHNA PHARMA AGENCIES</option>
+			<option value="TCHN17" data-area="CHENNAI" data-team="TN 01">RS DRUGS & MEDICALS PVT LTD</option>
+			<option value="TNGR02" data-area="TIRUNELVELI" data-team="TN 01">SANSI AGENCIES</option>
+			<option value="TTRY04" data-area="TRICHY" data-team="TN 01">SANTHI PHARMACEUTICALS</option>
+			<option value="PTCB36" data-area="COIMBATORE" data-team="TN 01">SELVARATHNA AGENCIES</option>
+			<option value="TDMP06" data-area="DHARMAPURI" data-team="TN 01">SENTHIL MURUGAN AGENCY</option>
+			<option value="TKKM01" data-area="KUMBAKONAM" data-team="TN 01">SENTHIL PHARMA</option>
+			<option value="TSVG03" data-area="SIVAGANGAI" data-team="TN 01">SERUM AND VACCINES</option>
+			<option value="TCHN30" data-area="CHENNAI" data-team="TN 01">SHANBALAJI PHARMA DISTRIBUTORS PVT LTD</option>
+			<option value="TPDY02" data-area="PONDICHERRY" data-team="TN 01">SHANKAR GANESH ASSOCIATES</option>
+			<option value="TCHN29" data-area="CHENNAI" data-team="TN 01">SHREE AMMAN PHARMA INDIA PVT LTD</option>
+			<option value="TCHN20" data-area="CHENNAI" data-team="TN 01">SHRI BHAKTHI MEDICAL AGENCIES P LTD</option>
+			<option value="TMAY01" data-area="CHENNAI" data-team="TN 01">SHRI JAYAM MEDICAL AGENCIES</option>
+			<option value="TVRN02" data-area="VIRUDHUNAGAR" data-team="TN 01">SHUNMUKAM MEDICAL HALL</option>
+			<option value="TMDU10" data-area="MADURAI" data-team="TN 01">SP.SS MEDICAL HALL</option>
+			<option value="TMDU11" data-area="MADURAI" data-team="TN 01">SREE SP.A PHARMACEUTICALS</option>
+			<option value="TTRY05" data-area="TRICHY" data-team="TN 01">SRI AMBAL JAI SHREE MEDICALS</option>
+			<option value="TTIV05" data-area="CHENNAI" data-team="TN 01">SRI AMMAN MEDICAL AGENCIES</option>
+			<option value="TTNV04" data-area="TIRUNELVELI" data-team="TN 01">SRI GUHAN AGENCIES</option>
+			<option value="TTRY07" data-area="TRICHY" data-team="TN 01">SRI KRISHNA MEDICALS</option>
+			<option value="PPKT04" data-area="PUDUKOTTAI" data-team="TN 01">SRI LAKSHMI PHARMACEUTICALS</option>
+			<option value="TPKT03" data-area="PUDUKOTTAI" data-team="TN 01">SRI RAM MEDICAL AHENCIES</option>
+			<option value="TTRP01" data-area="TIRUPATTUR" data-team="TN 01">SRI RAM PHARMA AGENCIES</option>
+			<option value="TDMP05" data-area="DHARMAPURI" data-team="TN 01">SRI SHANMUGA AGENCY</option>
+			<option value="TTRY11" data-area="TRICHY" data-team="TN 01">SRI SRINIVASA AGENCIES</option>
+			<option value="TKNG03" data-area="KRISHNAGIRI" data-team="TN 01">SRI VIJAY PHARMA</option>
+			<option value="TKPM02" data-area="KANCHIPURAM" data-team="TN 01">SRI VINAYAK PHARMA DISTRIBUTOR</option>
+			<option value="TPDY03" data-area="PONDYCHERRY" data-team="TN 01">SRISUN PHARMA</option>
+			<option value="TNGR04" data-area="TIRUNELVELI" data-team="TN 01">STAJER VACCINE CENTER</option>
+			<option value="TCHN21" data-area="CHENNAI" data-team="TN 01">SURESH PHARMA AGENCIES (CHENNAI) PVT LTD</option>
+			<option value="TTRY09" data-area="TRICHY" data-team="TN 01">SVS PHARMACEUTICALS</option>
+			<option value="TMDU12" data-area="MADURAI" data-team="TN 01">THIRUPATHI AND THIRUMALA</option>
+			<option value="TTJR02" data-area="THANJAVUR" data-team="TN 01">VA DISTRIBUTORS</option>
+			<option value="TVRN03" data-area="TIRUNELVELI" data-team="TN 01">VACCI CARE</option>
+			<option value="TCHN23" data-area="CHENNAI" data-team="TN 01">VALLI PHARMA</option>
+			<option value="TKNG06" data-area="KRISHNAGIRI" data-team="TN 01">VELAN PHARMA</option>
+			<option value="TKKM02" data-area="KUMBAKONAM" data-team="TN 01">VEXWIN PHARMA TRADERS</option>
+			<option value="TCDR02" data-area="CUDDALORE" data-team="TN 01">YOGIRAM DISTRIBUTORS PVT LTD</option>
+			<option value="TPDY06" data-area="PONDICHERRY" data-team="TN 01">YOGIRAM DISTRIBUTORS PVT LTD</option>
+			<option value="TNMK01" data-area="NAMAKKAL" data-team="TN 02">A K T PHARMA</option>
+			<option value="TDGL01" data-area="DINDIGUL" data-team="TN 02">ABIRAMI AGENCIES</option>
+			<option value="TPLN01" data-area="DINDIGUL" data-team="TN 02">ANDAVAR PHARMA</option>
+			<option value="TSLM01" data-area="SALEM" data-team="TN 02">ARUN BALAJI AGENCIES</option>
+			<option value="TUPT01" data-area="UDUMALPET" data-team="TN 02">GANESHA PHARMACY</option>
+			<option value="TSLM03" data-area="SALEM" data-team="TN 02">GEETHA PHARMA</option>
+			<option value="TTRY02" data-area="TRICHY" data-team="TN 02">GURU MEDICALS</option>
+			<option value="TPOL01" data-area="COIMBATORE" data-team="TN 02">KALYANI PHARMA DISTRIBUTORS</option>
+			<option value="TPLN03" data-area="DINDIGUL" data-team="TN 02">KUGAAN PHARMA</option>
+			<option value="TSLM12" data-area="SALEM" data-team="TN 02">KUMARAN MEDICARE</option>
+			<option value="TTIR04" data-area="TIRUPUR" data-team="TN 02">ORANGE AGENCIES</option>
+			<option value="TERD07" data-area="ERODE" data-team="TN 02">PURANI HOSPITAL SUPPLIES PVT LTD</option>
+			<option value="TSLM06" data-area="SALEM" data-team="TN 02">S K PHARMA</option>
+			<option value="TSLM07" data-area="SALEM" data-team="TN 02">S P MEDITECH PVT LTD</option>
+			<option value="TERD09" data-area="ERODE" data-team="TN 02">SHALIMAR AGENCIES</option>
+			<option value="TPOL03" data-area="COIMBATORE" data-team="TN 02">SREE KUMARAN PHARMA</option>
+			<option value="TNMK02" data-area="NAMAKKAL" data-team="TN 02">SREE MAHALAKSHMI PHARMA</option>
+			<option value="TERD12" data-area="ERODE" data-team="TN 02">SRI KAMALAM MEDICAL AGENCIES</option>
+			<option value="TKRR02" data-area="KARUR" data-team="TN 02">SRI KARUR MEDICAL AGENCIES</option>
+			<option value="TKRR03" data-area="KARUR" data-team="TN 02">SRI LAXMI DRUG STORES</option>
+			<option value="TERD13" data-area="ERODE" data-team="TN 02">SRI SENTHIL MEDICAL AGENCIES</option>
+			<option value="TKRR04" data-area="KARUR" data-team="TN 02">SRI SENTHIL MEDICAL AGENCIES</option>
+			<option value="TNMK05" data-area="NAMAKKAL" data-team="TN 02">SRI VENKATESWARA MEDICAL AGENCIES</option>
+			<option value="TDGL08" data-area="DINDIGUL" data-team="TN 02">SRI VN PHARMACEUTICALS</option>
+			<option value="TSLM11" data-area="SALEM" data-team="TN 02">VMS LIFE CARE</option>
+			<option value="TDGL03" data-area="DINDIGUL" data-team="TN 02">SRI SELVAGANESH MEDICALS AGENCIES</option>
+			<option value="KTSR01" data-area="THRISSUR" data-team="KL">ALLIED PHARMA</option>
+			<option value="KTVP01" data-area="THIRUVANANTHAPURAM" data-team="KL">AMY PHARMA</option>
+			<option value="KEKM05" data-area="ERNAKULAM" data-team="KL">ANANDHA PHARMACY PRIVATE LIMITED</option>
+			<option value="KTVP02" data-area="THIRUVANANTHAPURAM" data-team="KL">ATOMLIFE HEALTHCARE AND RESEARCH P LTD.</option>
+			<option value="KKLM01" data-area="KOLLAM" data-team="KL">AVICOT SURGICALS</option>
+			<option value="KTVP03" data-area="THIRUVANANTHAPURAM" data-team="KL">BR ASSOCIATES</option>
+			<option value="KKLM02" data-area="KOLLAM" data-team="KL">BROTHERS PHARMA</option>
+			<option value="KKSD01" data-area="KASARAGOD" data-team="KL">CENTRAL DISTRIBUTORS</option>
+			<option value="KKTM01" data-area="KOTTAYAM" data-team="KL">CHANDRATHIL DRUG HOUSE</option>
+			<option value="KKKD02" data-area="MALAPURAM" data-team="KL">CHITRA AGENCIES</option>
+			<option value="KTVP11" data-area="TRIVANANTHAPURAM" data-team="KL">DEVI PHARMA WELLNESS PRIVATE LIMITED</option>
+			<option value="KMLP01" data-area="MALAPPURAM" data-team="KL">FATHIMA HEALTH CARE</option>
+			<option value="KTDP01" data-area="THODUPUZHA" data-team="KL">GALAXY DISTRIBUTORS</option>
+			<option value="KKLM04" data-area="KOLLAM" data-team="KL">J.J.PHARMACEUTICALS</option>
+			<option value="KKKD03" data-area="KOZHIKODE" data-team="KL">KALLAT DRUG LINES</option>
+			<option value="KKTM03" data-area="KOTTAYAM" data-team="KL">KERALA CHEMICAL & BIOLOGICAL AGENCY</option>
+			<option value="KKKD08" data-area="KOZHIKODE" data-team="KL">KERALA COMMERCIAL DISTRIBUTORS</option>
+			<option value="KMLP07" data-area="MALAPPURAM" data-team="KL">KEYSONS PHARMA</option>
+			<option value="KPTA01" data-area="PATHANAMTHITTA" data-team="KL">KOOTTIPARAMBIL COMBINES</option>
+			<option value="KALP03" data-area="ALAPPUZHA" data-team="KL">KRISHNA PHARMACEUTICAL REMEDIES</option>
+			<option value="KPTA02" data-area="PATHANAMTHITTA" data-team="KL">LAKSHMI AGENCIES</option>
+			<option value="KTVP05" data-area="THIRUVANANTHAPURAM" data-team="KL">LEKSHMI DRUG HOUSE</option>
+			<option value="KTSR03" data-area="TRISSUR" data-team="KL">LEO PHARMA DISTRIBUTORS P LTD</option>
+			<option value="KTDP02" data-area="IDUKKI" data-team="KL">LOTUS HEALTH CARE</option>
+			<option value="KPTA05" data-area="PATHANAMTHITTA" data-team="KL">M.G. PHARMACEUTICAL DISTRIBUTORS</option>
+			<option value="KMLP02" data-area="MALAPURAM" data-team="KL">MALABAR DRUGS</option>
+			<option value="KKKD04" data-area="KOZHIKODE" data-team="KL">MANOJ PHARMACEUTICALS</option>
+			<option value="KALP06" data-area="ALAPPUZHA" data-team="KL">MEDI HOUSE</option>
+			<option value="KEKM07" data-area="ERNAKULAM" data-team="KL">MEDIHAUXE PHARMACEUTICALS PVT.LTD.</option>
+			<option value="KPKD03" data-area="PALAKKAD" data-team="KL">MONEY PHARMA</option>
+			<option value="KMLP03" data-area="MALAPURAM" data-team="KL">NATIONAL DRUG LINES</option>
+			<option value="KMLP04" data-area="MALAPPURAM" data-team="KL">NEW SUJITH PHARMA</option>
+			<option value="KPKD07" data-area="PALAKKAD" data-team="KL">NEW VISWABHARATHY DRUG LINES PVT LTD.</option>
+			<option value="KKSD02" data-area="KASARAGOD" data-team="KL">NORTHERN PHARMA</option>
+			<option value="KTVP09" data-area="TRIVANANTHAPURAM" data-team="KL">NRS PHARMA</option>
+			<option value="KMLP05" data-area="MALAPPURAM" data-team="KL">ORBIT DRUGS</option>
+			<option value="KPTA04" data-area="PATHANAMTHITTA" data-team="KL">PARTNERS DRUG LINKS</option>
+			<option value="KKNR08" data-area="KANNUR" data-team="KL">PHARMACARE</option>
+			<option value="KKNR04" data-area="KANNUR" data-team="KL">RAM AGENCIES</option>
+			<option value="KWYD01" data-area="WAYNAD" data-team="KL">RELIANCE DRUGS</option>
+			<option value="KWYD02" data-area="WAYNAD" data-team="KL">RESORT MEDICALS</option>
+			<option value="KKLM08" data-area="KOLLAM" data-team="KL">RR PHARMA</option>
+			<option value="KPKD05" data-area="PALAKKAD" data-team="KL">SAI PHARMA</option>
+			<option value="KTSR05" data-area="SANJEEVANI DRUGS" data-team="KL">SANJEEVANI DRUGS</option>
+			<option value="KMLP06" data-area="MALAPPURAM" data-team="KL">SHEEN PHARMA</option>
+			<option value="KTVP08" data-area="THIRUVANNANTHAPURAM" data-team="KL">SIKA AGENCIES</option>
+			<option value="KTVP10" data-area="THIRUVANANTHAPURAM" data-team="KL">SREEPADMAM PHARMA AND AGENICES</option>
+			<option value="KTSR06" data-area="THRISSUR" data-team="KL">SRI ENTERPRISES</option>
+			<option value="KKTM04" data-area="KOTTAYAM" data-team="KL">STANDARD AGENCIES</option>
+			<option value="KKSD03" data-area="KASARAGOD" data-team="KL">SWAPNA PHARMA KASARAGOD</option>
+			<option value="KKNR06" data-area="KANNUR" data-team="KL">TELY DRUGS</option>
+			<option value="KTSR08" data-area="THRISSUR" data-team="KL">THE CITY DRUGS</option>
+			<option value="PTKL29" data-area="THODUPUZHA" data-team="KL">THODUPUZHA DRUG HOUSE PRIVATE LIMITED</option>
+			<option value="KEKM06" data-area="ERNAKULAM" data-team="KL">TRUST PHARMACEUTICALS</option>
+			<option value="KPTA06" data-area="PATHANAMTHITTA" data-team="KL">UNIQUE ENTERPRISES</option>
+			<option value="KKNR07" data-area="KERALA" data-team="KL">UNITY DRUG HOUSE</option>
+			<option value="KEKM03" data-area="ERNAKULAM" data-team="KL">VARGHESE & COMPANY</option>
+			<option value="KKTP01" data-area="KERALA" data-team="KL">VEE VEE PHARMA</option>
+			<option value="KKLM06" data-area="KOLLAM" data-team="KL">WESTERN HEALTH CARE SOLUTIONS PVT LTD</option>
+			<option value="PTKL38" data-area="KANNUR" data-team="KL">NF LIFELINES</option>
+			<option value="KTSR10" data-area="THRISSUR" data-team="KL">MEDICOTRADE DISTRIBUTORS</option>
+			<option value="KBLR11" data-area="BANGALORE" data-team="KA">ACCESS LIFESCIENCES</option>
+			<option value="KBGM03" data-area="BELGAUM" data-team="KA">ADARSH PHARMA</option>
+			<option value="KDVG02" data-area="DAVANGERE" data-team="KA">AK PHARMA</option>
+			<option value="KBGT03" data-area="BAGALKOT" data-team="KA">ASHOK MEDICAL AGENCIES</option>
+			<option value="KSHG01" data-area="SHIMOGA" data-team="KA">ASHOKA PHARMA</option>
+			<option value="KBDR01" data-area="BIDAR" data-team="KA">BHAGYALAXMI DISTRIBUTORS</option>
+			<option value="KDVG03" data-area="DAVANGERE" data-team="KA">CHIRAG MEDICARE SOLUTIONS PVT.LTD.</option>
+			<option value="KBLR01" data-area="BANGALORE" data-team="KA">DEVAKI PHARMA</option>
+			<option value="KUDI04" data-area="UDUPI" data-team="KA">DHANVANTARI DISTRIBUTORS</option>
+			<option value="KMAR01" data-area="MARGAO" data-team="KA">DROGARIA SALCETE</option>
+			<option value="KGOA01" data-area="GOA" data-team="KA">EC AGENCIES</option>
+			<option value="KGBA01" data-area="KALABURAGI" data-team="KA">GANGA DISTRIBUTORS</option>
+			<option value="PGOA03" data-area="GOA" data-team="KA">GOA DOCTORS ALLIANCE PVT LTD</option>
+			<option value="KBJR10" data-area="BIJAPUR" data-team="KA">GUDDODGI PHARMACEUTICAL DISTRIBUTORS</option>
+			<option value="KMYS02" data-area="MYSORE" data-team="KA">GUPTA PHARMA</option>
+			<option value="KMAG04" data-area="MANGALORE" data-team="KA">HEALTH MART</option>
+			<option value="PBGT01" data-area="BAGALKOT" data-team="KA">KADLIMATTI PHARMACEUTICALS</option>
+			<option value="KSRS01" data-area="KARNADAKA" data-team="KA">KAPILA PHARMA</option>
+			<option value="PBLR02" data-area="BANGALORE" data-team="KA">MAHAVEER MEDI SALES PVT. LTD</option>
+			<option value="KBLR03" data-area="BANGALORE" data-team="KA">MAHENDRA DRUG AGENCIES</option>
+			<option value="KBGM05" data-area="BELGAUM" data-team="KA">NANDANA PHARMA DISTRIBUTORS</option>
+			<option value="KGVI01" data-area="RAICHUR" data-team="KA">NUTHAN PHARMA</option>
+			<option value="KRCR03" data-area="RAICHUR" data-team="KA">OMKAR PHARMACY</option>
+			<option value="KBGT02" data-area="BAGALKOT" data-team="KA">PADMA PHARMACEUTICALS</option>
+			<option value="PYGI01" data-area="YADGIRI" data-team="KA">POOJA DISTRIBUTORS</option>
+			<option value="KBJR02" data-area="BIJAPUR" data-team="KA">PRAGATI PHARMACEUTICALS</option>
+			<option value="KMYS01" data-area="MYSORE" data-team="KA">RAMESH PHARMA</option>
+			<option value="KGOA02" data-area="GOA" data-team="KA">ROYAL AGENCY</option>
+			<option value="KBLR05" data-area="BANGALORE" data-team="KA">RSM PHARMA PVT LTD</option>
+			<option value="KUDI01" data-area="UDUPI" data-team="KA">SAI RADHA PHARMA (INDIA) PVT.LTD.</option>
+			<option value="KMAG01" data-area="MANGALORE" data-team="KA">SHAKTHI LIFE LINES</option>
+			<option value="KBLR43" data-area="BANGALORE" data-team="KA">SHIVA DRUG HOUSE</option>
+			<option value="KBGM07" data-area="BELGAUM" data-team="KA">SHREE PHARMACEUTICALS</option>
+			<option value="KRCR02" data-area="RAICHUR" data-team="KA">SHREE RAGHAVENDRA ENTERPRISES</option>
+			<option value="KBGM04" data-area="BAGALKOT" data-team="KA">SHRI CHOUDHARI MEDICAL CENTRE</option>
+			<option value="KBGM10" data-area="BELGAUM" data-team="KA">SHRI GURU AGENCIES</option>
+			<option value="KBLR24" data-area="BANGALORE" data-team="KA">SHRI PHARMA ASSOCIATES</option>
+			<option value="KBLY01" data-area="BELLARY" data-team="KA">SRI VENKATESHWARA MEDICAL AGENCIES</option>
+			<option value="KHUB02" data-area="KARNATAKA" data-team="KA">SUBA PHARMAGES</option>
+			<option value="KBJR01" data-area="BIJAPUR" data-team="KA">UMESH PHARMA</option>
+			<option value="KBLR06" data-area="BANGALORE" data-team="KA">VINOD PHARMA</option>
+			<option value="KBLR07" data-area="BANGALORE" data-team="KA">ZENEX INTERNATIONAL</option>
+			<option value="KBLR48" data-area="BANGALORE" data-team="KA">HERITAGE MARKETERS</option>
+			<option value="PMYS04" data-area="MYSORE" data-team="KA">VARDHMAN MEDISALES PVT LTD</option>
+			<option value="KRCR01" data-area="RAICHUR" data-team="KA">KARTHIK MEDICAL AGENCIES</option>
+			<option value="SSJK03" data-area="SRINAGAR" data-team="JK">N L COMBINES </option>
+        </select>
+      </div>
+      <div>
+        <label for="stockistCode">STOCKIST CODE</label>
+        <input id="stockistCode" type="text" readonly>
+      </div>
+      <div>
+        <label for="area">AREA</label>
+        <input id="area" type="text" readonly>
+      </div>
+      <div>
+        <label for="team">STATE</label>
+        <input id="team" type="text" readonly>
+      </div>
+      
+      <div> 
+        <label for="noOfBoxes">NO. OF BOXES</label>
+        <input id="noOfBoxes" type="number" min="0" placeholder="Enter approx no. of boxes returned">
+      </div>
+      
+      <div>
+        <label for="returnNature">NATURE</label>
+        <select id="returnNature" disabled>
+          <option value="Sales Return">Sales Return</option>
+        </select>
+      </div>
+<div>
+      <label>SR REF NO.</label>
+      <input type="text" name="memberID" id="memberID" readonly="">
+</div>
+      <div class = full>
+        <label> <Strong> PRODUCT DETAILS </Strong> </label>
+        <table id="itemsTable">
+          <thead>
+            <tr>
+              <th style="width:40px">S.NO</th>
+              <th style="width:180px">PRODUCT NAME</th>
+              <th style="width:90px">BATCH</th>
+              <th style="width:100px">EXPIRY</th>
+              <th style="width:60px">QTY</th>
+              <th style="width:80px">RATE</th>
+              <th style="width:70px">GST %</th>
+              <th style="width:90px">GST VALUE</th>
+              <th style="width:90px">TAXABLE</th>
+              <th style="width:100px">TOTAL</th>
+              <th style="width:120px">REMARKS</th>
+              <th style="width:40px">ACTION</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="actions">
+          <button id="addRow" class="BIG"> + ADD PRODUCT </button>
+          <button id="clearRows" type="button" class="ghost small">DELETE ALL</button>
+        </div>
+      </div>
+      
+      <div class="full right">
+        <div class="total-value-container">
+            <strong>TOTAL VALUE: <span id="totalValueDisplay">0.00</span></strong>
+        </div>
+      </div>
+      
+      <div class="full right">
+        <button id="submitToSheet" class="Big"> <strong> UPLOAD </strong> </button> 
+        <span id="uploadStatus" class="status-message" style="display:none;"></span>
+        <button id="generate" class="small" style="display:none;">PREVIEW REPORT</button>
+        <button id="downloadXlsx" class="Big" style="display:none;"> <strong> DOWNLOAD EXCEL </strong> </button> 
+        <button id="sendMail" class="small" style="display:none;">SEND MAIL</button> 
+      </div>
+    </div>
+    <div id="printArea"><div id="preview" class="result" hidden></div></div>
+  </div>
+  <script>
+    // ** IMPORTANT: Replace this with your actual Google Apps Script Web App URL **
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbziC3U1Yds6bbc6XkliQdpctIoajspM1upHOUFQ5_V9t0yIkSkuJt_XyaxXG1b6ac-H/exec';
+    const stockistEl = document.getElementById('stockist');
+    const submitBtn = document.getElementById('submitToSheet');
+    const uploadStatus = document.getElementById('uploadStatus');
+    const downloadXlsxBtn = document.getElementById('downloadXlsx');
+    const sendMailBtn = document.getElementById('sendMail'); 
+    const formFields = document.querySelectorAll('input, select, textarea');
+    const totalValueDisplay = document.getElementById('totalValueDisplay');
+    const returnNatureEl = document.getElementById('returnNature'); // New element reference
+    stockistEl.addEventListener('change', (e)=>{
+      const sel = stockistEl.selectedOptions[0];
+      document.getElementById('stockistCode').value = sel ? sel.value : '';
+      document.getElementById('area').value = sel ? sel.dataset.area || '' : '';
+      document.getElementById('team').value = sel ? sel.dataset.team || '' : '';
+    });
+
+    const products = [
+      'ACYNAC 600MG EFERVST TAB 10S','ACYNAC AB TAB 10S','AMBROPRL RESP 2ML 5S','AMLOPRL 10 MG','AMLOPRL 2.5MG','AMLOPRL 5 MG','AMOXPRL CV 1.2GM INJ 1S','AMOXPRL CV 228.5 DRY SYP 30ML 1S','AMOXPRL CV 228.5 DT TAB 10S','AMOXPRL CV 625 TAB 10S','AMOXPRL CV FORTE DRY SYP 30ML 1S','APTISOL SYP 200ML 1S','AQUAFREE 100ML','ARGIPRL-FZ 10G SAC','ARTHOGEL HOT GEL 30GM 1S','ATOPRL 10MG TAB 15S','ATOPRL 20MG TAB 15S','ATOPRL 40MG TAB 15S','AZIPRL 100 SUSP 30ML 1S','AZIPRL 200 SUSP 30ML 1S','AZIPRL 250MG TAB 6S','AZIPRL 500MG TAB 3S','BACTOLIZ TAB 6S','BAKTON 500 INJ 2ML 1S','BAKTON 500 INJ 2ML 8S','BISOPRL 2.5MG','BISOPRL 5 MG','BUDEPRL 0.5 2ML 5S','BUDEPRL 1MG 2ML 5S','BUDEPRL 200 INHALER  D/C 1S','BURNFAT TAB 10S','CALCIPRL D3 TAB 15S','CEFIPRL 100 DRY SYP 30ML 1S','CEFIPRL 200MG TAB 10S','CEFIPRL 50 DRY SYP 30ML 1S','CEPHOPRL 100  DT TAB 10S','CEPHOPRL 100 DRY SYP 30ML 1S','CEPHOPRL 200 TAB 10S','CEPHOPRL 50 DRY SYP 30ML 1S','CEPHOPRL CV TAB 10S','CIG STOP NASAL SPRAY 20ML','CLOPSPRIN A 10 CAP 10S','CLOPSPRIN A 20 CAP 10S','COLDOFER DROPS 15ML 1S','COLDOFER SYP 60ML 1S','COLDOFER TAB 10S','DAPAPRL 10 MG TAB 15S','DAPAPRL 5 MG TAB 10S','DAPAPRL 5 MG TAB 15S','DAPAPRL M 1000 TAB 10S','DAPAPRL M 500 TAB 10S','DAPAPRL MS TAB 10S','DOT COUGH DX SF SYP 100ML 1S','DOT COUGH DX SYP MINT 100ML 1S','DOT COUGH LS JUNIOR SYP 60ML 1S','DOT COUGH LS SYP 100ML 1S','DOT COUGH SF SYP 100ML 1S','DYCLOPRL INJ  1ML 5S','ENOXSET 40 PFS INJ 1S','ENOXSET 60 PFS INJ 1S','FERROPRL INJ 5ML 10S','FERROPRL SYP 200ML 1S','FERROPRL TAB 10S','FEXOPRL SUSP 60ML 1S','FLUTIPRL NASAL SPRAY 120MD 1S','FLUTIPRL OX NASAL SPRAY 7GM','FORAPRL 0.5MG 2ML 5S','FORAPRL 100 INHALER D/C 1S','FORAPRL 1MG 2ML 5S','FORAPRL 200 DPI CAPS 30S','FORAPRL 200 INHALER D/C 1S','FORAPRL 400 DPI CAPS 30S','FORAPRL 400 INHALER D/C 1S','FORMOPRL F 100 DPI CAPS 30S','FORMOPRL F 125 INHALER D/C 1S','FORMOPRL F 250 DPI CAPS 30S','FORMOPRL F 250 INHALER D/C 1S','GLYCOPRL 5\'S','GLYCOPRL F DPI CAPS 30S','GLYCOPRL FB 200 DPI CAPS 30S','GLYCOPRL FB 400 DPI CAPS 30S','GLYMIPRL 1000 TAB 10S','GLYMIPRL 500 TAB 10S','GLYMIPRL M1 TAB 10S','GLYMIPRL M1 TAB 15S','GLYMIPRL M2 TAB 10S','GLYMIPRL M2 TAB 15S','GLYMIPRL MP2 TAB 10S','GLYMIPRL MV 500 TAB 10S','IMUCEF 1GM INJ + WFI 1S','IMUCEF PLUS 1.5GM INJ + WFI 1S','LCPRL 5MG TAB 10S','LEVESET 500MG TAB 10S','LEVESET 5ML INJ 1S','LEVOSOS 0.63MG 2.5ML 5S','LEVOSOS 1.25MG 2.5ML 5S','LEVOSOS B 2ML 5S','LEVOSOS SYP 100ML 1S','LIDONIL P GEL  10GM 1S','MCT AQUA EMULSION 125ML','MCTPRO OIL 125ML','MELANTOFF ORAL SPRAY 1S','MEROPRL 1GM INJ + WFI 1S','METOPRL ER 25MG TAB 10S','METOPRL ER 50MG TAB 10S','MOMEPRL AZ NASAL SPRAY 7.5GM','MOMEPRL NASAL SPRAY 100MD 1S','MONTEPRL 4MG TAB 10S','MONTEPRL 5MG TAB 10S','MONTEPRL AB TAB 10S','MONTEPRL BL TAB 10S','MONTEPRL FX CHEWABLE TAB 10S','MONTEPRL FX TAB 10S','MONTEPRL LC KID TAB 10S','MONTEPRL LC SUSP 60ML 1S','MONTEPRL LC TAB 10S','MOXYPRL CV 625 TAB 10S','MUPICARE 2% OINT  5GM  1S','NAZEE A NASAL SPRAY 10ML 1S','NAZEE P NASAL SPRAY 10ML 1S','NAZEE S NASAL SPRAY 20ML 1S','NEBIPRL 2.5MG TAB 10S','NEBIPRL 5MG TAB 10S','NEUROPRL LC TAB 15S','NEW DUOPRL 2.5ML 5S','NEW DUOPRL LD 5S','OFLOPRL 200MG TAB 10S','OFLOZ TAB 10S','OLMEPRL 20MG 10S','OLMEPRL 40MG 10S','P/C LATEX EXAM GLOVE (L) 100S','P/C LATEX EXAM GLOVE (M) 100S','P/C LATEX EXAM GLOVE (S) 100S','P/C NITRILE EXAM GLOVE (L) 100S','P/C NITRILE EXAM GLOVE (M) 100S','PANTOPRL 40MG INJ + WFI 1S','PANTOPRL 40MG TAB 10S','PANTOPRL D CAP 10S','PARACIN IV INFUS 100ML 1S','PARAPRL IV INFUS 100ML 1S','PBACKTZ 4.5MG INJ + WFI 1S','PEARL D3 DROPS 30ML 1S','PEARL HALER DEVICE 1S','PEARL NEB 5\'S','PEARL SPACER DEVICE 1S','PEARLHALER T DEVICE 1S','PLACEBO NASAL SPRAY 1S','PREGAPRL 150MG TAB 10S','PREGAPRL 75MG TAB 10S','PREGAPRL M TAB 15S','PREGAPRL NT TAB 10S','PRISTINE PEARL SPACER 1S','PRL ASYNAC AB TAB 10S','PRL ASYNAC EFERVST TAB 10S','PRL NAZEE WASH NASAL SPRAY 60ML','PRL TEMP DROPS 15ML 1S','PRLCEF 250MG TAB 10S','PRLCEF 500MG TAB 10S','PRLCORT 6MG TAB 10S','PRLFAC - P TAB 10S','PRLFAC - SP TAB 10S','PRLFINAC P TAB 10S','PRLFINAC SP TAB 10S','PROTI MEDIC 10G 20ML NEUTRAL FLVR','PROTI MEDIC 10G 20ML TROPICAL FLVR','PROTI MEDIC 5G 10ML NEUTRAL FLVR','PROTI MEDIC 5G 10ML TROPICAL FLVR','RABEPRL 20MG INJ 1S','RABEPRL 20MG TAB 10S','RABEPRL 40 TAB 10S','RABEPRL D CAP 10S','RHINOPRL NASAL SPRAY 70MD 1S','ROSUPRL 10MG TAB 10S','ROSUPRL 20MG TAB 10S','ROSUPRL 40MG TAB 10S','ROSUPRL 5MG TAB 10S','ROSUPRL CP TAB 10S','SALBAM 1.5MG INJ + WFI 1S','SIL PH TAB 10S','TADA PH 20MG TAB 4S','TELMIPRL 20MG TAB 10S','TELMIPRL 40MG TAB 10S','TELMIPRL 80MG TAB 10S','TELMIPRL AM TAB 15S','TELMIPRL BS 2.5MG TAB 15S','TELMIPRL BS 5MG TAB 15S','TELMIPRL CN TAB 10S','TELMIPRL H TAB 10S','TEMP 120 SUSP 60ML 1S','TEMP 250  SUSP MELON 60ML 1S','TEMP 250 SUSP MANGO 60ML 1S','TEMP 500 SUSP 60ML 1S','TEMP DROPS 15ML 1S','TENEPRL 20MG TAB 10S','TENEPRL M TAB 10S','TIOPRL DPI CAPS 30S','ULTIVITE PLUS CAP 10S','ULTRA ARTHO 2X GEL 30GM 1S','VILDAPRL D 10 TAB 10S','VILDAPRL D 5 TAB  10S','VILDAPRL M 1000 TAB 10S','VILDAPRL M 500 TAB 10S','VILOPRL F 100 DPI CAPS 15S','VILOPRL F 100 DPI CAPS 30S','VILOPRL F 200 DPI CAPS 30S','VOGLIPRL 2 TAB 10S','VOGLIPRL 3 TAB 10S','VOMIPRL 4MG INJ 2ML 5S','VOMIPRL SYP 30ML 1S','ZINCOPRIL SYP 200ML 1S','ZINCOPRL JUNIOR DROPS 15ML 1S','ZN PRL SYP 100ML 1S'
+    ];
+
+    // const natureOptions = ['Sales Return']; // Not needed as it's a single, global field now
+    const gstOptions = [5, 12, 18];
+
+    const itemsTable = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
+    const addRowBtn = document.getElementById('addRow');
+    const clearRowsBtn = document.getElementById('clearRows');
+    const generateBtn = document.getElementById('generate');
+    const previewDiv = document.getElementById('preview');
+    const dateEl = document.getElementById('date');
+    const cInvNoEl = document.getElementById('cInvNo');
+    const noOfBoxesEl = document.getElementById('noOfBoxes');
+
+    function createSelect(options, className = '', isNumeric = false) {
+      const select = document.createElement('select');
+      select.className = className;
+      select.innerHTML = '<option value="">-- Select --</option>';
+      options.forEach(option => {
+        const opt = document.createElement('option');
+        opt.value = option;
+        opt.textContent = isNumeric ? `${option}%` : option;
+        select.appendChild(opt);
+      });
+      return select;
+    }
+    
+    function createReadOnlyInput(className) {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = className;
+        input.readOnly = true;
+        input.value = '0.00';
+        return input;
+    }
+    const memberIDInput = document.getElementById("memberID");
+    function getUniqueMemberID() {
+      let usedIDs = JSON.parse(localStorage.getItem("usedIDs") || "[]");
+      let newID;
+
+      do {
+        const randomNum = Math.floor(10000 + Math.random() * 90000);
+        newID = "P/SR" + randomNum;
+      } while (usedIDs.includes(newID));
+
+      usedIDs.push(newID);
+      localStorage.setItem("usedIDs", JSON.stringify(usedIDs));
+      return newID;
+    }
+
+    memberIDInput.value = getUniqueMemberID();
+
+    
+    // Function to format the expiry input (MM/YY) - Kept for existing functionality
+    function formatExpiryInput(input) {
+        let value = input.value.replace(/\D/g, ''); // Remove non-digits
+        if (value.length > 2) {
+            value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        }
+        input.value = value;
+    }
+
+    function newRow() {
+      const row = itemsTable.insertRow();
+      row.classList.add('item-row');
+      const rowCount = itemsTable.rows.length;
+
+      // S.No
+      row.insertCell(0).textContent = rowCount;
+
+      // Product Name
+      const prodSelect = createSelect(products, 'product-select');
+      row.insertCell(1).appendChild(prodSelect);
+
+      // Removed Nature Select (Index 2)
+
+      // Batch
+      const batchInput = document.createElement('input');
+      batchInput.type = 'text';
+      batchInput.className = 'batch-input'; 
+      batchInput.placeholder = 'Batch No.';
+      batchInput.setAttribute('oninput', 'this.value = this.value.toUpperCase()'); 
+      row.insertCell(2).appendChild(batchInput); // Index 2
+
+// Expiry
+      const expiryInput = document.createElement('input');
+      expiryInput.type = 'text'; // <--- CHANGED TO TEXT
+      expiryInput.maxLength = 5;  // <--- ADDED MAX LENGTH
+      expiryInput.placeholder = 'MM/YY'; // <--- ADDED PLACEHOLDER
+      expiryInput.className = 'expiry-input'; 
+      row.insertCell(3).appendChild(expiryInput); // Index 3
+      
+      // ADD EVENT LISTENER HERE
+      expiryInput.addEventListener('input', function() {
+          formatExpiryInput(this);
+      });
+
+      // Qty
+      const qtyInput = document.createElement('input');
+      qtyInput.type = 'number';
+      qtyInput.min = '1';
+      qtyInput.className = 'qty-input'; 
+      qtyInput.value = '1';
+      row.insertCell(4).appendChild(qtyInput); // Index 4
+
+      // Rate
+      const rateInput = document.createElement('input');
+      rateInput.type = 'number';
+      rateInput.min = '0';
+      rateInput.className = 'rate-input'; 
+      rateInput.value = ' ';
+      rateInput.step = '0.01';
+      row.insertCell(5).appendChild(rateInput); // Index 5
+
+      // GST %
+      const gstSelect = createSelect(gstOptions, 'gst-select', true);
+      gstSelect.value = 5; // Default to 5%
+      row.insertCell(6).appendChild(gstSelect); // Index 6
+
+      // GST Value
+      row.insertCell(7).appendChild(createReadOnlyInput('gst-value-display')); // Index 7
+      
+      // Taxable Value
+      row.insertCell(8).appendChild(createReadOnlyInput('taxable-value-display')); // Index 8
+      
+      // Total Value
+      row.insertCell(9).appendChild(createReadOnlyInput('total-value-display')); // Index 9
+
+      // Remarks
+      const remarksInput = document.createElement('textarea');
+      remarksInput.className = 'remarks-input'; 
+      remarksInput.rows = '1';
+      row.insertCell(10).appendChild(remarksInput); // Index 10
+      
+      // Action
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = 'X';
+      removeBtn.className = 'remove small';
+      removeBtn.onclick = () => { row.remove(); updateSNoAndGrandTotal(); };
+      row.insertCell(11).appendChild(removeBtn); // Index 11
+
+      // Event Listeners
+      [qtyInput, rateInput, gstSelect].forEach(el => {
+          el.addEventListener('input', () => updateRowCalculations(row));
+      });
+      
+      updateRowCalculations(row);
+    }
+
+    function updateRowCalculations(row) {
+        const qty = parseFloat(row.querySelector('.qty-input').value) || 0;
+        const rate = parseFloat(row.querySelector('.rate-input').value) || 0;
+        const gstPercent = parseFloat(row.querySelector('.gst-select').value) || 0;
+
+        const taxableValue = qty * rate;
+        const gstValue = taxableValue * (gstPercent / 100);
+        const totalValue = taxableValue + gstValue;
+
+        row.querySelector('.taxable-value-display').value = taxableValue.toFixed(2);
+        row.querySelector('.gst-value-display').value = gstValue.toFixed(2);
+        row.querySelector('.total-value-display').value = totalValue.toFixed(2);
+        
+        updateGrandTotal();
+    }
+
+    function updateSNoAndGrandTotal() {
+      Array.from(itemsTable.rows).forEach((row, index) => {
+        row.cells[0].textContent = index + 1;
+      });
+      updateGrandTotal();
+    }
+
+    function updateGrandTotal() {
+      let grandTotal = 0;
+      Array.from(itemsTable.rows).forEach(row => {
+        const totalValue = parseFloat(row.querySelector('.total-value-display').value) || 0;
+        grandTotal += totalValue;
+      });
+      totalValueDisplay.textContent = grandTotal.toFixed(2);
+    }
+
+    // Event listeners for Add/Clear buttons
+    addRowBtn.addEventListener('click', newRow);
+    clearRowsBtn.addEventListener('click', () => {
+      itemsTable.innerHTML = '';
+      updateGrandTotal();
+    });
+
+    function collectData() {
+        const returnNature = returnNatureEl.value; // Get the single nature value
+  
+        const rows = Array.from(itemsTable.rows).map(row => ({
+            prod: row.querySelector('.product-select').value,
+            nature: returnNature, // Use the single nature value for all rows            
+batch: row.querySelector('.batch-input').value,
+            expiry: row.querySelector('.expiry-input').value, // This value is already in MM/YY format
+            qty: row.querySelector('.qty-input').value,
+            rate: row.querySelector('.rate-input').value,
+            gstPercent: row.querySelector('.gst-select').value,
+            gstValue: row.querySelector('.gst-value-display').value,
+            taxableValue: row.querySelector('.taxable-value-display').value,
+            totalValue: row.querySelector('.total-value-display').value,
+            remarks: row.querySelector('.remarks-input').value,
+        })).filter(r => r.prod && parseFloat(r.qty) > 0);
+
+        const cInvDate = dateEl.value;
+        const cInvNo = cInvNoEl.value;
+        const stockistOpt = stockistEl.selectedOptions[0];
+        const stockistName = stockistOpt ? stockistOpt.textContent : '';
+        const stockistCode = document.getElementById('stockistCode').value;
+        const area = document.getElementById('area').value;
+        const team = document.getElementById('team').value;
+        const noOfBoxes = noOfBoxesEl.value;
+        const grandTotal = totalValueDisplay.textContent;
+ const memberID = document.getElementById('memberID').value;
+        
+        if (!cInvDate || !cInvNo || !stockistName) {
+            alert("Please fill C.Inv Date, C.Inv No., and Stockist Name.");
+            return null;
+        }
+        if (rows.length === 0) {
+            alert("Please add at least one product with quantity.");
+            return null;
+        }
+
+        return { rows, cInvDate, cInvNo, stockistName, stockistCode, area, team, noOfBoxes, grandTotal, returnNature, memberID };
+    }
+
+    function generatePreview() {
+        const data = collectData();
+        if (!data) return;
+
+        const { rows, cInvDate, cInvNo, stockistName, stockistCode, area, team, noOfBoxes, grandTotal, returnNature, memberID } = data;
+        
+        // Reformat date from YYYY-MM-DD to DD-MM-YYYY
+        const [year, month, day] = cInvDate.split('-');
+        const formattedDate = `${day}-${month}-${year}`;
+
+        // START NEW PREVIEW LAYOUT
+        let html = `
+            <div id="printContent">
+                <p class="report-company-name">PALEPU PHARMA DISTRIBUTORS (SS)</p>
+                <p class="report-title">SALES RETURN REPORT</p>
+                
+                <div class="report-header">
+                    <div class="report-meta-item"><strong>Stockist Name:</strong> ${stockistName}</div>
+                    <div class="report-meta-item"><strong>C.Inv No.:</strong> ${cInvNo}</div>
+                    <div class="report-meta-item"><strong>C.Inv Date:</strong> ${formattedDate}</div>                          <div class="report-meta-item"><strong>SR REF NO.</strong>${data.memberID}</div>
+                    <div class="report-meta-item"><strong>Stockist Code:</strong> ${stockistCode}</div>
+
+                    <div class="report-meta-item"><strong>Nature:</strong> ${returnNature}</div>
+                    <div class="report-meta-item"><strong>Area/State:</strong> ${area} / ${team}</div>
+                    <div class="report-meta-item"><strong>No. of Boxes:</strong> ${noOfBoxes} </div>
+                </div>
+
+                <table class="report-table" style="width:100%;border-collapse:collapse;margin-bottom:0;">
+                    <thead>
+                        <tr>
+                            <th style="width:3%">S.No</th>
+                            <th style="width:25%">Product Name</th>
+                            <th style="width:10%">Batch</th>
+                            <th style="width:7%;text-align:center;">Expiry</th>
+                            <th style="width:5%;text-align:center;">Qty</th>
+                            <th style="width:8%;text-align:right;">Rate</th>
+                            <th style="width:5%;text-align:center;">GST %</th>
+                            <th style="width:10%;text-align:right;">Taxable</th>
+                            <th style="width:10%;text-align:right;">GST Val</th>
+                            <th style="width:12%;text-align:right;">Total</th>
+                            <th style="width:15%">Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows.map((r, i) => `
+                            <tr>
+                                <td style="text-align:center;">${i + 1}</td>
+                                <td>${r.prod}</td>
+                                <td>${r.batch}</td>
+                                <td style="text-align:center;">${r.expiry || ''}</td>
+                                <td style="text-align:center;">${r.qty}</td>
+                                <td style="text-align:right;">${parseFloat(r.rate).toFixed(2)}</td>
+                                <td style="text-align:center;">${r.gstPercent}%</td>
+                                <td style="text-align:right;">${parseFloat(r.taxableValue).toFixed(2)}</td>
+                                <td style="text-align:right;">${parseFloat(r.gstValue).toFixed(2)}</td>
+                                <td style="text-align:right;font-weight:bold;">${parseFloat(r.totalValue).toFixed(2)}</td>
+                                <td>${r.remarks}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+                <div class="report-footer-total">
+                    GRAND TOTAL: <span>${grandTotal}</span>
+                </div>
+                <p style="margin-top:5px;font-size:11px;color:#7f8c8d;text-align:center;">Report Generated: ${new Date().toLocaleString()}</p>
+            </div>
+        `;
+        // END NEW PREVIEW LAYOUT
+        
+        previewDiv.innerHTML = html;
+        previewDiv.hidden = false;
+    }
+
+    async function submitDataToSheet() {
+        const data = collectData();
+        if (!data) return;
+        
+        const { rows, cInvDate, cInvNo, stockistName, stockistCode, area, team, noOfBoxes, grandTotal, returnNature, memberID } = data;
+
+        const dateObj = new Date(cInvDate + 'T00:00:00');
+        const selectedDateFormatted = String(dateObj.getDate()).padStart(2,'0') + '-' + String(dateObj.getMonth()+1).padStart(2,'0') + '-' + dateObj.getFullYear();
+        
+        const now = new Date();
+        const generatedDateTime = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+        
+        const formData = { cInvDate: selectedDateFormatted, memberID: data.memberID,
+            cInvNo: cInvNo,
+            noOfBoxes: noOfBoxes,
+            totalValue: grandTotal,
+            generatedDateTime: generatedDateTime,
+            stockistName: stockistName,
+            stockistCode: stockistCode,
+            area: area,
+            team: team,
+            itemRows: rows.map((r, i) => ({
+                sNo: i + 1,
+                product: r.prod,
+                nature: returnNature, // Use the single nature value
+                batch: r.batch,
+                expiry: r.expiry || "", // FIX 2: Directly use r.expiry (e.g., "12/25")
+                qty: r.qty,
+                rate: r.rate,
+                gstPercent: r.gstPercent,
+                taxableValue: r.taxableValue,
+                gstValue: r.gstValue,
+                totalValue: r.totalValue,
+                remarks: r.remarks,
+            }))
+        };
+
+        uploadStatus.style.display = 'inline';
+        uploadStatus.textContent = 'Uploading...';
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.5';
+        downloadXlsxBtn.style.display = 'none';
+        sendMailBtn.style.display = 'none';
+        
+        try {
+            const response = await fetch(scriptUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                cache: 'no-cache',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            });
+
+            setTimeout(() => {
+                uploadStatus.textContent = 'Success! Data uploaded.';
+                uploadStatus.style.color = '#217346';
+                submitBtn.style.display = 'none';
+                downloadXlsxBtn.style.display = 'inline-block';
+                sendMailBtn.style.display = 'inline-block';
+                generateBtn.style.display = 'inline-block';
+                submitBtn.style.opacity = '1'; 
+            }, 1500); 
+
+        } catch (error) {
+            console.error('Submission failed:', error);
+            uploadStatus.textContent = 'Error! Check console.';
+            uploadStatus.style.color = 'var(--error-color)';
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.display = 'inline-block';
+            downloadXlsxBtn.style.display = 'none';
+            sendMailBtn.style.display = 'none';
+        }
+    }
+
+    function downloadXlsx() {
+      const data = collectData();
+      if (!data) return;
+
+      const { rows, memberID, cInvDate, cInvNo, stockistName, stockistCode, area, team, noOfBoxes, grandTotal, returnNature } = data;
+      
+      const dateObj = new Date(cInvDate + 'T00:00:00');
+      const selectedDateFormatted = String(dateObj.getDate()).padStart(2,'0') + '-' + String(dateObj.getMonth()+1).padStart(2,'0') + '-' + dateObj.getFullYear();
+      const now = new Date();
+      const generatedDateTime = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+      let excelData = [];
+      // Updated header: Nature column is present, but values will be the single value
+      excelData.push(["SR REF NO.", "C.Inv Date","C.Inv No.","No. of Boxes","Total Value","Report Generated","Stockist","Stockist Code","Area","Team","S.No","Product","Nature","Batch","Expiry","Qty","Rate","GST %","Taxable Val","GST Val","Total Val","Item Remarks"]);
+      
+      rows.forEach((r,i)=>{
+        let exp = r.expiry || ""; // FIX 3: Directly use r.expiry (e.g., "12/25")
+        excelData.push([
+          data.memberID, selectedDateFormatted, cInvNo, noOfBoxes, grandTotal, generatedDateTime, 
+          stockistName, stockistCode, area, team, i+1, r.prod, returnNature, r.batch, exp, 
+          r.qty, r.rate, r.gstPercent, r.taxableValue, r.gstValue, r.totalValue, r.remarks
+        ]);
+      });
+
+      const ws = XLSX.utils.aoa_to_sheet(excelData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Report");
+      XLSX.writeFile(wb, `${stockistName.replace(/\s+/g,'_')}_${selectedDateFormatted}_Palepu.xlsx`);
+    }
+
+    function generatePlainTextReport(data) {
+        if (!data) return "";
+        const { rows, cInvDate, cInvNo, stockistName, stockistCode, area, team, noOfBoxes, grandTotal, returnNature, memberID } = data;
+        
+        let plainText = `PRISTINE PEARL PHARMA PVT LTD - SALES RETURN REPORT\n\n`;
+        plainText += `Stockist: ${stockistName} (${stockistCode})\n`;
+        plainText += `Area / Team: ${area} / ${team}\n`;
+        plainText += `C.Inv Date: ${cInvDate}\nC.Inv No.: ${cInvNo}\n`;
+        plainText += `Nature: ${returnNature}\n`; // Include Nature here
+        plainText += `No. of Boxes: ${noOfBoxes || 'N/A'}\n\n--- PRODUCT DETAILS ---\n\n`;
+
+        rows.forEach((r, i) => {
+            const expFormatted = r.expiry || ''; // FIX 4: Directly use r.expiry (e.g., "12/25")
+            plainText += `--- Item ${i + 1} ---\n`;
+            plainText += `Product: ${r.prod}\n`;
+            plainText += `Batch/Expiry: ${r.batch} / ${expFormatted}\n`;
+            plainText += `Details: ${r.qty} x ${r.rate} | Taxable: ${r.taxableValue} | GST@${r.gstPercent}%: ${r.gstValue}\n`;
+            plainText += `Total Value: ${r.totalValue}\n`;
+            if (r.remarks) { plainText += `Remarks: ${r.remarks}\n`; }
+            plainText += '\n'; 
+        });
+        
+        plainText += '------------------------\n';
+        plainText += `TOTAL RETURN VALUE: ${grandTotal}\n\n`;
+        plainText += `Report Generated: ${new Date().toLocaleString()}`;
+
+        return encodeURIComponent(plainText);
+    }    
+
+    function sendMail() {
+        const data = collectData();
+        if (!data) return;
+        const { cInvDate, stockistName } = data;
+        const dateObj = new Date(cInvDate + 'T00:00:00');
+        const selectedDateFormatted = String(dateObj.getDate()).padStart(2,'0') + '-' + String(dateObj.getMonth()+1).padStart(2,'0') + '-' + dateObj.getFullYear();
+        const subject = `Sales return: ${stockistName} ${selectedDateFormatted}`;
+        const body = generatePlainTextReport(data);
+        const mailtoLink = `mailto:?subject${encodeURIComponent(subject)}&body=${body}`;
+        window.location.href = mailtoLink;
+    }
+
+
+    // Update Event Listeners for new button logic
+    generateBtn.addEventListener('click', generatePreview);
+    submitBtn.addEventListener('click', submitDataToSheet);
+    downloadXlsxBtn.addEventListener('click', downloadXlsx);
+    sendMailBtn.addEventListener('click', sendMail);
+
+
+    window.addEventListener('DOMContentLoaded', ()=>{
+      const today = new Date();
+      // FIX: Use YYYY-MM-DD format for input type="date" value
+      dateEl.value = today.toISOString().split('T')[0];
+      newRow();
+    });
+  </script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+</body>
+</html>
