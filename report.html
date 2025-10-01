@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Return Viewer - Palepu SS</title>
+ <link rel="icon" 
+        href="https://media.licdn.com/dms/image/v2/D5603AQHMvZTgZ4pbzA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1682685098699?e=2147483647&v=beta&t=87_-l2z-dvgwfndQGnhEdmTpcvEr5Updl0nb71DfHHs" 
+        type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ... (Existing CSS styles remain the same) ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8fafc;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .left-panel {
+            width: 350px;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+        }
+
+        .right-panel {
+            flex: 1;
+            background: #fafbfc;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .company-logo {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+
+        .header .subtitle {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            font-weight: 400;
+            margin-left: 8px;
+        }
+
+        .search-section {
+            padding: 20px;
+            background: #f8fafc;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.85rem;
+            letter-spacing: 0.025em;
+        }
+
+        .form-group input {
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* NEW BUTTON STYLE FOR EXPORT */
+        .btn-secondary {
+            background: linear-gradient(135deg, #6b7280 0%, #374151 100%);
+            margin-top: 5px; /* Adjust spacing */
+        }
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #4b5563 0%, #1f2937 100%);
+        }
+
+        .results-section {
+            padding: 10px;
+            flex: 1;
+            background: white;
+            overflow-y: auto;
+        }
+
+        .loading {
+            text-align: center;
+            color: #64748b;
+            font-style: italic;
+            padding: 40px;
+            font-size: 1rem;
+        }
+
+        .error {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #dc2626;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .success {
+            background: #f0fdf4;
+            color: #16a34a;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #16a34a;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .result-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .sr-ref {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .total-amount {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #059669;
+            background: #ecfdf5;
+            padding: 3px 6px;
+            border-radius: 3px;
+            border: 1px solid #a7f3d0;
+        }
+
+        .document-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .section {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: #1f2937;
+            color: white;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .section-content {
+            padding: 8px;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 6px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            padding: 6px;
+            border-radius: 3px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .field-label {
+            font-size: 0.7rem;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+            letter-spacing: 0.05em;
+        }
+
+        .field-value {
+            font-size: 0.85rem;
+            color: #1f2937;
+            font-weight: 500;
+            word-break: break-word;
+        }
+
+        .financial-section .section-grid {
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
+
+        .financial-section .field {
+            background: #f0fdf4;
+            border-color: #a7f3d0;
+        }
+
+        .financial-section .field-value {
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #6b7280;
+            font-style: italic;
+            padding: 20px 10px;
+            font-size: 0.9rem;
+            background: #f9fafb;
+            border-radius: 4px;
+            border: 1px dashed #d1d5db;
+        }
+
+        /* --- New Styles for the Product Table --- */
+        .product-table-container {
+            overflow-x: auto;
+            margin-top: 0;
+            border: 0;
+        }
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            min-width: 900px; /* Ensure space for columns */
+        }
+        .product-table th, .product-table td {
+            border: 1px solid #e5e7eb;
+            padding: 8px 10px;
+            text-align: left;
+        }
+        .product-table th {
+            background-color: #f3f4f6;
+            font-weight: 600;
+            color: #1f2937;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .product-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        .product-table .total-row td {
+            font-weight: 700;
+            background-color: #ecfdf5;
+            color: #059669;
+        }
+        /* --- End New Styles --- */
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .left-panel {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            
+            .right-panel {
+                height: 60vh;
+            }
+            
+            .header {
+                padding: 12px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.1rem;
+            }
+            
+            .search-section {
+                padding: 15px;
+            }
+            
+            .section-grid {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+            
+            .document-sections {
+                gap: 6px;
+            }
+            
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            /* Smaller screens adjust table */
+            .product-table {
+                min-width: 600px; /* Allow horizontal scroll */
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+            }
+            
+            .main-container {
+                display: block !important;
+            }
+            
+            .left-panel {
+                display: none !important;
+            }
+            
+            .right-panel {
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            
+            .header {
+                background: #1e293b !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .result-card {
+                break-inside: avoid;
+                box-shadow: none !important;
+                border: 1px solid #000 !important;
+                margin-bottom: 15px !important;
+            }
+            
+            .field {
+                background: #f8f9fa !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .no-results {
+                border: 1px solid #000 !important;
+                background: white !important;
+            }
+            
+            /* Print styles for the new table */
+            .product-table th, .product-table td {
+                border-color: #ccc !important;
+            }
+            .product-table th {
+                background-color: #e9ecef !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .product-table .total-row td {
+                background-color: #d1e7dd !important;
+            }
+            .product-table-container {
+                overflow-x: visible; /* Prevent cut-off tables */
+            }
+        }
+
+        /* Loading Animation */
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50%;
+            border-top-color: #3b82f6;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+<div class="left-panel">
+    <div class="header">
+        <div class="header-content">
+            <img src="https://media.licdn.com/dms/image/v2/D5603AQHMvZTgZ4pbzA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1682685098699?e=2147483647&v=beta&t=87_-l2z-dvgwfndQGnhEdmTpcvEr5Updl0nb71DfHHs" alt="PRISTINE PEARL PHARMA Logo" class="company-logo">
+            <h1>PALEPU PHARMA DISTRIBUTORS (SS)</h1>
+        </div>
+    </div>
+            
+            <div class="search-section">
+                <form class="search-form" id="searchForm">
+                    <div class="form-group" style="display: none;">
+                        <label for="sheetId">Google Sheet ID:</label>
+                        <input type="text" id="sheetId" placeholder="Enter Google Sheet ID" value="1WI_6zey1A9Il13yajAstX6CyOG__RWGJ246PVMRFnHc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="srRefNo">SR Ref No:</label>
+                        <input type="text" id="srRefNo" placeholder="Enter SR Reference Number" required>
+                    </div>
+                    <button type="submit" class="btn">Search</button>
+                    <button type="button" class="btn btn-secondary" id="exportBtn" style="display: none;">EXPORT</button>
+                    </form>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="results-section" id="resultsSection">
+                <div class="no-results">Enter SR Reference Number and click Search to view results</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variable to store the last successful search results
+        let lastSearchResults = [];
+
+        document.getElementById('searchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const sheetId = document.getElementById('sheetId').value.trim();
+            const srRefNo = document.getElementById('srRefNo').value.trim();
+            const resultsSection = document.getElementById('resultsSection');
+            const exportBtn = document.getElementById('exportBtn'); // Get the new button
+            
+            // Reset results and hide export button
+            lastSearchResults = [];
+            exportBtn.style.display = 'none';
+
+            if (!sheetId || !srRefNo) {
+                resultsSection.innerHTML = '<div class="error">Please enter both Google Sheet ID and SR Reference Number</div>';
+                return;
+            }
+            
+            resultsSection.innerHTML = '<div class="loading">Searching for sales return data...</div>';
+            
+            try {
+                const data = await fetchSheetData(sheetId);
+                
+                // Use filter instead of find to get ALL matching rows
+                const results = data.filter(row => row['SR Ref No.'] === srRefNo);
+                
+                if (results && results.length > 0) {
+                    lastSearchResults = results; // Store results for export
+                    displayResults(results);
+                    exportBtn.style.display = 'block'; // Show export button
+                } else {
+                    resultsSection.innerHTML = '<div class="error">No sales return found with SR Reference Number: ' + srRefNo + '</div>';
+                }
+            } catch (error) {
+                resultsSection.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
+            }
+        });
+
+        // Event listener for the new export button
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            if (lastSearchResults.length > 0) {
+                // Generate the required filename format: "Stockist Name - SR Ref No"
+                const stockistName = lastSearchResults[0]['STOCKIST NAME'].replace(/[^a-zA-Z0-9 ]/g, "").trim(); // Sanitize name
+                const srRefNo = lastSearchResults[0]['SR Ref No.'].replace(/[^a-zA-Z0-9 ]/g, "").trim(); // Sanitize ref no
+                const filename = `${stockistName} - ${srRefNo}`;
+                
+                exportToCSV(lastSearchResults, filename);
+            }
+        });
+
+        async function fetchSheetData(sheetId) {
+            const methods = [
+                `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`,
+                `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=0`,
+                `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`,
+                `https://cors-anywhere.herokuapp.com/https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`,
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`)}`
+            ];
+
+            let lastError = null;
+            
+            for (const url of methods) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        mode: 'cors',
+                        headers: {
+                            'Accept': 'text/csv,text/plain,*/*'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const csvText = await response.text();
+                        return parseCSV(csvText);
+                    }
+                } catch (error) {
+                    lastError = error;
+                }
+            }
+            
+            throw new Error('Failed to fetch data from Google Sheets. Please check the Sheet ID and ensure the sheet is publicly accessible.');
+        }
+
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim());
+            if (lines.length < 2) return [];
+            
+            // Note: This CSV parser is basic and assumes no commas are inside fields, which is typical for simple exports.
+            const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+            const data = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
+                const row = {};
+                headers.forEach((header, index) => {
+                    row[header] = values[index] || '';
+                });
+                data.push(row);
+            }
+            
+            return data;
+        }
+
+        // Function to export the results array to CSV/Excel
+        function exportToCSV(data, filename) {
+            if (!data || data.length === 0) {
+                alert("No data to export.");
+                return;
+            }
+
+            const headers = Object.keys(data[0]);
+            const csvRows = [];
+            
+            // Add header row
+            csvRows.push(headers.map(h => `"${h}"`).join(','));
+
+            // Add data rows
+            for (const row of data) {
+                const values = headers.map(header => {
+                    let value = row[header] === undefined || row[header] === null ? '' : String(row[header]);
+                    
+                    // Apply MM/YY format specifically to the 'EXPIRY' column
+                    if (header === 'EXPIRY') {
+                        // Attempt to extract MM/YY using regex (assuming original format is DD/MM/YYYY or MM/YYYY)
+                        const match = value.match(/(\d{1,2})\/(\d{4})/);
+                        if (match) {
+                             // Month (match[1]), Year (match[2])
+                             const month = match[1].padStart(2, '0'); 
+                             const year = match[2].slice(-2);
+                             value = `${month}/${year}`;
+                        } else if (value.length >= 4 && value.includes('/')) {
+                            // Basic fallback for already short MM/YY or M/YY format
+                            value = value.trim();
+                        } else {
+                            // Leave as is if format is unrecognizable
+                        }
+                    }
+
+                    // Escape double quotes and wrap in quotes to handle commas and special characters
+                    return `"${value.replace(/"/g, '""')}"`;
+                });
+                csvRows.push(values.join(','));
+            }
+
+            // Combine rows into a single CSV string
+            const csvString = csvRows.join('\n');
+
+            // Create a Blob containing the CSV data
+            const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+
+            // Create a temporary link element for downloading
+            const link = document.createElement("a");
+            if (link.download !== undefined) { 
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                // Use the provided filename with .csv extension
+                link.setAttribute("download", `${filename}.csv`); 
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            } else {
+                window.open('data:text/csv;charset=utf-8,' + encodeURIComponent(csvString));
+            }
+        }
+
+
+        // Function to display data
+        function displayResults(results) {
+            const resultsSection = document.getElementById('resultsSection');
+            
+            // Use the first result for common information
+            const firstResult = results[0];
+            
+            // Calculate grand totals across all returned products
+            // Using a simple parseFloat, ensure your sheet data is clean
+            const totalGrandAmount = results.reduce((sum, row) => sum + (parseFloat(row['GRAND TOTAL'].replace(/[^0-9.-]+/g,"")) || 0), 0).toFixed(2);
+            const totalTaxable = results.reduce((sum, row) => sum + (parseFloat(row['TAXABLE'].replace(/[^0-9.-]+/g,"")) || 0), 0).toFixed(2);
+            const totalGST = results.reduce((sum, row) => sum + (parseFloat(row['GST VALUE'].replace(/[^0-9.-]+/g,"")) || 0), 0).toFixed(2);
+
+            
+            // Generate product table rows
+            const productRows = results.map((result, index) => {
+                // Clean up financial data for display
+                const lineTotal = (parseFloat(result['TOTAL'].replace(/[^0-9.-]+/g,"")) || 0).toFixed(2);
+                const unitRate = (parseFloat(result['RATE'].replace(/[^0-9.-]+/g,"")) || 0).toFixed(2);
+                const taxableAmt = (parseFloat(result['TAXABLE'].replace(/[^0-9.-]+/g,"")) || 0).toFixed(2);
+                const gstValue = (parseFloat(result['GST VALUE'].replace(/[^0-9.-]+/g,"")) || 0).toFixed(2);
+                
+                return `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${result['PRODUCT']}</td>
+                        <td>${result['BATCH']}</td>
+                        <td>${result['EXPIRY']}</td>
+                        <td>${result['QTY']}</td>
+                        <td style="text-align: right;">₹${unitRate}</td>
+                        <td style="text-align: right;">₹${taxableAmt}</td>
+                        <td style="text-align: right;">₹${gstValue}</td>
+                        <td style="text-align: right;">₹${lineTotal}</td>
+                        <td>${result['REMARKS'] || '-'}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            const html = `
+                <div class="result-card">
+                    <div class="result-header">
+<h2> PALEPU PHARMA DISTRIBUTORS (SS) </h2>
+                        <div class="sr-ref">Sales Return: ${firstResult['SR Ref No.']}</div>
+                        <div class="total-amount">Grand Total: ₹${totalGrandAmount}</div> 
+                    </div>
+                    
+                    <div class="document-sections">
+                        <div class="section">
+                            <div class="section-header">Return Information</div>
+                            <div class="section-content">
+                                <div class="section-grid">
+                                    <div class="field">
+                                        <div class="field-label">Uploaded Date</div>
+                                        <div class="field-value">${firstResult['R.GEN DATE']}</div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Customer Invoice Date</div>
+                                        <div class="field-value">${firstResult['C. INV DATE']}</div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Customer Invoice No</div>
+                                        <div class="field-value">${firstResult['C. INV NO.']}</div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Credit Note No</div>
+                                        <div class="field-value">${firstResult['CN NO.']}</div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Credit Note Date</div>
+                                        <div class="field-value">${firstResult['CN DATE']}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-header">Stockist Details</div>
+                            <div class="section-content">
+                                <div class="section-grid">
+                                    <div class="field">
+                                        <div class="field-label">Stockist Code</div>
+                                        <div class="field-value">${firstResult['STOCKIST CODE']}</div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Stockist Name</div>
+                                        <div class="field-value">${firstResult['STOCKIST NAME']}</div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Area</div>
+                                        <div class="field-value">${firstResult['AREA']}</div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">State</div>
+                                        <div class="field-value">${firstResult['STATE']}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-header">PRODUCT DETAILS (${results.length} Products)</div>
+                            <div class="product-table-container">
+                                <table class="product-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Product Name</th>
+                                            <th>Batch No</th>
+                                            <th>Expiry Date</th>
+                                            <th>Qty</th>
+                                            <th style="text-align: right;">Unit Rate</th>
+                                            <th style="text-align: right;">Taxable Amt</th>
+                                            <th style="text-align: right;">GST Value</th>
+                                            <th style="text-align: right;">Total Value</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${productRows}
+                                        <tr class="total-row">
+                                            <td colspan="6" style="text-align: right; font-weight: 700;">TOTALS:</td>
+                                            <td style="text-align: right;">₹${totalTaxable}</td>
+                                            <td style="text-align: right;">₹${totalGST}</td>
+                                            <td style="text-align: right;">₹${totalGrandAmount}</td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            resultsSection.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
