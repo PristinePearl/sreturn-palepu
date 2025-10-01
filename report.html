@@ -699,7 +699,7 @@
             
             // Calculate grand totals across all returned products
             // Using a simple parseFloat, ensure your sheet data is clean
-            const totalGrandAmount = results.reduce((sum, row) => sum + (parseFloat(row['GRAND TOTAL'].replace(/[^0-9.-]+/g,"")) || 0), 0).toFixed(2);
+            const totalGrandAmount = results.reduce((sum, row) => sum + (parseFloat(row['TOTAL'].replace(/[^0-9.-]+/g,"")) || 0), 0).toFixed(2);
             const totalTaxable = results.reduce((sum, row) => sum + (parseFloat(row['TAXABLE'].replace(/[^0-9.-]+/g,"")) || 0), 0).toFixed(2);
             const totalGST = results.reduce((sum, row) => sum + (parseFloat(row['GST VALUE'].replace(/[^0-9.-]+/g,"")) || 0), 0).toFixed(2);
 
