@@ -678,6 +678,7 @@
       <div class="full right">
         <button id="submitToSheet" class="Big"> <strong> UPLOAD </strong> </button> 
         <span id="uploadStatus" class="status-message" style="display:none;"></span>
+<button id="viewReport" class="Big"><strong>VIEW REPORT</strong></button>
         <button id="generate" class="small" style="display:none;">PREVIEW REPORT</button>
         <button id="downloadXlsx" class="Big" style="display:none;"> <strong> DOWNLOAD EXCEL </strong> </button> 
         <button id="sendMail" class="small" style="display:none;">SEND MAIL</button> 
@@ -1166,6 +1167,9 @@ batch: row.querySelector('.batch-input').value,
       dateEl.value = today.toISOString().split('T')[0];
       newRow();
     });
+document.getElementById("viewReport").addEventListener("click", function () {
+    window.open("report.html", "_blank");
+});
   </script>
   <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 </body>
