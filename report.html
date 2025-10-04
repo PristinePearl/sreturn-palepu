@@ -397,41 +397,125 @@
         </div>
     </div>
             
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab(event, 'srSearch')">🔍 Single SR Search</button>
+        <button class="tab-button" onclick="openTab(event, 'dateStockist')">📜 Stockist/Date Report</button>
+        <button class="tab-button" onclick="openTab(event, 'productAnalysis')">📦 Product Analysis</button>
+        <button class="tab-button" onclick="openTab(event, 'expiryQuality')">⚠️ Expiry/Quality Report</button>
+        <button class="tab-button" onclick="openTab(event, 'graphicalReports')">📊 Graphical Reports</button>
+    </div>
+
     <div class="search-section">
-        <form class="search-form" id="searchForm">
-            <div class="form-group" style="display: none;">
-                <label for="sheetId">Google Sheet ID:</label>
-                <input type="text" id="sheetId" placeholder="Enter Google Sheet ID" value="1WI_6zey1A9Il13yajAstX6CyOG__RWGJ246PVMRFnHc" required>
-            </div>
-            <div class="form-group">
-                <label for="srRefNo">SR Ref No / C. Inv No:</label>
-                <input type="text" id="srRefNo" placeholder="Enter SR Reference or Customer Inv No" required oninput="this.value = this.value.toUpperCase()">
-            </div>
-            <button type="submit" class="btn">Search</button>
-            <button type="button" class="btn btn-secondary" id="exportBtn" style="display: none;">EXPORT (Single SR)</button>
-        </form>
 
-        <hr style="margin:15px 0;">
+        <div id="srSearch" class="tab-content active">
+            <form class="search-form" id="searchForm">
+                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #1e3c72;">Individual SR Search</h3>
+                <div class="form-group" style="display: none;">
+                    <label for="sheetId">Google Sheet ID:</label>
+                    <input type="text" id="sheetId" placeholder="Enter Google Sheet ID" value="1WI_6zey1A9Il13yajAstX6CyOG__RWGJ246PVMRFnHc" required>
+                </div>
+                <div class="form-group">
+                    <label for="srRefNo">SR Ref No / C. Inv No:</label>
+                    <input type="text" id="srRefNo" placeholder="Enter SR Reference or Customer Inv No" required oninput="this.value = this.value.toUpperCase()">
+                </div>
+                <button type="submit" class="btn">Search</button>
+                <button type="button" class="btn btn-secondary" id="exportBtn" style="display: none;">EXPORT (Single SR)</button>
+            </form>
+        </div>
 
-        <form class="search-form" id="dateStockistForm">
-            <div class="form-group">
-                <label for="fromDate">From Date (C. INV DATE):</label>
-                <input type="date" id="fromDate" required>
-            </div>
-            <div class="form-group">
-                <label for="toDate">To Date (C. INV DATE):</label>
-                <input type="date" id="toDate" required>
-            </div>
-            <div class="form-group">
-                <label for="stockistSelect">Stockist Name:</label>
-                <select id="stockistSelect">
-                    <option value="">All Stockists</option>
-                </select>
-            </div>
-            <button type="submit" class="btn">Go</button>
-            <button type="button" class="btn btn-secondary" id="exportAllBtn" style="display: none;">EXPORT ALL</button>
-        </form>
 
+        <div id="dateStockist" class="tab-content">
+            <form class="search-form" id="dateStockistForm">
+                 <h3 style="font-size: 1rem; margin-bottom: 5px; color: #1e3c72;">Date / Stockist Report (Dates Optional)</h3>
+                <div class="form-group">
+                    <label for="fromDate">From Date (C. INV DATE):</label>
+                    <input type="date" id="fromDate">
+                </div>
+                <div class="form-group">
+                    <label for="toDate">To Date (C. INV DATE):</label>
+                    <input type="date" id="toDate">
+                </div>
+                <div class="form-group">
+                    <label for="stockistSelect">Stockist Name:</label>
+                    <select id="stockistSelect">
+                        <option value="">All Stockists</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Go</button>
+                <button type="button" class="btn btn-secondary" id="exportAllBtn" style="display: none;">EXPORT ALL</button>
+            </form>
+        </div>
+
+
+        <div id="productAnalysis" class="tab-content">
+            <form class="search-form" id="productForm">
+                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #1e3c72;">Product Analysis Report</h3>
+                <div class="form-group">
+                    <label for="productSelect">Product Name:</label>
+                    <select id="productSelect" required>
+                        <option value="">Select Product</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="batchInput">Batch No (Optional):</label>
+                    <input type="text" id="batchInput" placeholder="Enter Batch No">
+                </div>
+                <button type="submit" class="btn">Generate Product Report</button>
+                <button type="button" class="btn btn-secondary" id="exportProductBtn" style="display: none;">EXPORT REPORT</button>
+            </form>
+        </div>
+
+
+        <div id="expiryQuality" class="tab-content">
+            <form class="search-form" id="expiryForm">
+                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #1e3c72;">Expiry/Quality Report</h3>
+                <div class="form-group">
+                    <label for="expiryBeforeDate">Expiry Date (Before):</label>
+                    <input type="date" id="expiryBeforeDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="remarksKeyword">Remarks Keyword (e.g., DAMAGE):</label>
+                    <input type="text" id="remarksKeyword" placeholder="Optional Keyword">
+                </div>
+                <div class="form-group">
+                    <label for="expiryStockistSelect">Stockist Name (Optional):</label>
+                    <select id="expiryStockistSelect">
+                        <option value="">All Stockists</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Generate Expiry Report</button>
+                <button type="button" class="btn btn-secondary" id="exportExpiryBtn" style="display: none;">EXPORT REPORT</button>
+            </form>
+        </div>
+
+
+        <div id="graphicalReports" class="tab-content">
+            <form class="search-form" id="chartReportForm">
+                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #1e3c72;">Product & Stockist Graphical Report (Dates Optional)</h3>
+                 <div class="form-group">
+                    <label for="chartFromDate">From Date (C. INV DATE):</label>
+                    <input type="date" id="chartFromDate">
+                </div>
+                <div class="form-group">
+                    <label for="chartToDate">To Date (C. INV DATE):</label>
+                    <input type="date" id="chartToDate">
+                </div>
+                <div class="form-group">
+                    <label for="chartProductSelect">Product Name (Optional):</label>
+                    <select id="chartProductSelect">
+                        <option value="">All Products</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="chartStockistSelect">Stockist Name (Optional):</label>
+                    <select id="chartStockistSelect">
+                        <option value="">All Stockists</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Generate Charts</button>
+                <button type="button" class="btn btn-secondary" id="exportChartBtn" style="display: none;">EXPORT RAW DATA</button>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -445,8 +529,40 @@
     <script>
         // Global variables for storing results for export functions
         let lastSearchResults = []; // For single SR search
-        let lastFilterResults = []; // For date/stockist filter (for Export All)
+        let lastFilterResults = []; // For all tabular/graphical report exports
         window.groupedResults = {}; // To store the grouped data for in-card export
+        
+        let barChartInstance = null;
+        let pieChartInstance = null;
+
+        // --- Core Tab Navigation Function (NEW) ---
+        function openTab(evt, tabName) {
+            // Declare all variables
+            let i, tabcontent, tablinks;
+
+            // Get all elements with class="tab-content" and hide them
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove('active');
+            }
+
+            // Get all elements with class="tab-button" and remove the "active" class
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add("active");
+
+            // Clear results section when switching reports (optional, but good practice)
+            document.getElementById('resultsSection').innerHTML = '<div class="no-results">Run the report using the controls above.</div>';
+            hideAllExportButtons();
+            destroyCharts();
+        }
 
         // --- Core Data Fetching Functions ---
 
@@ -502,6 +618,19 @@
             }
             
             return data;
+        }
+
+        // Utility function to parse DD/MM/YYYY to a Date object
+        function parseDate(dateString) {
+            if (!dateString) return null;
+            const parts = dateString.split('/');
+            if (parts.length === 3) {
+                // new Date(year, monthIndex, day) - Month is 0-indexed
+                const date = new Date(parts[2], parts[1] - 1, parts[0]);
+                date.setHours(12, 0, 0, 0); // Normalize time
+                return date;
+            }
+            return null;
         }
 
 
@@ -613,7 +742,7 @@
             const html = `
                 <div class="result-card">
                     <div class="result-header" style="flex-wrap: wrap;">
-                        <h2> PALEPU PHARMA DISTRIBUTORS (SS) </h2>
+                        <h2> PRISTINE PEARL PHARMA PVT </h2>
                         <div class="sr-ref">Sales Return: ${firstResult['SR Ref No.']}</div>
                         <div class="total-amount">Grand Total: ₹${totalGrandAmount}</div> 
                         ${isExpandedView ? `<button type="button" class="btn btn-secondary" onclick="${exportFunction}" style="margin-top: 0; padding: 6px 12px; font-size: 0.8rem;">Export This SR</button>` : ''}
@@ -720,24 +849,100 @@
             // Pass true for isExpandedView since this is the main single-SR view
             resultsSection.innerHTML = generateResultCardHtml(results, true);
         }
+
+        // Function to display simple tabular results for the other reports
+        function displaySummaryTable(data, headers, title, exportBtnId) {
+            const resultsSection = document.getElementById('resultsSection');
+            const exportBtn = document.getElementById(exportBtnId);
+            
+            // Hide all other export buttons
+            hideAllExportButtons();
+            
+            if (data.length === 0) {
+                resultsSection.innerHTML = `<div class="no-results">No records found for the ${title} report.</div>`;
+                return;
+            }
+
+            // Set lastFilterResults for the Export button to use and display the button
+            lastFilterResults = data;
+            exportBtn.style.display = 'block';
+
+            let tableHtml = `
+                <h2 style="font-size: 1.2rem; color: #1e3c72; padding: 10px 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 15px;">${title} (${data.length} Records)</h2>
+                <div class="product-table-container">
+                    <table class="product-table" style="min-width: 100%;">
+                        <thead>
+                            <tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            // Map data fields to table columns based on headers
+            data.forEach(row => {
+                tableHtml += '<tr>';
+                headers.forEach(header => {
+                    // Check for header key in row object (using row[header] or row['header'] logic)
+                    let value = row[header] || '-'; 
+
+                    // Special formatting for value columns
+                    if (header.includes('Value') || header.includes('Total') || header === 'TAXABLE' || header === 'GST VALUE') {
+                        // Use raw number for internal comparison, but format for display
+                        const numericValue = parseFloat(row[header].replace(/[^0-9.-]+/g,"")) || 0;
+                        value = `₹${numericValue.toFixed(2)}`;
+                        tableHtml += `<td style="text-align: right;">${value}</td>`;
+                    } else if (header === 'Quantity' || header === 'QTY') {
+                        tableHtml += `<td style="text-align: center;">${value}</td>`;
+                    } 
+                    else {
+                        tableHtml += `<td>${value}</td>`;
+                    }
+                });
+                tableHtml += '</tr>';
+            });
+
+            tableHtml += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            resultsSection.innerHTML = tableHtml;
+        }
+
+        // Function to destroy and reset chart canvas
+        function destroyCharts() {
+            if (barChartInstance) {
+                barChartInstance.destroy();
+                barChartInstance = null;
+            }
+            if (pieChartInstance) {
+                pieChartInstance.destroy();
+                pieChartInstance = null;
+            }
+        }
     
 
         // --- Event Handlers ---
 
+        // Helper function to hide all report export buttons
+        function hideAllExportButtons() {
+            document.getElementById('exportBtn').style.display = 'none';
+            document.getElementById('exportAllBtn').style.display = 'none';
+            document.getElementById('exportProductBtn').style.display = 'none';
+            document.getElementById('exportExpiryBtn').style.display = 'none';
+            document.getElementById('exportChartBtn').style.display = 'none';
+        }
+        
         // Handle Search by SR Ref No
         document.getElementById('searchForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const sheetId = document.getElementById('sheetId').value.trim();
-            // MODIFIED: Read the input and convert it to uppercase for case-insensitive and dual searching
             const searchTerm = document.getElementById('srRefNo').value.trim().toUpperCase(); 
             const resultsSection = document.getElementById('resultsSection');
-            const exportBtn = document.getElementById('exportBtn'); 
             
-            // Reset state
-            lastSearchResults = [];
-            exportBtn.style.display = 'none';
-            document.getElementById('exportAllBtn').style.display = 'none';
+            hideAllExportButtons();
+            destroyCharts();
 
             if (!sheetId || !searchTerm) {
                 resultsSection.innerHTML = '<div class="error">Please enter Google Sheet ID and SR Reference/Invoice Number</div>';
@@ -749,7 +954,6 @@
             try {
                 const data = await fetchSheetData(sheetId);
                 
-                // MODIFIED: Filter to match EITHER 'SR Ref No.' OR 'C. INV NO.' in an uppercase comparison
                 const results = data.filter(row => 
                     (row['SR Ref No.'] && row['SR Ref No.'].toUpperCase() === searchTerm) ||
                     (row['C. INV NO.'] && row['C. INV NO.'].toUpperCase() === searchTerm)
@@ -757,8 +961,8 @@
                 
                 if (results && results.length > 0) {
                     lastSearchResults = results; // Store results for export
-                    displayResults(results);
-                    exportBtn.style.display = 'block'; // Show single SR export button
+                    displayResults(results); // Uses the complex card layout
+                    document.getElementById('exportBtn').style.display = 'block'; 
                 } else {
                     resultsSection.innerHTML = '<div class="error">No sales return found with reference: ' + searchTerm + '</div>';
                 }
@@ -767,78 +971,92 @@
             }
         });
 
-        // Event listener for the existing single export button (SR Ref No search)
-        document.getElementById('exportBtn').addEventListener('click', function() {
-            if (lastSearchResults.length > 0) {
-                const stockistName = lastSearchResults[0]['STOCKIST NAME'].replace(/[^a-zA-Z0-9 ]/g, "").trim();
-                const srRefNo = lastSearchResults[0]['SR Ref No.'].replace(/[^a-zA-Z0-9 ]/g, "").trim(); 
-                const filename = `${stockistName} - ${srRefNo}`;
-                
-                exportToCSV(lastSearchResults, filename);
-            }
-        });
-
-        // Event listener for the 'Export All' button
+        // Event listener for all report export buttons
         document.getElementById('exportAllBtn').addEventListener('click', function() {
             if (lastFilterResults.length > 0) {
                 const today = new Date().toISOString().slice(0, 10);
-                const filename = `Palepu(SS) SR Data ${today}`;
-                
-                exportToCSV(lastFilterResults, filename);
+                exportToCSV(lastFilterResults, `SR_DateStockist_Data_${today}`);
             } else {
-                 alert("No data to export. Please run a date filter search first.");
+                 alert("No data to export. Please run a report search first.");
+            }
+        });
+        document.getElementById('exportProductBtn').addEventListener('click', function() {
+             if (lastFilterResults.length > 0) {
+                const today = new Date().toISOString().slice(0, 10);
+                exportToCSV(lastFilterResults, `SR_ProductReport_Data_${today}`);
+            } else {
+                 alert("No data to export. Please run a report search first.");
+            }
+        });
+        document.getElementById('exportExpiryBtn').addEventListener('click', function() {
+             if (lastFilterResults.length > 0) {
+                const today = new Date().toISOString().slice(0, 10);
+                exportToCSV(lastFilterResults, `SR_ExpiryReport_Data_${today}`);
+            } else {
+                 alert("No data to export. Please run a report search first.");
+            }
+        });
+        document.getElementById('exportChartBtn').addEventListener('click', function() {
+             if (lastFilterResults.length > 0) {
+                const today = new Date().toISOString().slice(0, 10);
+                exportToCSV(lastFilterResults, `SR_ChartReport_RawData_${today}`);
+            } else {
+                 alert("No data to export. Please run a report search first.");
             }
         });
 
 
-        // Handle Date + Stockist Form
+        // Handle Date + Stockist Form (Grouped Card View)
         document.getElementById('dateStockistForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const sheetId = document.getElementById('sheetId').value.trim();
             const fromDate = document.getElementById('fromDate').value;
             const toDate = document.getElementById('toDate').value;
-            const stockist = document.getElementById('stockistSelect').value;
+            const stockist = document.getElementById('stockistSelect').value.trim();
             const resultsSection = document.getElementById('resultsSection');
-            const exportBtn = document.getElementById('exportBtn'); 
-            const exportAllBtn = document.getElementById('exportAllBtn'); 
+            
+            hideAllExportButtons();
+            destroyCharts();
 
-            exportBtn.style.display = 'none';
-            exportAllBtn.style.display = 'none';
-            lastFilterResults = []; // Reset filtered results
-            window.groupedResults = {}; // Reset grouped results
+            lastFilterResults = []; 
+            window.groupedResults = {}; 
 
-            if (!sheetId || !fromDate || !toDate) {
-                resultsSection.innerHTML = '<div class="error">Please enter Google Sheet ID and select From and To dates.</div>';
+            if (!sheetId) {
+                resultsSection.innerHTML = '<div class="error">Please enter Google Sheet ID.</div>';
                 return;
             }
+            
+            // LOGIC: Check if BOTH dates are set
+            const isDateRangeSet = fromDate && toDate;
 
+            let from = null;
+            let to = null;
+            if (isDateRangeSet) {
+                from = new Date(fromDate); 
+                from.setHours(0, 0, 0, 0); 
+                to = new Date(toDate);
+                to.setHours(23, 59, 59, 999);
+            }
+            
             resultsSection.innerHTML = '<div class="loading">Searching by date & stockist...</div>';
 
             try {
                 const data = await fetchSheetData(sheetId);
                 
-                const from = new Date(fromDate); 
-                from.setHours(0, 0, 0, 0); 
-                const to = new Date(toDate);
-                to.setHours(23, 59, 59, 999);
-                
                 const filtered = data.filter(row => {
-                    const cInvDateValue = row['C. INV DATE']; 
-                    if (!cInvDateValue) return false; 
+                    // 1. Stockist Filter
+                    if (stockist && row['STOCKIST NAME'] !== stockist) {
+                        return false;
+                    }
                     
-                    const parts = cInvDateValue.split('/');
-                    if (parts.length < 3) return false;
+                    // 2. Date Range Filter (Applied only if BOTH dates are set)
+                    if (isDateRangeSet) {
+                        const uploaded = parseDate(row['C. INV DATE']);
+                        if (!uploaded || isNaN(uploaded.getTime())) return false; 
+                        
+                        if (uploaded.getTime() < from.getTime() || uploaded.getTime() > to.getTime()) return false;
+                    }
 
-                    // Parse date from DD/MM/YYYY format
-                    const uploaded = new Date(parts[2], parts[1] - 1, parts[0]);
-                    uploaded.setHours(12, 0, 0, 0); 
-
-                    if (isNaN(uploaded.getTime())) return false; 
-                    
-                    if (uploaded.getTime() < from.getTime() || uploaded.getTime() > to.getTime()) return false;
-
-                    if (stockist && row['STOCKIST NAME'] !== stockist) return false;
-                    
                     return true;
                 });
 
@@ -848,9 +1066,9 @@
                 }
                 
                 lastFilterResults = filtered; 
-                exportAllBtn.style.display = 'block'; 
+                document.getElementById('exportAllBtn').style.display = 'block'; 
 
-                // Group by SR Ref No
+                // Group by SR Ref No (For the detailed card view)
                 const grouped = {};
                 filtered.forEach(row => {
                     const key = row['SR Ref No.'];
@@ -861,19 +1079,14 @@
                 let html = "";
                 for (const [srRef, rows] of Object.entries(grouped)) {
                     const first = rows[0];
-                    
-                    // 1. Calculate Grand Total for this group/SR
                     const totalGrandAmount = rows.reduce((sum, row) => sum + (parseFloat(row['TOTAL'].replace(/[^0-9.-]+/g,"")) || 0), 0).toFixed(2);
-                    
-                    // Pass true for isExpandedView so the Export button appears inside the details
                     const expandedContent = generateResultCardHtml(rows, true); 
                     
-                    // 2. MODIFIED GROUPED SUMMARY CARD HEADER STRUCTURE (as per your request)
                     html += `
                         <div class="result-card" id="card-${srRef}">
                             <div class="result-header" style="flex-wrap: wrap; justify-content: space-between; align-items: flex-start;">
                                 <div style="flex-basis: 70%;">
-                                    <div class="sr-ref" style="font-size: 1.2rem; font-weight: 700; color: #b91c1c; line-height: 1.2;">
+                                    <div class="sr-ref" style="font-size: 1.2rem; font-weight: 700; color: #1e3c72; line-height: 1.2;">
                                         ${first['STOCKIST NAME'] || 'N/A'}
                                     </div>
                                     <div style="font-size:0.9rem; font-weight: 500; color:#374151; margin-top: 2px;">
@@ -897,29 +1110,336 @@
 
             } catch (err) {
                 resultsSection.innerHTML = '<div class="error">Error: ' + err.message + '</div>';
-                exportAllBtn.style.display = 'none';
+                document.getElementById('exportAllBtn').style.display = 'none';
             }
         });
 
 
-        // Populate stockist dropdown
-        async function populateStockists(sheetId) {
+        // Handle Product Analysis Report
+        document.getElementById('productForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const sheetId = document.getElementById('sheetId').value.trim();
+            const product = document.getElementById('productSelect').value.trim();
+            const batch = document.getElementById('batchInput').value.trim();
+            const resultsSection = document.getElementById('resultsSection');
+            
+            hideAllExportButtons();
+            destroyCharts();
+
+            resultsSection.innerHTML = '<div class="loading">Generating Product Analysis Report...</div>';
+
+            try {
+                const data = await fetchSheetData(sheetId);
+                
+                const filtered = data.filter(row => 
+                    row['PRODUCT'] === product && 
+                    (!batch || row['BATCH'].toUpperCase() === batch.toUpperCase())
+                );
+
+                // Report Headers
+                const headers = ['SR Ref No.', 'C. INV DATE', 'STOCKIST NAME', 'BATCH', 'EXPIRY', 'QTY', 'TOTAL'];
+                displaySummaryTable(filtered, headers, `Product Return Report for ${product}`, 'exportProductBtn');
+
+            } catch (err) {
+                resultsSection.innerHTML = '<div class="error">Error: ' + err.message + '</div>';
+            }
+        });
+
+        // Handle Expiry and Quality Report
+        document.getElementById('expiryForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const sheetId = document.getElementById('sheetId').value.trim();
+            const expiryDate = document.getElementById('expiryBeforeDate').value;
+            const remarks = document.getElementById('remarksKeyword').value.trim().toUpperCase();
+            const stockist = document.getElementById('expiryStockistSelect').value.trim();
+            const resultsSection = document.getElementById('resultsSection');
+
+            hideAllExportButtons();
+            destroyCharts();
+
+            if (!expiryDate) {
+                 // This check remains because this field is required in HTML for this report
+                 resultsSection.innerHTML = '<div class="error">Expiry Date (Before) is required for this report.</div>';
+                 return;
+            }
+            
+            resultsSection.innerHTML = '<div class="loading">Generating Expiry/Quality Report...</div>';
+
+            try {
+                const data = await fetchSheetData(sheetId);
+                
+                const filterDate = new Date(expiryDate);
+                filterDate.setHours(23, 59, 59, 999);
+                
+                const filtered = data.filter(row => {
+                    // 1. Expiry Date Filter (Product expiry must be BEFORE the filter date)
+                    const expiryValue = row['EXPIRY']; 
+                    if (!expiryValue) return false;
+                    
+                    const parts = expiryValue.split('/');
+                    if (parts.length < 2) return false;
+
+                    const year = parseInt(parts[1], 10);
+                    const month = parseInt(parts[0], 10);
+
+                    // Assume 2-digit years are 20XX
+                    const fullYear = (year < 100) ? 2000 + year : year;
+
+                    if (isNaN(fullYear) || isNaN(month) || month < 1 || month > 12) return false;
+
+                    // Create a date object for the last day of the expiry month
+                    const productExpiry = new Date(fullYear, month, 0); 
+                    
+                    if (productExpiry.getTime() >= filterDate.getTime()) return false;
+                    
+                    // 2. Remarks Filter
+                    if (remarks && row['REMARKS'].toUpperCase().indexOf(remarks) === -1) {
+                        return false;
+                    }
+                    
+                    // 3. Stockist Filter
+                    if (stockist && row['STOCKIST NAME'] !== stockist) {
+                        return false;
+                    }
+
+                    return true;
+                });
+
+                // Report Headers
+                const headers = ['SR Ref No.', 'STOCKIST NAME', 'PRODUCT', 'BATCH', 'EXPIRY', 'QTY', 'REMARKS', 'TOTAL'];
+                displaySummaryTable(filtered, headers, `Expiry/Quality Report`, 'exportExpiryBtn');
+
+            } catch (err) {
+                resultsSection.innerHTML = '<div class="error">Error: ' + err.message + '</div>';
+            }
+        });
+        
+        // Handle Product & Stockist Graphical Report (NEW)
+        document.getElementById('chartReportForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const sheetId = document.getElementById('sheetId').value.trim();
+            const fromDate = document.getElementById('chartFromDate').value;
+            const toDate = document.getElementById('chartToDate').value;
+            const product = document.getElementById('chartProductSelect').value.trim();
+            const stockist = document.getElementById('chartStockistSelect').value.trim();
+            const resultsSection = document.getElementById('resultsSection');
+
+            hideAllExportButtons();
+            destroyCharts();
+
+            if (!sheetId) {
+                resultsSection.innerHTML = '<div class="error">Please enter Google Sheet ID.</div>';
+                return;
+            }
+
+            resultsSection.innerHTML = '<div class="loading">Generating Graphical Report...</div>';
+
+            try {
+                const data = await fetchSheetData(sheetId);
+
+                // LOGIC: Check if BOTH dates are set
+                const isDateRangeSet = fromDate && toDate;
+
+                let from = null;
+                let to = null;
+                if (isDateRangeSet) {
+                    from = new Date(fromDate); 
+                    from.setHours(0, 0, 0, 0); 
+                    to = new Date(toDate);
+                    to.setHours(23, 59, 59, 999);
+                }
+
+                const filtered = data.filter(row => {
+                    // 1. Product Filter
+                    if (product && row['PRODUCT'] !== product) {
+                        return false;
+                    }
+                    
+                    // 2. Stockist Filter
+                    if (stockist && row['STOCKIST NAME'] !== stockist) {
+                        return false;
+                    }
+
+                    // 3. Date Range Filter (Applied only if BOTH dates are set)
+                    if (isDateRangeSet) {
+                        const uploaded = parseDate(row['C. INV DATE']);
+                        if (!uploaded || isNaN(uploaded.getTime())) return false; 
+                        
+                        if (uploaded.getTime() < from.getTime() || uploaded.getTime() > to.getTime()) return false;
+                    }
+
+                    return true;
+                });
+
+                if (filtered.length === 0) {
+                    resultsSection.innerHTML = '<div class="no-results">No records found for the given criteria.</div>';
+                    return;
+                }
+                
+                lastFilterResults = filtered;
+                document.getElementById('exportChartBtn').style.display = 'block';
+
+                generateChartReport(filtered, product, stockist);
+
+            } catch (err) {
+                resultsSection.innerHTML = '<div class="error">Error: ' + err.message + '</div>';
+            }
+        });
+
+        // Chart generation function
+        function generateChartReport(data, filterProduct, filterStockist) {
+            const resultsSection = document.getElementById('resultsSection');
+
+            // 1. Aggregate data for Bar Chart (Quantity by Product)
+            const productQtyMap = data.reduce((acc, row) => {
+                const key = row['PRODUCT'];
+                const qty = parseInt(row['QTY'], 10) || 0;
+                acc[key] = (acc[key] || 0) + qty;
+                return acc;
+            }, {});
+
+            const productLabels = Object.keys(productQtyMap);
+            const productQuantities = Object.values(productQtyMap);
+            
+            // 2. Aggregate data for Pie Chart (Total Value by Stockist)
+            const stockistValueMap = data.reduce((acc, row) => {
+                const key = row['STOCKIST NAME'];
+                const total = parseFloat(row['TOTAL'].replace(/[^0-9.-]+/g,"")) || 0;
+                acc[key] = (acc[key] || 0) + total;
+                return acc;
+            }, {});
+
+            const stockistLabels = Object.keys(stockistValueMap);
+            const stockistValues = Object.values(stockistValueMap);
+
+            // Determine Chart Titles
+            const barTitle = `Return Quantity by Product ${filterStockist ? `(Stockist: ${filterStockist})` : '(All Stockists)'}`;
+            const pieTitle = `Return Value Distribution by Stockist ${filterProduct ? `(Product: ${filterProduct})` : '(All Products)'}`;
+
+
+            // Prepare HTML for charts
+            resultsSection.innerHTML = `
+                <div class="chart-container">
+                    <div class="chart-box">
+                        <h3>${barTitle}</h3>
+                        <canvas id="barChart"></canvas>
+                    </div>
+                    <div class="chart-box">
+                        <h3>${pieTitle}</h3>
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            `;
+            
+            // Generate Bar Chart (Quantity)
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            barChartInstance = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: productLabels,
+                    datasets: [{
+                        label: 'Returned Quantity',
+                        data: productQuantities,
+                        backgroundColor: '#1e3c72',
+                        borderColor: '#1e3c72',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Quantity'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Generate Pie Chart (Value)
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+             // Generate a dynamic set of colors
+            const dynamicColors = stockistLabels.map((_, i) => `hsl(${i * 30}, 70%, 50%)`);
+
+            pieChartInstance = new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: stockistLabels,
+                    datasets: [{
+                        label: 'Return Value (₹)',
+                        data: stockistValues,
+                        backgroundColor: dynamicColors,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
+                    }
+                }
+            });
+
+        }
+
+
+        // Populate all dropdowns (Stockists and Products)
+        async function populateStockistsAndProducts(sheetId) {
             try {
                 const data = await fetchSheetData(sheetId);
                 const stockistSet = new Set();
+                const productSet = new Set();
+                
                 data.forEach(row => {
                     if (row['STOCKIST NAME']) stockistSet.add(row['STOCKIST NAME']);
+                    if (row['PRODUCT']) productSet.add(row['PRODUCT']);
                 });
-                const select = document.getElementById('stockistSelect');
-                select.innerHTML = '<option value="">All Stockists</option>'; 
-                stockistSet.forEach(name => {
-                    const opt = document.createElement('option');
-                    opt.value = name;
-                    opt.textContent = name;
-                    select.appendChild(opt);
+
+                const sortedStockists = Array.from(stockistSet).sort();
+                const sortedProducts = Array.from(productSet).sort();
+
+                // Populate Stockist Dropdowns
+                const stockistSelects = [
+                    document.getElementById('stockistSelect'), 
+                    document.getElementById('expiryStockistSelect'),
+                    document.getElementById('chartStockistSelect') // Graphical Report
+                ];
+                
+                stockistSelects.forEach(select => {
+                    select.innerHTML = '<option value="">All Stockists</option>'; 
+                    sortedStockists.forEach(name => {
+                        const opt = document.createElement('option');
+                        opt.value = name;
+                        opt.textContent = name;
+                        select.appendChild(opt);
+                    });
                 });
+
+                // Populate Product Dropdown
+                const productSelects = [
+                    document.getElementById('productSelect'),
+                    document.getElementById('chartProductSelect') // Graphical Report
+                ];
+                
+                productSelects.forEach(select => {
+                    select.innerHTML = select.id === 'productSelect' ? '<option value="">Select Product</option>' : '<option value="">All Products</option>';
+                    sortedProducts.forEach(name => {
+                        const opt = document.createElement('option');
+                        opt.value = name;
+                        opt.textContent = name;
+                        select.appendChild(opt);
+                    });
+                });
+
             } catch (err) {
-                console.error("Failed to populate stockists", err);
+                console.error("Failed to populate dropdowns", err);
             }
         }
 
@@ -939,12 +1459,15 @@
         }
 
 
-        // Trigger stockist population on page load
+        // Trigger dropdown population and set default tab on page load
         document.addEventListener('DOMContentLoaded', () => {
             const sheetId = document.getElementById('sheetId').value.trim();
             if (sheetId) {
-                setTimeout(() => populateStockists(sheetId), 500);
+                setTimeout(() => populateStockistsAndProducts(sheetId), 500);
             }
+             // Ensure the default tab content is displayed
+            document.getElementById('srSearch').style.display = 'block';
+            document.getElementById('srSearch').classList.add('active');
         });
     </script>
 </body>
