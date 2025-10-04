@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Return Viewer - Palepu SS</title>
+    <title>Sales Return Viewer - Palepu(SS)</title>
  <link rel="icon" 
         href="https://media.licdn.com/dms/image/v2/D5603AQHMvZTgZ4pbzA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1682685098699?e=2147483647&v=beta&t=87_-l2z-dvgwfndQGnhEdmTpcvEr5Updl0nb71DfHHs" 
         type="image/png">
@@ -12,7 +12,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ... (Existing CSS styles remain the same) ... */
         * {
             margin: 0;
             padding: 0;
@@ -51,7 +50,8 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            /* Changed from blue to red gradient */
+            background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
             color: white;
             padding: 15px 20px;
             text-align: center;
@@ -119,7 +119,7 @@
             letter-spacing: 0.025em;
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             padding: 10px 12px;
             border: 1px solid #d1d5db;
             border-radius: 8px;
@@ -128,10 +128,11 @@
             background: white;
         }
 
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus {
             outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+            /* Changed from blue to red border */
+            border-color: #dc2626;
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1);
         }
 
         .form-group input::placeholder {
@@ -141,7 +142,8 @@
 
         .btn {
             padding: 12px 20px;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            /* Changed from blue to red gradient */
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -153,7 +155,8 @@
         }
 
         .btn:hover {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            /* Changed from blue to red gradient */
+            background: linear-gradient(135deg, #ef4444 0%, #be123c 100%);
             transform: translateY(-1px);
         }
 
@@ -164,7 +167,7 @@
         /* NEW BUTTON STYLE FOR EXPORT */
         .btn-secondary {
             background: linear-gradient(135deg, #6b7280 0%, #374151 100%);
-            margin-top: 5px; /* Adjust spacing */
+            margin-top: 5px; 
         }
         .btn-secondary:hover {
             background: linear-gradient(135deg, #4b5563 0%, #1f2937 100%);
@@ -187,20 +190,10 @@
 
         .error {
             background: #fef2f2;
-            color: #dc2626;
+            color: #dc2626; /* Kept red for error messages */
             padding: 15px;
             border-radius: 8px;
             border-left: 4px solid #dc2626;
-            margin: 10px 0;
-            font-size: 0.9rem;
-        }
-
-        .success {
-            background: #f0fdf4;
-            color: #16a34a;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #16a34a;
             margin: 10px 0;
             font-size: 0.9rem;
         }
@@ -222,6 +215,12 @@
             padding-bottom: 6px;
             border-bottom: 1px solid #e5e7eb;
         }
+        .result-card .result-header h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0;
+        }
 
         .sr-ref {
             font-size: 1.1rem;
@@ -238,6 +237,11 @@
             border-radius: 3px;
             border: 1px solid #a7f3d0;
         }
+        /* Adjusted color for the main stockist name in filtered results */
+        .result-card .result-header .sr-ref[style*="color: #1e3c72;"] {
+            color: #b91c1c !important; /* A darker red for prominence */
+        }
+
 
         .document-sections {
             display: flex;
@@ -297,20 +301,6 @@
             word-break: break-word;
         }
 
-        .financial-section .section-grid {
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        }
-
-        .financial-section .field {
-            background: #f0fdf4;
-            border-color: #a7f3d0;
-        }
-
-        .financial-section .field-value {
-            color: #059669;
-            font-weight: 600;
-        }
-
         .no-results {
             text-align: center;
             color: #6b7280;
@@ -322,7 +312,7 @@
             border: 1px dashed #d1d5db;
         }
 
-        /* --- New Styles for the Product Table --- */
+        /* --- Styles for the Product Table --- */
         .product-table-container {
             overflow-x: auto;
             margin-top: 0;
@@ -332,7 +322,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 0.8rem;
-            min-width: 900px; /* Ensure space for columns */
+            min-width: 900px; 
         }
         .product-table th, .product-table td {
             border: 1px solid #e5e7eb;
@@ -354,7 +344,6 @@
             background-color: #ecfdf5;
             color: #059669;
         }
-        /* --- End New Styles --- */
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -373,10 +362,6 @@
                 height: 60vh;
             }
             
-            .header {
-                padding: 12px 15px;
-            }
-            
             .header h1 {
                 font-size: 1.1rem;
             }
@@ -390,99 +375,15 @@
                 gap: 4px;
             }
             
-            .document-sections {
-                gap: 6px;
-            }
-            
             .result-header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 8px;
             }
             
-            /* Smaller screens adjust table */
             .product-table {
-                min-width: 600px; /* Allow horizontal scroll */
+                min-width: 600px; 
             }
-        }
-
-        /* Print Styles */
-        @media print {
-            body {
-                background: white !important;
-                padding: 0 !important;
-            }
-            
-            .main-container {
-                display: block !important;
-            }
-            
-            .left-panel {
-                display: none !important;
-            }
-            
-            .right-panel {
-                width: 100% !important;
-                height: auto !important;
-                overflow: visible !important;
-            }
-            
-            .header {
-                background: #1e293b !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            
-            .result-card {
-                break-inside: avoid;
-                box-shadow: none !important;
-                border: 1px solid #000 !important;
-                margin-bottom: 15px !important;
-            }
-            
-            .field {
-                background: #f8f9fa !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            
-            .no-results {
-                border: 1px solid #000 !important;
-                background: white !important;
-            }
-            
-            /* Print styles for the new table */
-            .product-table th, .product-table td {
-                border-color: #ccc !important;
-            }
-            .product-table th {
-                background-color: #e9ecef !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .product-table .total-row td {
-                background-color: #d1e7dd !important;
-            }
-            .product-table-container {
-                overflow-x: visible; /* Prevent cut-off tables */
-            }
-        }
-
-        /* Loading Animation */
-        .loading::after {
-            content: '';
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 50%;
-            border-top-color: #3b82f6;
-            animation: spin 1s ease-in-out infinite;
-            margin-left: 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -492,89 +393,68 @@
     <div class="header">
         <div class="header-content">
             <img src="https://media.licdn.com/dms/image/v2/D5603AQHMvZTgZ4pbzA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1682685098699?e=2147483647&v=beta&t=87_-l2z-dvgwfndQGnhEdmTpcvEr5Updl0nb71DfHHs" alt="PRISTINE PEARL PHARMA Logo" class="company-logo">
-            <h1>PALEPU PHARMA DISTRIBUTORS (SS)</h1>
+            <h1>PALEPU PHARMA DISTRIBUTORS(SS)</h1>
         </div>
     </div>
             
-            <div class="search-section">
-                <form class="search-form" id="searchForm">
-                    <div class="form-group" style="display: none;">
-                        <label for="sheetId">Google Sheet ID:</label>
-                        <input type="text" id="sheetId" placeholder="Enter Google Sheet ID" value="1WI_6zey1A9Il13yajAstX6CyOG__RWGJ246PVMRFnHc" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="srRefNo">SR Ref No:</label>
-                        <input type="text" id="srRefNo" placeholder="Enter SR Reference Number" required>
-                    </div>
-                    <button type="submit" class="btn">Search</button>
-                    <button type="button" class="btn btn-secondary" id="exportBtn" style="display: none;">EXPORT</button>
-                    </form>
+    <div class="search-section">
+        <form class="search-form" id="searchForm">
+            <div class="form-group" style="display: none;">
+                <label for="sheetId">Google Sheet ID:</label>
+                <input type="text" id="sheetId" placeholder="Enter Google Sheet ID" value="1WI_6zey1A9Il13yajAstX6CyOG__RWGJ246PVMRFnHc" required>
             </div>
-        </div>
+            <div class="form-group">
+                <label for="srRefNo">SR Ref No / C. Inv No:</label>
+                <input type="text" id="srRefNo" placeholder="Enter SR Reference or Customer Inv No" required oninput="this.value = this.value.toUpperCase()">
+            </div>
+            <button type="submit" class="btn">Search</button>
+            <button type="button" class="btn btn-secondary" id="exportBtn" style="display: none;">EXPORT (Single SR)</button>
+        </form>
+
+        <hr style="margin:15px 0;">
+
+        <form class="search-form" id="dateStockistForm">
+            <div class="form-group">
+                <label for="fromDate">From Date (C. INV DATE):</label>
+                <input type="date" id="fromDate" required>
+            </div>
+            <div class="form-group">
+                <label for="toDate">To Date (C. INV DATE):</label>
+                <input type="date" id="toDate" required>
+            </div>
+            <div class="form-group">
+                <label for="stockistSelect">Stockist Name:</label>
+                <select id="stockistSelect">
+                    <option value="">All Stockists</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">Go</button>
+            <button type="button" class="btn btn-secondary" id="exportAllBtn" style="display: none;">EXPORT ALL</button>
+        </form>
+
+    </div>
+</div>
 
         <div class="right-panel">
             <div class="results-section" id="resultsSection">
-                <div class="no-results">Enter SR Reference Number and click Search to view results</div>
+                <div class="no-results">Enter SR Reference Number or C. Inv No and click Search to view results</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Global variable to store the last successful search results
-        let lastSearchResults = [];
+        // Global variables for storing results for export functions
+        let lastSearchResults = []; // For single SR search
+        let lastFilterResults = []; // For date/stockist filter (for Export All)
+        window.groupedResults = {}; // To store the grouped data for in-card export
 
-        document.getElementById('searchForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const sheetId = document.getElementById('sheetId').value.trim();
-            const srRefNo = document.getElementById('srRefNo').value.trim();
-            const resultsSection = document.getElementById('resultsSection');
-            const exportBtn = document.getElementById('exportBtn'); // Get the new button
-            
-            // Reset results and hide export button
-            lastSearchResults = [];
-            exportBtn.style.display = 'none';
-
-            if (!sheetId || !srRefNo) {
-                resultsSection.innerHTML = '<div class="error">Please enter both Google Sheet ID and SR Reference Number</div>';
-                return;
-            }
-            
-            resultsSection.innerHTML = '<div class="loading">Searching for sales return data...</div>';
-            
-            try {
-                const data = await fetchSheetData(sheetId);
-                
-                // Use filter instead of find to get ALL matching rows
-                const results = data.filter(row => row['SR Ref No.'] === srRefNo);
-                
-                if (results && results.length > 0) {
-                    lastSearchResults = results; // Store results for export
-                    displayResults(results);
-                    exportBtn.style.display = 'block'; // Show export button
-                } else {
-                    resultsSection.innerHTML = '<div class="error">No sales return found with SR Reference Number: ' + srRefNo + '</div>';
-                }
-            } catch (error) {
-                resultsSection.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
-            }
-        });
-
-        // Event listener for the new export button
-        document.getElementById('exportBtn').addEventListener('click', function() {
-            if (lastSearchResults.length > 0) {
-                // Generate the required filename format: "Stockist Name - SR Ref No"
-                const stockistName = lastSearchResults[0]['STOCKIST NAME'].replace(/[^a-zA-Z0-9 ]/g, "").trim(); // Sanitize name
-                const srRefNo = lastSearchResults[0]['SR Ref No.'].replace(/[^a-zA-Z0-9 ]/g, "").trim(); // Sanitize ref no
-                const filename = `${stockistName} - ${srRefNo}`;
-                
-                exportToCSV(lastSearchResults, filename);
-            }
-        });
+        // --- Core Data Fetching Functions ---
 
         async function fetchSheetData(sheetId) {
             const methods = [
+                // Primary method for public sheets
                 `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`,
+                // Fallbacks
                 `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=0`,
                 `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`,
                 `https://cors-anywhere.herokuapp.com/https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`,
@@ -609,7 +489,6 @@
             const lines = csvText.split('\n').filter(line => line.trim());
             if (lines.length < 2) return [];
             
-            // Note: This CSV parser is basic and assumes no commas are inside fields, which is typical for simple exports.
             const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
             const data = [];
             
@@ -624,6 +503,9 @@
             
             return data;
         }
+
+
+        // --- Export Functions ---
 
         // Function to export the results array to CSV/Excel
         function exportToCSV(data, filename) {
@@ -643,41 +525,29 @@
                 const values = headers.map(header => {
                     let value = row[header] === undefined || row[header] === null ? '' : String(row[header]);
                     
-                    // Apply MM/YY format specifically to the 'EXPIRY' column
+                    // Format EXPIRY to MM/YY
                     if (header === 'EXPIRY') {
-                        // Attempt to extract MM/YY using regex (assuming original format is DD/MM/YYYY or MM/YYYY)
                         const match = value.match(/(\d{1,2})\/(\d{4})/);
                         if (match) {
-                             // Month (match[1]), Year (match[2])
                              const month = match[1].padStart(2, '0'); 
                              const year = match[2].slice(-2);
                              value = `${month}/${year}`;
-                        } else if (value.length >= 4 && value.includes('/')) {
-                            // Basic fallback for already short MM/YY or M/YY format
-                            value = value.trim();
-                        } else {
-                            // Leave as is if format is unrecognizable
                         }
                     }
 
-                    // Escape double quotes and wrap in quotes to handle commas and special characters
+                    // Escape double quotes and wrap in quotes
                     return `"${value.replace(/"/g, '""')}"`;
                 });
                 csvRows.push(values.join(','));
             }
 
-            // Combine rows into a single CSV string
             const csvString = csvRows.join('\n');
-
-            // Create a Blob containing the CSV data
             const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
-
-            // Create a temporary link element for downloading
             const link = document.createElement("a");
+
             if (link.download !== undefined) { 
                 const url = URL.createObjectURL(blob);
                 link.setAttribute("href", url);
-                // Use the provided filename with .csv extension
                 link.setAttribute("download", `${filename}.csv`); 
                 link.style.visibility = 'hidden';
                 document.body.appendChild(link);
@@ -689,24 +559,36 @@
             }
         }
 
+        // Function to export a single expanded card's data (used by the Export This SR button)
+        function exportExpandedCardData(srRef) {
+            if (window.groupedResults && window.groupedResults[srRef]) {
+                const data = window.groupedResults[srRef];
+                const stockistName = data[0]['STOCKIST NAME'].replace(/[^a-zA-Z0-9 ]/g, "").trim(); 
+                const filename = `${stockistName} - ${srRef.replace(/[^a-zA-Z0-9 ]/g, "").trim()}`;
+                exportToCSV(data, filename);
+            } else {
+                alert("Error: Data for this SR reference not found for export.");
+            }
+        }
+        
+        // --- UI Rendering Functions ---
 
-        // Function to display data
-        function displayResults(results) {
-            const resultsSection = document.getElementById('resultsSection');
+        function generateResultCardHtml(results, isExpandedView = false) {
             
-            // Use the first result for common information
             const firstResult = results[0];
             
-            // Calculate grand totals across all returned products
-            // Using a simple parseFloat, ensure your sheet data is clean
+            // Calculate totals
             const totalGrandAmount = results.reduce((sum, row) => sum + (parseFloat(row['TOTAL'].replace(/[^0-9.-]+/g,"")) || 0), 0).toFixed(2);
             const totalTaxable = results.reduce((sum, row) => sum + (parseFloat(row['TAXABLE'].replace(/[^0-9.-]+/g,"")) || 0), 0).toFixed(2);
             const totalGST = results.reduce((sum, row) => sum + (parseFloat(row['GST VALUE'].replace(/[^0-9.-]+/g,"")) || 0), 0).toFixed(2);
 
             
+            // Set export function call for the in-card button
+            const exportFunction = isExpandedView ? `exportExpandedCardData('${firstResult['SR Ref No.']}')` : `document.getElementById('exportBtn').click()`;
+
+
             // Generate product table rows
             const productRows = results.map((result, index) => {
-                // Clean up financial data for display
                 const lineTotal = (parseFloat(result['TOTAL'].replace(/[^0-9.-]+/g,"")) || 0).toFixed(2);
                 const unitRate = (parseFloat(result['RATE'].replace(/[^0-9.-]+/g,"")) || 0).toFixed(2);
                 const taxableAmt = (parseFloat(result['TAXABLE'].replace(/[^0-9.-]+/g,"")) || 0).toFixed(2);
@@ -730,10 +612,11 @@
 
             const html = `
                 <div class="result-card">
-                    <div class="result-header">
-<h2> PALEPU PHARMA DISTRIBUTORS (SS) </h2>
+                    <div class="result-header" style="flex-wrap: wrap;">
+                        <h2> PALEPU PHARMA DISTRIBUTORS (SS) </h2>
                         <div class="sr-ref">Sales Return: ${firstResult['SR Ref No.']}</div>
                         <div class="total-amount">Grand Total: ₹${totalGrandAmount}</div> 
+                        ${isExpandedView ? `<button type="button" class="btn btn-secondary" onclick="${exportFunction}" style="margin-top: 0; padding: 6px 12px; font-size: 0.8rem;">Export This SR</button>` : ''}
                     </div>
                     
                     <div class="document-sections">
@@ -755,11 +638,11 @@
                                     </div>
                                     <div class="field">
                                         <div class="field-label">Credit Note No</div>
-                                        <div class="field-value">${firstResult['CN NO.']}</div>
+                                        <div class="field-value">${firstResult['CN NO.'] || '-'}</div>
                                     </div>
                                     <div class="field">
                                         <div class="field-label">Credit Note Date</div>
-                                        <div class="field-value">${firstResult['CN DATE']}</div>
+                                        <div class="field-value">${firstResult['CN DATE'] || '-'}</div>
                                     </div>
                                 </div>
                             </div>
@@ -828,8 +711,241 @@
                 </div>
             `;
             
-            resultsSection.innerHTML = html;
+            return html;
         }
+
+        // Wrapper function to display results in the main area (used by single SR search)
+        function displayResults(results) {
+            const resultsSection = document.getElementById('resultsSection');
+            // Pass true for isExpandedView since this is the main single-SR view
+            resultsSection.innerHTML = generateResultCardHtml(results, true);
+        }
+    
+
+        // --- Event Handlers ---
+
+        // Handle Search by SR Ref No
+        document.getElementById('searchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const sheetId = document.getElementById('sheetId').value.trim();
+            // MODIFIED: Read the input and convert it to uppercase for case-insensitive and dual searching
+            const searchTerm = document.getElementById('srRefNo').value.trim().toUpperCase(); 
+            const resultsSection = document.getElementById('resultsSection');
+            const exportBtn = document.getElementById('exportBtn'); 
+            
+            // Reset state
+            lastSearchResults = [];
+            exportBtn.style.display = 'none';
+            document.getElementById('exportAllBtn').style.display = 'none';
+
+            if (!sheetId || !searchTerm) {
+                resultsSection.innerHTML = '<div class="error">Please enter Google Sheet ID and SR Reference/Invoice Number</div>';
+                return;
+            }
+            
+            resultsSection.innerHTML = '<div class="loading">Searching for sales return data...</div>';
+            
+            try {
+                const data = await fetchSheetData(sheetId);
+                
+                // MODIFIED: Filter to match EITHER 'SR Ref No.' OR 'C. INV NO.' in an uppercase comparison
+                const results = data.filter(row => 
+                    (row['SR Ref No.'] && row['SR Ref No.'].toUpperCase() === searchTerm) ||
+                    (row['C. INV NO.'] && row['C. INV NO.'].toUpperCase() === searchTerm)
+                );
+                
+                if (results && results.length > 0) {
+                    lastSearchResults = results; // Store results for export
+                    displayResults(results);
+                    exportBtn.style.display = 'block'; // Show single SR export button
+                } else {
+                    resultsSection.innerHTML = '<div class="error">No sales return found with reference: ' + searchTerm + '</div>';
+                }
+            } catch (error) {
+                resultsSection.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
+            }
+        });
+
+        // Event listener for the existing single export button (SR Ref No search)
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            if (lastSearchResults.length > 0) {
+                const stockistName = lastSearchResults[0]['STOCKIST NAME'].replace(/[^a-zA-Z0-9 ]/g, "").trim();
+                const srRefNo = lastSearchResults[0]['SR Ref No.'].replace(/[^a-zA-Z0-9 ]/g, "").trim(); 
+                const filename = `${stockistName} - ${srRefNo}`;
+                
+                exportToCSV(lastSearchResults, filename);
+            }
+        });
+
+        // Event listener for the 'Export All' button
+        document.getElementById('exportAllBtn').addEventListener('click', function() {
+            if (lastFilterResults.length > 0) {
+                const today = new Date().toISOString().slice(0, 10);
+                const filename = `Palepu(SS) SR Data ${today}`;
+                
+                exportToCSV(lastFilterResults, filename);
+            } else {
+                 alert("No data to export. Please run a date filter search first.");
+            }
+        });
+
+
+        // Handle Date + Stockist Form
+        document.getElementById('dateStockistForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const sheetId = document.getElementById('sheetId').value.trim();
+            const fromDate = document.getElementById('fromDate').value;
+            const toDate = document.getElementById('toDate').value;
+            const stockist = document.getElementById('stockistSelect').value;
+            const resultsSection = document.getElementById('resultsSection');
+            const exportBtn = document.getElementById('exportBtn'); 
+            const exportAllBtn = document.getElementById('exportAllBtn'); 
+
+            exportBtn.style.display = 'none';
+            exportAllBtn.style.display = 'none';
+            lastFilterResults = []; // Reset filtered results
+            window.groupedResults = {}; // Reset grouped results
+
+            if (!sheetId || !fromDate || !toDate) {
+                resultsSection.innerHTML = '<div class="error">Please enter Google Sheet ID and select From and To dates.</div>';
+                return;
+            }
+
+            resultsSection.innerHTML = '<div class="loading">Searching by date & stockist...</div>';
+
+            try {
+                const data = await fetchSheetData(sheetId);
+                
+                const from = new Date(fromDate); 
+                from.setHours(0, 0, 0, 0); 
+                const to = new Date(toDate);
+                to.setHours(23, 59, 59, 999);
+                
+                const filtered = data.filter(row => {
+                    const cInvDateValue = row['C. INV DATE']; 
+                    if (!cInvDateValue) return false; 
+                    
+                    const parts = cInvDateValue.split('/');
+                    if (parts.length < 3) return false;
+
+                    // Parse date from DD/MM/YYYY format
+                    const uploaded = new Date(parts[2], parts[1] - 1, parts[0]);
+                    uploaded.setHours(12, 0, 0, 0); 
+
+                    if (isNaN(uploaded.getTime())) return false; 
+                    
+                    if (uploaded.getTime() < from.getTime() || uploaded.getTime() > to.getTime()) return false;
+
+                    if (stockist && row['STOCKIST NAME'] !== stockist) return false;
+                    
+                    return true;
+                });
+
+                if (filtered.length === 0) {
+                    resultsSection.innerHTML = '<div class="no-results">No records found for given filter.</div>';
+                    return;
+                }
+                
+                lastFilterResults = filtered; 
+                exportAllBtn.style.display = 'block'; 
+
+                // Group by SR Ref No
+                const grouped = {};
+                filtered.forEach(row => {
+                    const key = row['SR Ref No.'];
+                    if (!grouped[key]) grouped[key] = [];
+                    grouped[key].push(row);
+                });
+
+                let html = "";
+                for (const [srRef, rows] of Object.entries(grouped)) {
+                    const first = rows[0];
+                    
+                    // 1. Calculate Grand Total for this group/SR
+                    const totalGrandAmount = rows.reduce((sum, row) => sum + (parseFloat(row['TOTAL'].replace(/[^0-9.-]+/g,"")) || 0), 0).toFixed(2);
+                    
+                    // Pass true for isExpandedView so the Export button appears inside the details
+                    const expandedContent = generateResultCardHtml(rows, true); 
+                    
+                    // 2. MODIFIED GROUPED SUMMARY CARD HEADER STRUCTURE (as per your request)
+                    html += `
+                        <div class="result-card" id="card-${srRef}">
+                            <div class="result-header" style="flex-wrap: wrap; justify-content: space-between; align-items: flex-start;">
+                                <div style="flex-basis: 70%;">
+                                    <div class="sr-ref" style="font-size: 1.2rem; font-weight: 700; color: #b91c1c; line-height: 1.2;">
+                                        ${first['STOCKIST NAME'] || 'N/A'}
+                                    </div>
+                                    <div style="font-size:0.9rem; font-weight: 500; color:#374151; margin-top: 2px;">
+                                        SR: ${srRef} / C. Inv: ${first['C. INV NO.'] || '-'}
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+                                    <div class="total-amount" style="margin-top: 2px;">Total: ₹${totalGrandAmount}</div>
+                                    <button class="btn btn-secondary" style="margin-top: 0;" onclick="toggleExpand('${srRef}')">Expand</button>
+                                </div>
+                            </div>
+                            <div id="details-${srRef}" style="display:none; padding-top: 15px;">
+                                ${expandedContent}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                resultsSection.innerHTML = html;
+                window.groupedResults = grouped;
+
+            } catch (err) {
+                resultsSection.innerHTML = '<div class="error">Error: ' + err.message + '</div>';
+                exportAllBtn.style.display = 'none';
+            }
+        });
+
+
+        // Populate stockist dropdown
+        async function populateStockists(sheetId) {
+            try {
+                const data = await fetchSheetData(sheetId);
+                const stockistSet = new Set();
+                data.forEach(row => {
+                    if (row['STOCKIST NAME']) stockistSet.add(row['STOCKIST NAME']);
+                });
+                const select = document.getElementById('stockistSelect');
+                select.innerHTML = '<option value="">All Stockists</option>'; 
+                stockistSet.forEach(name => {
+                    const opt = document.createElement('option');
+                    opt.value = name;
+                    opt.textContent = name;
+                    select.appendChild(opt);
+                });
+            } catch (err) {
+                console.error("Failed to populate stockists", err);
+            }
+        }
+
+
+        // Toggle expand/collapse function
+        function toggleExpand(srRef) {
+            const div = document.getElementById('details-' + srRef);
+            const button = document.getElementById('card-' + srRef).querySelector('.result-header button');
+            
+            if (div.style.display === 'none') {
+                div.style.display = 'block';
+                button.textContent = 'Collapse';
+            } else {
+                div.style.display = 'none';
+                button.textContent = 'Expand';
+            }
+        }
+
+
+        // Trigger stockist population on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const sheetId = document.getElementById('sheetId').value.trim();
+            if (sheetId) {
+                setTimeout(() => populateStockists(sheetId), 500);
+            }
+        });
     </script>
 </body>
 </html>
