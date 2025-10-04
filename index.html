@@ -1014,10 +1014,10 @@ batch: row.querySelector('.batch-input').value,
         const { rows, cInvDate, cInvNo, stockistName, stockistCode, area, team, noOfBoxes, grandTotal, returnNature, memberID } = data;
 
         const dateObj = new Date(cInvDate + 'T00:00:00');
-        const selectedDateFormatted = String(dateObj.getDate()).padStart(2,'0') + '-' + String(dateObj.getMonth()+1).padStart(2,'0') + '-' + dateObj.getFullYear();
+        const selectedDateFormatted = String(dateObj.getDate()).padStart(2,'0') + '/' + String(dateObj.getMonth()+1).padStart(2,'0') + '/' + dateObj.getFullYear();
         
         const now = new Date();
-        const generatedDateTime = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+        const generatedDateTime = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
         
         const formData = { cInvDate: selectedDateFormatted, memberID: data.memberID,
             cInvNo: cInvNo,
@@ -1089,9 +1089,9 @@ batch: row.querySelector('.batch-input').value,
       const { rows, memberID, cInvDate, cInvNo, stockistName, stockistCode, area, team, noOfBoxes, grandTotal, returnNature } = data;
       
       const dateObj = new Date(cInvDate + 'T00:00:00');
-      const selectedDateFormatted = String(dateObj.getDate()).padStart(2,'0') + '-' + String(dateObj.getMonth()+1).padStart(2,'0') + '-' + dateObj.getFullYear();
+      const selectedDateFormatted = String(dateObj.getDate()).padStart(2,'0') + '/' + String(dateObj.getMonth()+1).padStart(2,'0') + '/' + dateObj.getFullYear();
       const now = new Date();
-      const generatedDateTime = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+      const generatedDateTime = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 
       let excelData = [];
       // Updated header: Nature column is present, but values will be the single value
