@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -39,6 +42,7 @@
             display: flex;
             flex-direction: column;
             box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            flex-shrink: 0;
         }
 
         .right-panel {
@@ -50,12 +54,13 @@
         }
 
         .header {
-            /* Changed from blue to red gradient */
-            background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+            /* CHANGED: From Blue to Deep Red/Maroon Gradient */
+            background: linear-gradient(135deg, #7c243a 0%, #a43a45 100%); 
             color: white;
             padding: 15px 20px;
             text-align: center;
             border-bottom: 1px solid #e2e8f0;
+            flex-shrink: 0;
         }
 
         .header-content {
@@ -92,18 +97,68 @@
             margin-left: 8px;
         }
 
+        /* --- Tabs Styling --- */
+        .tabs {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            text-align: left;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #374151;
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+        }
+        
+        /* Highlight active tab */
+        .tab-button.active {
+            background: #f1f5f9;
+            font-weight: 600;
+            /* CHANGED: From Dark Blue to Dark Maroon */
+            color: #800000; 
+            /* CHANGED: From Blue to Red */
+            border-left: 4px solid #dc2626; 
+        }
+
+        .tab-button:hover:not(.active) {
+            background: #f9fafb;
+            /* CHANGED: From Dark Blue to Dark Maroon */
+            color: #800000; 
+        }
+
         .search-section {
             padding: 20px;
             background: #f8fafc;
             flex: 1;
+            /* Only this section needs to scroll */
+            overflow-y: auto; 
             display: flex;
             flex-direction: column;
         }
-
+        
+        /* Hide all report content by default */
+        .tab-content {
+            display: none;
+        }
+        /* Display the content of the active tab */
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* --- Forms & Inputs --- */
         .search-form {
             display: flex;
             flex-direction: column;
             gap: 15px;
+            margin-bottom: 0; 
         }
 
         .form-group {
@@ -130,9 +185,10 @@
 
         .form-group input:focus, .form-group select:focus {
             outline: none;
-            /* Changed from blue to red border */
-            border-color: #dc2626;
-            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1);
+            /* CHANGED: From Blue to Red */
+            border-color: #dc2626; 
+            /* CHANGED: From Blue Shadow to Red Shadow */
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2); 
         }
 
         .form-group input::placeholder {
@@ -142,8 +198,8 @@
 
         .btn {
             padding: 12px 20px;
-            /* Changed from blue to red gradient */
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            /* CHANGED: From Blue Gradient to Red Gradient */
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); 
             color: white;
             border: none;
             border-radius: 8px;
@@ -155,8 +211,8 @@
         }
 
         .btn:hover {
-            /* Changed from blue to red gradient */
-            background: linear-gradient(135deg, #ef4444 0%, #be123c 100%);
+            /* CHANGED: From Darker Blue Gradient to Darker Red Gradient */
+            background: linear-gradient(135deg, #b91c1c 0%, #990e0e 100%); 
             transform: translateY(-1px);
         }
 
@@ -190,7 +246,7 @@
 
         .error {
             background: #fef2f2;
-            color: #dc2626; /* Kept red for error messages */
+            color: #dc2626;
             padding: 15px;
             border-radius: 8px;
             border-left: 4px solid #dc2626;
@@ -229,19 +285,15 @@
         }
 
         .total-amount {
+            /* Kept Green for positive financial sign */
             font-size: 1rem;
             font-weight: 700;
-            color: #059669;
+            color: #059669; 
             background: #ecfdf5;
             padding: 3px 6px;
             border-radius: 3px;
             border: 1px solid #a7f3d0;
         }
-        /* Adjusted color for the main stockist name in filtered results */
-        .result-card .result-header .sr-ref[style*="color: #1e3c72;"] {
-            color: #b91c1c !important; /* A darker red for prominence */
-        }
-
 
         .document-sections {
             display: flex;
@@ -340,10 +392,39 @@
             background-color: #f9fafb;
         }
         .product-table .total-row td {
+            /* Kept Green for consistency with total-amount */
             font-weight: 700;
             background-color: #ecfdf5;
             color: #059669;
         }
+        /* Chart specific styles */
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .chart-box {
+            background: white;
+            padding: 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            max-width: 45%; /* Limits size on large screens */
+            min-width: 300px;
+            flex-grow: 1;
+        }
+        .chart-box h3 {
+            font-size: 1rem;
+            /* CHANGED: From Dark Blue to Dark Maroon */
+            color: #800000;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -356,6 +437,7 @@
                 height: auto;
                 border-right: none;
                 border-bottom: 1px solid #e2e8f0;
+                overflow-y: visible;
             }
             
             .right-panel {
@@ -384,6 +466,9 @@
             .product-table {
                 min-width: 600px; 
             }
+            .chart-box {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
@@ -393,7 +478,7 @@
     <div class="header">
         <div class="header-content">
             <img src="https://media.licdn.com/dms/image/v2/D5603AQHMvZTgZ4pbzA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1682685098699?e=2147483647&v=beta&t=87_-l2z-dvgwfndQGnhEdmTpcvEr5Updl0nb71DfHHs" alt="PRISTINE PEARL PHARMA Logo" class="company-logo">
-            <h1>PALEPU PHARMA DISTRIBUTORS(SS)</h1>
+            <h1>PALEPU PHARMA DISTRIBUTORS (SS)</h1>
         </div>
     </div>
             
@@ -409,7 +494,7 @@
 
         <div id="srSearch" class="tab-content active">
             <form class="search-form" id="searchForm">
-                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #1e3c72;">Individual SR Search</h3>
+                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #800000;">Individual SR Search</h3>
                 <div class="form-group" style="display: none;">
                     <label for="sheetId">Google Sheet ID:</label>
                     <input type="text" id="sheetId" placeholder="Enter Google Sheet ID" value="1WI_6zey1A9Il13yajAstX6CyOG__RWGJ246PVMRFnHc" required>
@@ -426,7 +511,7 @@
 
         <div id="dateStockist" class="tab-content">
             <form class="search-form" id="dateStockistForm">
-                 <h3 style="font-size: 1rem; margin-bottom: 5px; color: #1e3c72;">Date / Stockist Report (Dates Optional)</h3>
+                 <h3 style="font-size: 1rem; margin-bottom: 5px; color: #800000;">Date / Stockist Report (Dates Optional)</h3>
                 <div class="form-group">
                     <label for="fromDate">From Date (C. INV DATE):</label>
                     <input type="date" id="fromDate">
@@ -449,7 +534,7 @@
 
         <div id="productAnalysis" class="tab-content">
             <form class="search-form" id="productForm">
-                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #1e3c72;">Product Analysis Report</h3>
+                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #800000;">Product Analysis Report</h3>
                 <div class="form-group">
                     <label for="productSelect">Product Name:</label>
                     <select id="productSelect" required>
@@ -468,7 +553,7 @@
 
         <div id="expiryQuality" class="tab-content">
             <form class="search-form" id="expiryForm">
-                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #1e3c72;">Expiry/Quality Report</h3>
+                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #800000;">Expiry/Quality Report</h3>
                 <div class="form-group">
                     <label for="expiryBeforeDate">Expiry Date (Before):</label>
                     <input type="date" id="expiryBeforeDate" required>
@@ -491,7 +576,7 @@
 
         <div id="graphicalReports" class="tab-content">
             <form class="search-form" id="chartReportForm">
-                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #1e3c72;">Product & Stockist Graphical Report (Dates Optional)</h3>
+                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #800000;">Product & Stockist Graphical Report (Dates Optional)</h3>
                  <div class="form-group">
                     <label for="chartFromDate">From Date (C. INV DATE):</label>
                     <input type="date" id="chartFromDate">
@@ -742,7 +827,7 @@
             const html = `
                 <div class="result-card">
                     <div class="result-header" style="flex-wrap: wrap;">
-                        <h2> PRISTINE PEARL PHARMA PVT </h2>
+                        <h2> PALEPU PHARMA DISTRIBUTORS (SS) </h2>
                         <div class="sr-ref">Sales Return: ${firstResult['SR Ref No.']}</div>
                         <div class="total-amount">Grand Total: ₹${totalGrandAmount}</div> 
                         ${isExpandedView ? `<button type="button" class="btn btn-secondary" onclick="${exportFunction}" style="margin-top: 0; padding: 6px 12px; font-size: 0.8rem;">Export This SR</button>` : ''}
@@ -868,7 +953,7 @@
             exportBtn.style.display = 'block';
 
             let tableHtml = `
-                <h2 style="font-size: 1.2rem; color: #1e3c72; padding: 10px 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 15px;">${title} (${data.length} Records)</h2>
+                <h2 style="font-size: 1.2rem; color: #800000; padding: 10px 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 15px;">${title} (${data.length} Records)</h2>
                 <div class="product-table-container">
                     <table class="product-table" style="min-width: 100%;">
                         <thead>
@@ -1086,7 +1171,7 @@
                         <div class="result-card" id="card-${srRef}">
                             <div class="result-header" style="flex-wrap: wrap; justify-content: space-between; align-items: flex-start;">
                                 <div style="flex-basis: 70%;">
-                                    <div class="sr-ref" style="font-size: 1.2rem; font-weight: 700; color: #1e3c72; line-height: 1.2;">
+                                    <div class="sr-ref" style="font-size: 1.2rem; font-weight: 700; color: #800000; line-height: 1.2;">
                                         ${first['STOCKIST NAME'] || 'N/A'}
                                     </div>
                                     <div style="font-size:0.9rem; font-weight: 500; color:#374151; margin-top: 2px;">
@@ -1340,8 +1425,9 @@
                     datasets: [{
                         label: 'Returned Quantity',
                         data: productQuantities,
-                        backgroundColor: '#1e3c72',
-                        borderColor: '#1e3c72',
+                        // CHANGED: From Dark Blue to Dark Red
+                        backgroundColor: '#990e0e',
+                        borderColor: '#990e0e',
                         borderWidth: 1
                     }]
                 },
