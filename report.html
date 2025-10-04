@@ -182,7 +182,16 @@
             transition: all 0.2s ease;
             background: white;
         }
-
+        
+        /* Adjust for radio buttons */
+        .form-group input[type="radio"] {
+             width: auto;
+             height: auto;
+             padding: 0;
+             margin: 0 5px 0 0;
+             border: none;
+        }
+        
         .form-group input:focus, .form-group select:focus {
             outline: none;
             /* CHANGED: From Blue to Red */
@@ -488,6 +497,7 @@
         <button class="tab-button" onclick="openTab(event, 'productAnalysis')">📦 Product Analysis</button>
         <button class="tab-button" onclick="openTab(event, 'expiryQuality')">⚠️ Expiry/Quality Report</button>
         <button class="tab-button" onclick="openTab(event, 'graphicalReports')">📊 Graphical Reports</button>
+        <button class="tab-button" onclick="openTab(event, 'aiAnalysis')">📈 AI & Trend Analysis</button> 
     </div>
 
     <div class="search-section">
@@ -601,6 +611,31 @@
                 <button type="button" class="btn btn-secondary" id="exportChartBtn" style="display: none;">EXPORT RAW DATA</button>
             </form>
         </div>
+
+        <div id="aiAnalysis" class="tab-content">
+            <form class="search-form" id="aiAnalysisForm">
+                <h3 style="font-size: 1rem; margin-bottom: 5px; color: #800000;">AI & Trend Analysis Report (Dates Optional)</h3>
+                 <div class="form-group">
+                    <label for="aiFromDate">From Date (C. INV DATE):</label>
+                    <input type="date" id="aiFromDate">
+                </div>
+                <div class="form-group">
+                    <label for="aiToDate">To Date (C. INV DATE):</label>
+                    <input type="date" id="aiToDate">
+                </div>
+                <div class="form-group">
+                    <label>Monthly Trend Chart Type:</label>
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <input type="radio" id="chartTypeBar" name="trendChartType" value="bar" checked>
+                        <label for="chartTypeBar" style="font-weight: normal; margin-top: 0; font-size: 0.9rem; margin-left: -12px;">Bar</label>
+                        <input type="radio" id="chartTypeLine" name="trendChartType" value="line">
+                        <label for="chartTypeLine" style="font-weight: normal; margin-top: 0; font-size: 0.9rem; margin-left: -12px;">Line</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Generate AI Report</button>
+            </form>
+        </div>
+
     </div>
 </div>
 
@@ -617,7 +652,7 @@
         let lastFilterResults = []; // For all tabular/graphical report exports
         window.groupedResults = {}; // To store the grouped data for in-card export
         
-        let barChartInstance = null;
+        let barChartInstance = null; // Used for Bar Chart and Monthly Trend Chart (Line/Bar Chart)
         let pieChartInstance = null;
 
         // --- Core Tab Navigation Function (NEW) ---
@@ -1299,7 +1334,7 @@
             }
         });
         
-        // Handle Product & Stockist Graphical Report (NEW)
+        // Handle Product & Stockist Graphical Report (OLD)
         document.getElementById('chartReportForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const sheetId = document.getElementById('sheetId').value.trim();
@@ -1371,7 +1406,7 @@
             }
         });
 
-        // Chart generation function
+        // Chart generation function (OLD)
         function generateChartReport(data, filterProduct, filterStockist) {
             const resultsSection = document.getElementById('resultsSection');
 
@@ -1476,6 +1511,259 @@
         }
 
 
+        // NEW AI ANALYSIS REPORT (JS IMPLEMENTATION)
+        
+        // Handle AI Analysis Report (NEW)
+        document.getElementById('aiAnalysisForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const sheetId = document.getElementById('sheetId').value.trim();
+            const fromDate = document.getElementById('aiFromDate').value;
+            const toDate = document.getElementById('aiToDate').value;
+            const resultsSection = document.getElementById('resultsSection');
+
+            hideAllExportButtons();
+            destroyCharts();
+
+            if (!sheetId) {
+                resultsSection.innerHTML = '<div class="error">Please enter Google Sheet ID.</div>';
+                return;
+            }
+
+            resultsSection.innerHTML = '<div class="loading">Generating AI Analysis Report...</div>';
+
+            try {
+                const data = await fetchSheetData(sheetId);
+
+                const isDateRangeSet = fromDate && toDate;
+                let from = null;
+                let to = null;
+                if (isDateRangeSet) {
+                    from = new Date(fromDate); 
+                    from.setHours(0, 0, 0, 0); 
+                    to = new Date(toDate);
+                    to.setHours(23, 59, 59, 999);
+                }
+
+                const filtered = data.filter(row => {
+                    // Apply Date Range Filter (Applied only if BOTH dates are set)
+                    if (isDateRangeSet) {
+                        const invDate = parseDate(row['C. INV DATE']);
+                        if (!invDate || isNaN(invDate.getTime())) return false; 
+                        
+                        if (invDate.getTime() < from.getTime() || invDate.getTime() > to.getTime()) return false;
+                    }
+                    return true;
+                });
+
+                if (filtered.length === 0) {
+                    resultsSection.innerHTML = '<div class="no-results">No records found for the given time period.</div>';
+                    return;
+                }
+                
+                generateAIAnalysis(filtered, fromDate, toDate);
+
+            } catch (err) {
+                resultsSection.innerHTML = '<div class="error">Error: ' + err.message + '</div>';
+            }
+        });
+
+
+        // Function to generate the AI Analysis dashboard
+        function generateAIAnalysis(data, fromDate, toDate) {
+            const resultsSection = document.getElementById('resultsSection');
+            
+            // --- 1. KPI Calculation ---
+            const totalReturnsValue = data.reduce((sum, row) => sum + (parseFloat(row['TOTAL'].replace(/[^0-9.-]+/g,"")) || 0), 0);
+            const totalProductsReturned = data.reduce((sum, row) => sum + (parseInt(row['QTY'], 10) || 0), 0);
+            const totalUniqueSR = new Set(data.map(row => row['SR Ref No.'])).size;
+
+            // --- 2. Top Returned Products (by Value) ---
+            const productValueMap = data.reduce((acc, row) => {
+                const key = row['PRODUCT'];
+                const total = parseFloat(row['TOTAL'].replace(/[^0-9.-]+/g,"")) || 0;
+                acc[key] = (acc[key] || 0) + total;
+                return acc;
+            }, {});
+            const topProducts = Object.entries(productValueMap)
+                .sort(([, a], [, b]) => b - a)
+                .slice(0, 5);
+
+            // --- 3. Top Stockists (by Value) ---
+            const stockistValueMap = data.reduce((acc, row) => {
+                const key = row['STOCKIST NAME'];
+                const total = parseFloat(row['TOTAL'].replace(/[^0-9.-]+/g,"")) || 0;
+                acc[key] = (acc[key] || 0) + total;
+                return acc;
+            }, {});
+            const topStockists = Object.entries(stockistValueMap)
+                .sort(([, a], [, b]) => b - a)
+                .slice(0, 5);
+
+            // --- 4. Remarks Analysis (Root Cause) ---
+            const remarksMap = data.reduce((acc, row) => {
+                const remark = (row['REMARKS'] || 'OTHER').toUpperCase().trim();
+                let key = 'OTHER';
+                if (remark.includes('DAMAGE')) key = 'DAMAGED';
+                else if (remark.includes('EXPIRED')) key = 'EXPIRED';
+                else if (remark.includes('QC')) key = 'QUALITY ISSUE';
+                
+                acc[key] = (acc[key] || 0) + (parseFloat(row['TOTAL'].replace(/[^0-9.-]+/g,"")) || 0);
+                return acc;
+            }, {});
+            const topReasons = Object.entries(remarksMap)
+                .sort(([, a], [, b]) => b - a);
+
+            // --- 5. Render HTML Dashboard ---
+            let dateRangeText = "All Time";
+            if (fromDate && toDate) {
+                dateRangeText = `${new Date(fromDate).toLocaleDateString()} - ${new Date(toDate).toLocaleDateString()}`;
+            }
+
+            let dashboardHtml = `
+                <h2 style="font-size: 1.5rem; color: #800000; padding: 10px 0; border-bottom: 2px solid #a43a45; margin-bottom: 20px;">
+                    AI & Trend Analysis (${dateRangeText})
+                </h2>
+                
+                <div class="chart-container" style="justify-content: space-between;">
+                    
+                    <div class="chart-box" style="flex-grow: 0; min-width: 100%;">
+                        <h3>Return Key Performance Indicators (KPIs)</h3>
+                        <div class="section-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                            <div class="field" style="background: #fef2f2; border-color: #dc2626;">
+                                <div class="field-label" style="color: #990e0e;">Total Return Value</div>
+                                <div class="field-value" style="font-size: 1.8rem; font-weight: 700; color: #990e0e;">₹${totalReturnsValue.toFixed(2)}</div>
+                            </div>
+                            <div class="field" style="background: #fff7ed; border-color: #f59e0b;">
+                                <div class="field-label" style="color: #f59e0b;">Total Products Qty Returned</div>
+                                <div class="field-value" style="font-size: 1.8rem; font-weight: 700; color: #b45309;">${totalProductsReturned.toLocaleString()}</div>
+                            </div>
+                            <div class="field" style="background: #f0fdf4; border-color: #10b981;">
+                                <div class="field-label" style="color: #047857;">Unique SR Documents</div>
+                                <div class="field-value" style="font-size: 1.8rem; font-weight: 700; color: #047857;">${totalUniqueSR.toLocaleString()}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-box" style="min-width: 300px;">
+                        <h3>Top 5 Returned Products (Value)</h3>
+                        <ol style="padding-left: 20px; font-size: 0.9rem;">
+                            ${topProducts.map(([product, value]) => 
+                                `<li>${product}: <strong>₹${value.toFixed(2)}</strong></li>`
+                            ).join('')}
+                        </ol>
+                    </div>
+                    
+                    <div class="chart-box" style="min-width: 300px;">
+                        <h3>Top 5 Stockists by Return Value</h3>
+                        <ol style="padding-left: 20px; font-size: 0.9rem;">
+                            ${topStockists.map(([stockist, value]) => 
+                                `<li>${stockist}: <strong>₹${value.toFixed(2)}</strong></li>`
+                            ).join('')}
+                        </ol>
+                    </div>
+                    
+                    <div class="chart-box" style="min-width: 300px;">
+                        <h3>Return Reason Breakdown (Value)</h3>
+                        <ol style="padding-left: 20px; font-size: 0.9rem;">
+                            ${topReasons.map(([reason, value]) => 
+                                `<li>${reason}: <strong>₹${value.toFixed(2)}</strong> (${(value/totalReturnsValue * 100).toFixed(1)}%)</strong></li>`
+                            ).join('')}
+                        </ol>
+                    </div>
+
+                </div>
+                
+                <div class="chart-container" style="height: 350px; padding: 0 20px 20px 20px;">
+                    <div class="chart-box" style="max-width: 100%; min-width: 100%; height: 100%;">
+                        <h3>Monthly Return Trend (by C. Inv Date Value)</h3>
+                        <canvas id="monthlyTrendChart"></canvas>
+                    </div>
+                </div>
+            `;
+
+            resultsSection.innerHTML = dashboardHtml;
+
+            // --- 6. Generate Monthly Trend Chart ---
+            
+            // Get the selected chart type (MODIFIED)
+            const chartType = document.querySelector('input[name="trendChartType"]:checked').value;
+            
+            // Group and aggregate data by month (C. INV DATE)
+            const monthlyDataMap = data.reduce((acc, row) => {
+                const invDate = parseDate(row['C. INV DATE']);
+                if (invDate) {
+                    // Use YYYY-MM for sorting and grouping
+                    const monthKey = `${invDate.getFullYear()}-${String(invDate.getMonth() + 1).padStart(2, '0')}`;
+                    const total = parseFloat(row['TOTAL'].replace(/[^0-9.-]+/g,"")) || 0;
+                    acc[monthKey] = (acc[monthKey] || 0) + total;
+                }
+                return acc;
+            }, {});
+            
+            // Convert to array and sort by month key
+            const sortedMonthlyData = Object.entries(monthlyDataMap).sort(([a], [b]) => a.localeCompare(b));
+            
+            const monthlyLabels = sortedMonthlyData.map(([key]) => {
+                const [year, month] = key.split('-');
+                return new Date(year, month - 1).toLocaleString('en-US', { month: 'short', year: '2-digit' });
+            });
+            const monthlyValues = sortedMonthlyData.map(([, value]) => value);
+
+            // Create the Chart
+            const trendCtx = document.getElementById('monthlyTrendChart').getContext('2d');
+            
+            // Destroy existing instance before creating a new one (important for dynamic type change)
+            if (barChartInstance) { barChartInstance.destroy(); }
+
+            // Configure bar width only if it's a bar chart (NEW OPTION)
+            const barOptions = chartType === 'bar' ? {
+                // These options reduce the bar width
+                categoryPercentage: 0.6, 
+                barPercentage: 0.8,
+            } : {};
+            
+            barChartInstance = new Chart(trendCtx, { 
+                type: chartType, // Use dynamic type (MODIFIED)
+                data: {
+                    labels: monthlyLabels,
+                    datasets: [{
+                        label: 'Return Value (₹)',
+                        data: monthlyValues,
+                        // Dynamic styling based on type (MODIFIED)
+                        backgroundColor: chartType === 'bar' ? '#dc2626' : 'rgba(220, 38, 38, 0.5)', 
+                        borderColor: '#990e0e', 
+                        borderWidth: chartType === 'line' ? 3 : 1, 
+                        fill: chartType === 'line' ? false : true,
+                        tension: chartType === 'line' ? 0.4 : 0, 
+                        pointRadius: chartType === 'line' ? 5 : 0 
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Return Value (₹)'
+                            }
+                        },
+                         x: { // Apply bar options to x-axis
+                             ...barOptions,
+                             grid: {
+                                 // Add grid setting here for bar display
+                                 drawOnChartArea: true 
+                             }
+                         } 
+                    }
+                }
+            });
+
+        }
+        // END AI ANALYSIS REPORT (JS IMPLEMENTATION)
+
+
         // Populate all dropdowns (Stockists and Products)
         async function populateStockistsAndProducts(sheetId) {
             try {
@@ -1554,6 +1842,12 @@
              // Ensure the default tab content is displayed
             document.getElementById('srSearch').style.display = 'block';
             document.getElementById('srSearch').classList.add('active');
+            
+            // Set default chart type for AI Analysis (NEW)
+            const defaultChartType = document.getElementById('chartTypeBar');
+            if (defaultChartType) {
+                 defaultChartType.checked = true;
+            }
         });
     </script>
 </body>
