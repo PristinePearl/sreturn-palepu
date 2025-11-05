@@ -804,7 +804,36 @@
       expiryInput.addEventListener('input', function() {
           formatExpiryInput(this);
       });
+		// Auto Remarks based on Expiry Date
+expiryInput.addEventListener('change', function () {
+  const remarksInput = row.querySelector('.remarks-input');
+  const val = this.value.trim();
+  if (!val || val.length < 5) return; // Skip if invalid format
 
+  const [mm, yy] = val.split('/');
+  if (!mm || !yy) return;
+
+  const expiryDate = new Date(`20${yy}`, parseInt(mm), 0);
+  const currentDate = new Date();
+
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear() % 100; // last 2 digits
+
+  const sixMonthsLater = new Date(currentDate);
+  sixMonthsLater.setMonth(currentDate.getMonth() + 6);
+
+  // Include current month as expired
+  if (
+    expiryDate < currentDate ||
+    (parseInt(yy) === currentYear && parseInt(mm) === currentMonth)
+  ) {
+    remarksInput.value = 'Expired';
+  } else if (expiryDate <= sixMonthsLater) {
+    remarksInput.value = 'Short Expiry';
+  } else {
+    remarksInput.value = 'Long Expiry';
+  }
+});
       // Qty
       const qtyInput = document.createElement('input');
       qtyInput.type = 'number';
