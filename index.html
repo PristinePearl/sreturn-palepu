@@ -776,7 +776,7 @@
         input.value = value;
     }
 
-    function newRow() {
+ function newRow() {
       const row = itemsTable.insertRow();
       row.classList.add('item-row');
       const rowCount = itemsTable.rows.length;
@@ -810,7 +810,7 @@
       expiryInput.addEventListener('input', function() {
           formatExpiryInput(this);
       });
-		// Auto Remarks based on Expiry Date
+// Auto Remarks based on Expiry Date
 expiryInput.addEventListener('change', function () {
   const remarksInput = row.querySelector('.remarks-input');
   const val = this.value.trim();
@@ -840,6 +840,7 @@ expiryInput.addEventListener('change', function () {
     remarksInput.value = 'Long Expiry';
   }
 });
+
       // Qty
       const qtyInput = document.createElement('input');
       qtyInput.type = 'number';
@@ -1207,6 +1208,52 @@ batch: row.querySelector('.batch-input').value,
 document.getElementById("viewReport").addEventListener("click", function () {
     window.open("report.html", "_blank");
 });
+function saveDraft() {
+  const draft = {
+    date: document.getElementById("date")?.value || "",
+    cInvNo: document.getElementById("cInvNo")?.value || "",
+    stockist: document.getElementById("stockist")?.value || "",
+    items: []
+  };
+
+  document.querySelectorAll("#itemsTable tbody tr").forEach(row => {
+    draft.items.push({
+      item: row.querySelector(".itemName")?.value || "",
+      batch: row.querySelector(".batch")?.value || "",
+      qty: row.querySelector(".qty")?.value || "",
+      rate: row.querySelector(".rate")?.value || "",
+      reason: row.querySelector(".reason")?.value || ""
+    });
+  });
+
+  localStorage.setItem("SR_DRAFT", JSON.stringify(draft));
+}
+
+setInterval(saveDraft, 3000);
+window.addEventListener("load", () => {
+  const draft = localStorage.getItem("SR_DRAFT");
+  if (!draft) return;
+
+  if (confirm(" ⚠ Unsaved Sales Return found. Restore?")) {
+    const data = JSON.parse(draft);
+
+    document.getElementById("date").value = data.date || "";
+    document.getElementById("cInvNo").value = data.cInvNo || "";
+
+    const stockistEl = document.getElementById("stockist");
+    stockistEl.value = data.stockist;
+    stockistEl.dispatchEvent(new Event("change"));
+
+    itemsTable.innerHTML = "";
+
+    data.items.forEach(item => {
+      newRow(item);
+    });
+  }
+});
+function clearDraft() {
+  localStorage.removeItem("SR_DRAFT");
+}
   </script>
   <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 </body>
