@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Return Viewer - Palepu(SS)</title>
+    <title>Sales Return Viewer - Palepu (SS)</title>
  <link rel="icon" 
         href="https://media.licdn.com/dms/image/v2/D5603AQHMvZTgZ4pbzA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1682685098699?e=2147483647&v=beta&t=87_-l2z-dvgwfndQGnhEdmTpcvEr5Updl0nb71DfHHs" 
         type="image/png">
@@ -54,8 +54,8 @@
         }
 
         .header {
-            /* CHANGED: From Blue to Deep Red/Maroon Gradient */
-            background: linear-gradient(135deg, #7c243a 0%, #a43a45 100%); 
+            /* CHANGED: From Deep Red/Maroon Gradient to Deep Indigo Gradient */
+            background: linear-gradient(135deg, #800000 0%, #dc2626 100%); 
             color: white;
             padding: 15px 20px;
             text-align: center;
@@ -122,15 +122,15 @@
         .tab-button.active {
             background: #f1f5f9;
             font-weight: 600;
-            /* CHANGED: From Dark Blue to Dark Maroon */
+            /* CHANGED: From Dark Maroon to Dark Indigo */
             color: #800000; 
-            /* CHANGED: From Blue to Red */
+            /* CHANGED: From Red to Indigo */
             border-left: 4px solid #dc2626; 
         }
 
         .tab-button:hover:not(.active) {
             background: #f9fafb;
-            /* CHANGED: From Dark Blue to Dark Maroon */
+            /* CHANGED: From Dark Maroon to Dark Indigo */
             color: #800000; 
         }
 
@@ -194,10 +194,10 @@
         
         .form-group input:focus, .form-group select:focus {
             outline: none;
-            /* CHANGED: From Blue to Red */
+            /* CHANGED: From Red to Indigo */
             border-color: #dc2626; 
-            /* CHANGED: From Blue Shadow to Red Shadow */
-            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2); 
+            /* CHANGED: From Red Shadow to Indigo Shadow */
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2); 
         }
 
         .form-group input::placeholder {
@@ -207,8 +207,8 @@
 
         .btn {
             padding: 12px 20px;
-            /* CHANGED: From Blue Gradient to Red Gradient */
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); 
+            /* CHANGED: From Red Gradient to Indigo Gradient */
+            background: linear-gradient(135deg, #dc2626 0%, #800000 100%); 
             color: white;
             border: none;
             border-radius: 8px;
@@ -220,8 +220,8 @@
         }
 
         .btn:hover {
-            /* CHANGED: From Darker Blue Gradient to Darker Red Gradient */
-            background: linear-gradient(135deg, #b91c1c 0%, #990e0e 100%); 
+            /* CHANGED: From Darker Red Gradient to Darker Indigo Gradient */
+            background: linear-gradient(135deg, #800000 0%, #990e0e 100%); 
             transform: translateY(-1px);
         }
 
@@ -254,11 +254,11 @@
         }
 
         .error {
-            background: #fef2f2;
-            color: #dc2626;
+            background: #fef2f2; /* CHANGED: From Red to Light Blue */
+            color: #dc2626; /* CHANGED: From Red to Indigo */
             padding: 15px;
             border-radius: 8px;
-            border-left: 4px solid #dc2626;
+            border-left: 4px solid #dc2626; /* CHANGED: From Red to Indigo */
             margin: 10px 0;
             font-size: 0.9rem;
         }
@@ -427,7 +427,7 @@
         }
         .chart-box h3 {
             font-size: 1rem;
-            /* CHANGED: From Dark Blue to Dark Maroon */
+            /* CHANGED: From Dark Maroon to Dark Indigo */
             color: #800000;
             margin-bottom: 10px;
             padding-bottom: 5px;
@@ -486,7 +486,7 @@
 <div class="left-panel">
     <div class="header">
         <div class="header-content">
-            <img src="https://media.licdn.com/dms/image/v2/D5603AQHMvZTgZ4pbzA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1682685098699?e=2147483647&v=beta&t=87_-l2z-dvgwfndQGnhEdmTpcvEr5Updl0nb71DfHHs" alt="PRISTINE PEARL PHARMA Logo" class="company-logo">
+            <img src="https://media.licdn.com/dms/image/v2/D5603AQHMvZTgZ4pbzA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1682685098699?e=2147483647&v=beta&t=87_-l2z-dvgwfndQGnhEdmTpcvEr5Updl0nb71DfHHs" alt="PALEPU Logo" class="company-logo">
             <h1>PALEPU PHARMA DISTRIBUTORS (SS)</h1>
         </div>
     </div>
@@ -497,7 +497,8 @@
         <button class="tab-button" onclick="openTab(event, 'productAnalysis')">📦 Product Analysis</button>
         <button class="tab-button" onclick="openTab(event, 'expiryQuality')">⚠️ Expiry/Quality Report</button>
         <button class="tab-button" onclick="openTab(event, 'graphicalReports')">📊 Graphical Reports</button>
-        <button class="tab-button" onclick="openTab(event, 'aiAnalysis')">📈 AI & Trend Analysis</button> 
+        <button class="tab-button" onclick="openTab(event, 'aiAnalysis')">📈 AI & Trend Analysis</button>
+
     </div>
 
     <div class="search-section">
@@ -635,7 +636,38 @@
                 <button type="submit" class="btn">Generate AI Report</button>
             </form>
         </div>
+<div id="printDoc" class="tab-content">
+<form class="search-form" id="printForm">
 
+<h3 style="font-size:1rem;color:#800000;">Print Document</h3>
+
+<div class="form-group">
+<label>From Date (C. INV DATE)</label>
+<input type="date" id="printFrom">
+</div>
+
+<div class="form-group">
+<label>To Date (C. INV DATE)</label>
+<input type="date" id="printTo">
+</div>
+
+<div class="form-group">
+<label>Stockist Name</label>
+<select id="printStockist">
+<option value="">All Stockists</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Search SR Ref / C.Inv No</label>
+<input type="text" id="printSearch" placeholder="Optional">
+</div>
+
+<button type="submit" class="btn">Generate Report</button>
+<button type="button" class="btn btn-secondary" id="printPdfBtn" style="display:none;">Download PDF</button>
+
+</form>
+</div>
     </div>
 </div>
 
@@ -850,10 +882,12 @@
                         <td>${result['BATCH']}</td>
                         <td>${result['EXPIRY']}</td>
                         <td>${result['QTY']}</td>
+<td>${result['FQTY'] || '-'}</td>
                         <td style="text-align: right;">₹${unitRate}</td>
                         <td style="text-align: right;">₹${taxableAmt}</td>
                         <td style="text-align: right;">₹${gstValue}</td>
                         <td style="text-align: right;">₹${lineTotal}</td>
+<td>${result['STATUS'] || '-'}</td>
                         <td>${result['REMARKS'] || '-'}</td>
                     </tr>
                 `;
@@ -865,7 +899,26 @@
                         <h2> PALEPU PHARMA DISTRIBUTORS (SS) </h2>
                         <div class="sr-ref">Sales Return: ${firstResult['SR Ref No.']}</div>
                         <div class="total-amount">Grand Total: ₹${totalGrandAmount}</div> 
-                        ${isExpandedView ? `<button type="button" class="btn btn-secondary" onclick="${exportFunction}" style="margin-top: 0; padding: 6px 12px; font-size: 0.8rem;">Export This SR</button>` : ''}
+                        ${isExpandedView ? `
+<div style="display:flex;gap:8px">
+
+<button type="button"
+class="btn btn-secondary"
+onclick="${exportFunction}"
+style="margin-top:0;padding:6px 12px;font-size:0.8rem">
+Export This SR
+</button>
+
+<button type="button"
+class="btn btn-secondary"
+onclick="downloadSR('${firstResult['SR Ref No.']}')"
+style="margin-top:0;padding:6px 12px;font-size:0.8rem">
+Download
+</button>
+
+</div>
+` : ''}
+
                     </div>
                     
                     <div class="document-sections">
@@ -893,6 +946,15 @@
                                         <div class="field-label">Credit Note Date</div>
                                         <div class="field-value">${firstResult['CN DATE'] || '-'}</div>
                                     </div>
+<div class="field">
+    <div class="field-label">Courier Name</div>
+    <div class="field-value">${firstResult['COURIER NAME'] || '-'}</div>
+</div>
+
+<div class="field">
+    <div class="field-label">POD No</div>
+    <div class="field-value">${firstResult['POD NO.'] || '-'}</div>
+</div>
                                 </div>
                             </div>
                         </div>
@@ -932,22 +994,26 @@
                                             <th>Batch No</th>
                                             <th>Expiry Date</th>
                                             <th>Qty</th>
+<th>FQty</th>
                                             <th style="text-align: right;">Unit Rate</th>
                                             <th style="text-align: right;">Taxable Amt</th>
                                             <th style="text-align: right;">GST Value</th>
                                             <th style="text-align: right;">Total Value</th>
+<th>Status</th>
                                             <th>Remarks</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         ${productRows}
                                         <tr class="total-row">
-                                            <td colspan="6" style="text-align: right; font-weight: 700;">TOTALS:</td>
-                                            <td style="text-align: right;">₹${totalTaxable}</td>
-                                            <td style="text-align: right;">₹${totalGST}</td>
-                                            <td style="text-align: right;">₹${totalGrandAmount}</td>
-                                            <td></td>
-                                        </tr>
+<td colspan="7" style="text-align: right; font-weight: 700;">TOTALS:</td>
+<td style="text-align: right;">₹${totalTaxable}</td>
+<td style="text-align: right;">₹${totalGST}</td>
+<td style="text-align: right;">₹${totalGrandAmount}</td>
+<td></td>
+<td></td>
+</tr>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -962,6 +1028,242 @@
             
             return html;
         }
+
+function generateInvoiceHTML(rows){
+
+const r = rows[0];
+
+let totalTaxable=0;
+let totalGST=0;
+let grandTotal=0;
+
+const tableRows = rows.map((row,i)=>{
+
+const rate=parseFloat(row['RATE'])||0;
+const taxable=parseFloat(row['TAXABLE'])||0;
+const gst=parseFloat(row['GST VALUE'])||0;
+const total=parseFloat(row['TOTAL'])||0;
+
+totalTaxable+=taxable;
+totalGST+=gst;
+grandTotal+=total;
+
+return `
+<tr>
+<td>${i+1}</td>
+<td>${row['PRODUCT']}</td>
+<td>${row['BATCH']}</td>
+<td>${row['EXPIRY']}</td>
+<td>${row['QTY']}</td>
+<td>${row['FQTY']||''}</td>
+<td>${rate.toFixed(2)}</td>
+<td>${taxable.toFixed(2)}</td>
+<td>${gst.toFixed(2)}</td>
+<td>${total.toFixed(2)}</td>
+<td>${row['STATUS']||''}</td>
+<td>${row['REMARKS']||''}</td>
+</tr>`;
+}).join("");
+
+return `
+<div class="print-area">
+
+<!-- HEADER -->
+<div class="invoice-header">
+<img src="https://media.licdn.com/dms/image/v2/D5603AQHMvZTgZ4pbzA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1682685098699?e=2147483647&v=beta&t=87_-l2z-dvgwfndQGnhEdmTpcvEr5Updl0nb71DfHHs" class="logo">
+
+<div class="company">
+<div class="title">PALEPU PHARMA DISTRIBUTORS (SS)</div>
+<div class="subtitle">CUSTOMER SALES RETURN DETAILS</div>
+</div>
+
+<div style="font-size:14px;font-weight:600;color:#800000">
+REF: ${r['SR Ref No.']}
+</div>
+</div>
+
+
+<!-- INFO TABLE -->
+<table class="info-table">
+<tr>
+<td><b>CUSTOMER</b> : ${r['STOCKIST NAME']}</td>
+<td><b>CODE</b> : ${r['STOCKIST CODE']}</td>
+<td><b>AREA</b> : ${r['AREA']} - ${r['STATE']}</td>
+</tr>
+
+<tr>
+<td><b>UPLOADED ON</b> : ${r['R.GEN DATE']}</td>
+<td><b>C. INV NO.</b> : ${r['C. INV NO.']}</td>
+<td><b>C. INV DATE</b> : ${r['C. INV DATE']}</td>
+</tr>
+
+<tr>
+<td><b>OUR CN NO.</b> : ${r['CN NO.']||''}</td>
+<td><b>OUR CN Date</b> : ${r['CN DATE']||''}</td>
+<td><b>COURIER</b> : ${r['COURIER NAME']||''}</td>
+</tr>
+
+<tr>
+<td colspan="3"><b>POD NO.</b> : ${r['POD NO.']||''}</td>
+</tr>
+</table>
+
+
+<!-- PRODUCT TABLE -->
+<table class="product-table">
+<thead>
+<tr>
+<th>#</th>
+<th>PRODUCT</th>
+<th>BATCH</th>
+<th>EXPIRY</th>
+<th>QTY</th>
+<th>F QTY</th>
+<th>RATE</th>
+<th>TAXABLE</th>
+<th>GST</th>
+<th>TOTAL</th>
+<th>STATUS</th>
+<th>REMARKS</th>
+</tr>
+</thead>
+
+<tbody>
+${tableRows}
+
+<tr class="total-row">
+<td colspan="7">TOTALS</td>
+<td>${totalTaxable.toFixed(2)}</td>
+<td>${totalGST.toFixed(2)}</td>
+<td>${grandTotal.toFixed(2)}</td>
+<td></td>
+<td></td>
+</tr>
+
+</tbody>
+</table>
+
+
+<!-- FOOTER -->
+<div class="footer">
+This is a system generated document
+</div>
+
+</div>
+
+
+<style>
+
+.print-area{
+width:1000px;
+margin:auto;
+font-family:Segoe UI,Arial;
+color:#000;
+}
+
+/* HEADER */
+.invoice-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:3px solid #dc2626;
+padding-bottom:10px;
+margin-bottom:12px;
+}
+
+.logo{
+height:60px;
+}
+
+.company{
+text-align:center;
+flex:1;
+}
+
+.title{
+font-size:22px;
+font-weight:700;
+color:#800000;
+}
+
+.subtitle{
+font-size:13px;
+color:#555;
+}
+
+
+/* INFO TABLE */
+.info-table{
+width:100%;
+border-collapse:collapse;
+margin-bottom:12px;
+}
+
+.info-table td{
+border:1px solid #000;
+padding:7px;
+font-size:13px;
+}
+
+
+/* PRODUCT TABLE */
+.product-table{
+width:100%;
+border-collapse:collapse;
+font-size:12px;
+}
+
+.product-table th{
+background:#dc2626;
+color:white;
+border:1px solid #000;
+padding:7px;
+}
+
+.product-table td{
+border:1px solid #000;
+padding:6px;
+text-align:center;
+}
+
+.total-row td{
+font-weight:bold;
+background:#fef2f2;
+font-size:15px;
+padding:10px;
+}
+
+.total-row td:nth-child(10){
+font-size:18px;
+font-weight:900;
+color:#800000;
+}
+
+/* FOOTER */
+.footer{
+margin-top:12px;
+font-size:11px;
+text-align:center;
+color:#555;
+border-top:1px dashed #aaa;
+padding-top:6px;
+}
+
+/* PRINT SETTINGS */
+@media print{
+body *{visibility:hidden}
+.print-area,.print-area *{visibility:visible}
+.print-area{
+position:absolute;
+left:0;
+top:0;
+width:100%;
+}
+}
+
+</style>
+`;
+}
 
         // Wrapper function to display results in the main area (used by single SR search)
         function displayResults(results) {
@@ -1051,6 +1353,7 @@
             document.getElementById('exportProductBtn').style.display = 'none';
             document.getElementById('exportExpiryBtn').style.display = 'none';
             document.getElementById('exportChartBtn').style.display = 'none';
+document.getElementById('printPdfBtn').style.display='none';
         }
         
         // Handle Search by SR Ref No
@@ -1080,10 +1383,18 @@
                 );
                 
                 if (results && results.length > 0) {
-                    lastSearchResults = results; // Store results for export
-                    displayResults(results); // Uses the complex card layout
-                    document.getElementById('exportBtn').style.display = 'block'; 
-                } else {
+
+    lastSearchResults = results;
+
+    // ⭐ ADD THIS LINE
+    window.groupedResults = {
+        [results[0]['SR Ref No.']]: results
+    };
+
+    displayResults(results);
+
+    document.getElementById('exportBtn').style.display = 'block';
+} else {
                     resultsSection.innerHTML = '<div class="error">No sales return found with reference: ' + searchTerm + '</div>';
                 }
             } catch (error) {
@@ -1125,6 +1436,42 @@
             }
         });
 
+document.getElementById('printForm').addEventListener('submit', async e=>{
+e.preventDefault();
+
+const sheetId=document.getElementById('sheetId').value.trim();
+const search=document.getElementById('printSearch').value.trim().toUpperCase();
+const resultsSection=document.getElementById('resultsSection');
+
+hideAllExportButtons();
+destroyCharts();
+
+if(!search){
+resultsSection.innerHTML='<div class="error">Enter SR Ref No or Invoice No</div>';
+return;
+}
+
+resultsSection.innerHTML='<div class="loading">Generating document...</div>';
+
+const data=await fetchSheetData(sheetId);
+
+// filter ONLY one SR / Invoice
+const results=data.filter(row =>
+(row['SR Ref No.'] && row['SR Ref No.'].toUpperCase()===search) ||
+(row['C. INV NO.'] && row['C. INV NO.'].toUpperCase()===search)
+);
+
+if(!results.length){
+resultsSection.innerHTML='<div class="no-results">No document found</div>';
+return;
+}
+
+// show same professional layout as single SR search
+resultsSection.innerHTML = generateInvoiceHTML(results);
+
+// enable print button
+document.getElementById('printPdfBtn').style.display='block';
+});
 
         // Handle Date + Stockist Form (Grouped Card View)
         document.getElementById('dateStockistForm').addEventListener('submit', async function(e) {
@@ -1196,6 +1543,7 @@
                     grouped[key].push(row);
                 });
 
+
                 let html = "";
                 for (const [srRef, rows] of Object.entries(grouped)) {
                     const first = rows[0];
@@ -1233,7 +1581,29 @@
                 document.getElementById('exportAllBtn').style.display = 'none';
             }
         });
+document.getElementById('printPdfBtn').addEventListener('click',()=>{
+const content=document.getElementById('resultsSection').innerHTML;
 
+const win=window.open('','','width=900,height=700');
+win.document.write(`
+<html>
+<head>
+<title>Print Report</title>
+<style>
+body{font-family:Arial;padding:20px}
+table{width:100%;border-collapse:collapse}
+td,th{border:1px solid #000;padding:6px;font-size:12px}
+</style>
+</head>
+<body>
+${content}
+</body>
+</html>
+`);
+
+win.document.close();
+win.print();
+});
 
         // Handle Product Analysis Report
         document.getElementById('productForm').addEventListener('submit', async function(e) {
@@ -1460,9 +1830,9 @@
                     datasets: [{
                         label: 'Returned Quantity',
                         data: productQuantities,
-                        // CHANGED: From Dark Blue to Dark Red
-                        backgroundColor: '#990e0e',
-                        borderColor: '#990e0e',
+                        // CHANGED: From Dark Red to Dark Indigo
+                        backgroundColor: '#800000',
+                        borderColor: '#800000',
                         borderWidth: 1
                     }]
                 },
@@ -1484,7 +1854,7 @@
             // Generate Pie Chart (Value)
             const pieCtx = document.getElementById('pieChart').getContext('2d');
              // Generate a dynamic set of colors
-            const dynamicColors = stockistLabels.map((_, i) => `hsl(${i * 30}, 70%, 50%)`);
+            const dynamicColors = stockistLabels.map((_, i) => `hsl(${i * 30 + 240}, 70%, 50%)`); // Offset HSL to start around blue/indigo
 
             pieChartInstance = new Chart(pieCtx, {
                 type: 'pie',
@@ -1620,7 +1990,7 @@
             }
 
             let dashboardHtml = `
-                <h2 style="font-size: 1.5rem; color: #800000; padding: 10px 0; border-bottom: 2px solid #a43a45; margin-bottom: 20px;">
+                <h2 style="font-size: 1.5rem; color: #800000; padding: 10px 0; border-bottom: 2px solid #dc2626; margin-bottom: 20px;">
                     AI & Trend Analysis (${dateRangeText})
                 </h2>
                 
@@ -1630,8 +2000,8 @@
                         <h3>Return Key Performance Indicators (KPIs)</h3>
                         <div class="section-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
                             <div class="field" style="background: #fef2f2; border-color: #dc2626;">
-                                <div class="field-label" style="color: #990e0e;">Total Return Value</div>
-                                <div class="field-value" style="font-size: 1.8rem; font-weight: 700; color: #990e0e;">₹${totalReturnsValue.toFixed(2)}</div>
+                                <div class="field-label" style="color: #800000;">Total Return Value</div>
+                                <div class="field-value" style="font-size: 1.8rem; font-weight: 700; color: #800000;">₹${totalReturnsValue.toFixed(2)}</div>
                             </div>
                             <div class="field" style="background: #fff7ed; border-color: #f59e0b;">
                                 <div class="field-label" style="color: #f59e0b;">Total Products Qty Returned</div>
@@ -1729,9 +2099,9 @@
                     datasets: [{
                         label: 'Return Value (₹)',
                         data: monthlyValues,
-                        // Dynamic styling based on type (MODIFIED)
-                        backgroundColor: chartType === 'bar' ? '#dc2626' : 'rgba(220, 38, 38, 0.5)', 
-                        borderColor: '#990e0e', 
+                        // Dynamic styling based on type (MODIFIED) - Changed from Red to Indigo
+                        backgroundColor: chartType === 'bar' ? '#dc2626' : 'rgba(79, 70, 229, 0.5)', 
+                        borderColor: '#800000', 
                         borderWidth: chartType === 'line' ? 3 : 1, 
                         fill: chartType === 'line' ? false : true,
                         tension: chartType === 'line' ? 0.4 : 0, 
@@ -1783,7 +2153,8 @@
                 const stockistSelects = [
                     document.getElementById('stockistSelect'), 
                     document.getElementById('expiryStockistSelect'),
-                    document.getElementById('chartStockistSelect') // Graphical Report
+                    document.getElementById('chartStockistSelect'), // Graphical Report
+document.getElementById('printStockist')
                 ];
                 
                 stockistSelects.forEach(select => {
@@ -1826,9 +2197,19 @@
             if (div.style.display === 'none') {
                 div.style.display = 'block';
                 button.textContent = 'Collapse';
+                // Find the first occurrence of the stockist name and change its color to dark indigo
+                const srRefDiv = document.getElementById('card-' + srRef).querySelector('.sr-ref');
+                 if (srRefDiv) {
+                     srRefDiv.style.color = '#1f2937'; // Change to standard dark text when expanded
+                 }
             } else {
                 div.style.display = 'none';
                 button.textContent = 'Expand';
+                // Change the stockist name color back to dark indigo when collapsed
+                const srRefDiv = document.getElementById('card-' + srRef).querySelector('.sr-ref');
+                 if (srRefDiv) {
+                     srRefDiv.style.color = '#800000'; // Dark Indigo
+                 }
             }
         }
 
@@ -1836,7 +2217,7 @@
         // Trigger dropdown population and set default tab on page load
         document.addEventListener('DOMContentLoaded', () => {
             const sheetId = document.getElementById('sheetId').value.trim();
-            if (sheetId) {
+            if (sheetId) {	
                 setTimeout(() => populateStockistsAndProducts(sheetId), 500);
             }
              // Ensure the default tab content is displayed
@@ -1849,6 +2230,15 @@
                  defaultChartType.checked = true;
             }
         });
+function downloadSR(sr){
+const rows = window.groupedResults?.[sr] || lastSearchResults;
+if(!rows) return alert("Data not found");
+
+const win = window.open('','','width=900,height=700');
+win.document.write(generateInvoiceHTML(rows));
+win.document.close();
+win.print();
+}
     </script>
 </body>
 </html>
