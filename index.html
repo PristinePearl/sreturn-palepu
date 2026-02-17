@@ -34,13 +34,14 @@
     
     /* 2. CARD STYLING */
     .card{
-      background: var(--card-bg);
-      border-radius: 12px; /* Softer corners */
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* More pronounced, modern shadow */
-      padding: 30px; /* Increased padding */
-      max-width: 1100px; /* Slightly wider max-width for better item table space */
-      margin: 0 auto;
-    }
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  max-width: 1500px;   /* widened */
+  width: 95%;          /* responsive width */
+  margin: 0 auto;
+}
     
     /* 3. HEADINGS & LABELS */
     h1{
@@ -388,7 +389,15 @@
       </div>
       <div>
         <label for="stockist">STOCKIST NAME</label>
-        <select id="stockist">
+
+<input 
+  type="text"
+  id="stockistSearch"
+  placeholder="Type to search stockist..."
+  style="margin-bottom:6px"
+/>
+
+<select id="stockist">
 			<option value="">-- Select stockist --</option>
 			<option value="TCBE02" data-area="COIMBATORE" data-team="TN 01">ADHINANDIN AGENCIES</option>
 			<option value="TVLR02" data-area="VELLORE" data-team="TN 01">AISWARYAM PHARMA</option>
@@ -651,22 +660,37 @@
       <label>SR REF NO.</label>
       <input type="text" name="memberID" id="memberID" readonly="">
 </div>
+<div>
+  <label>COURIER NAME</label>
+  <input type="text" id="courierName"
+         style="text-transform:uppercase;"
+         oninput="this.value=this.value.replace(/[^A-Z ]/gi,'').toUpperCase();">
+</div>
+
+<div>
+  <label>POD NO.</label>
+  <input type="text" id="podNo"
+         style="text-transform:uppercase;"
+         oninput="this.value=this.value.toUpperCase();">
+</div>
       <div class = full>
         <label> <Strong> PRODUCT DETAILS </Strong> </label>
         <table id="itemsTable">
           <thead>
             <tr>
-               <th style="width:40px">S.NO</th>
+              <th style="width:40px">S.NO</th>
               <th style="width:180px">PRODUCT NAME</th>
               <th style="width:90px">BATCH</th>
               <th style="width:80px">EXPIRY</th>
               <th style="width:90px">QTY</th>
-              <th style="width:90px">RATE</th>
+<th style="width:90px">FQTY</th>
+              <th style="width:70px">RATE</th>
               <th style="width:70px">GST %</th>
-              <th style="width:90px">GST VALUE</th>
-              <th style="width:90px">TAXABLE</th>
-              <th style="width:100px">TOTAL</th>
-              <th style="width:120px">REMARKS</th>
+              <th style="width:70px">GST VALUE</th>
+              <th style="width:70px">TAXABLE</th>
+              <th style="width:90px">TOTAL</th>
+              <th style="width:90px">STATUS</th>
+<th style="width:120px">REMARKS</th>
               <th style="width:30px">ACTION</th>
             </tr>
           </thead>
@@ -687,7 +711,7 @@
       <div class="full right">
         <button id="submitToSheet" class="Big"> <strong> UPLOAD </strong> </button> 
         <span id="uploadStatus" class="status-message" style="display:none;"></span>
-<button id="viewReport" class="Big"><strong>VIEW REPORT</strong></button>
+        <button id="viewReport" class="Big"><strong>VIEW REPORT</strong></button>
         <button id="generate" class="small" style="display:none;">PREVIEW REPORT</button>
         <button id="downloadXlsx" class="Big" style="display:none;"> <strong> DOWNLOAD EXCEL </strong> </button> 
         <button id="sendMail" class="small" style="display:none;">SEND MAIL</button> 
@@ -777,7 +801,7 @@
         input.value = value;
     }
 
- function newRow() {
+    function newRow() {
       const row = itemsTable.insertRow();
       row.classList.add('item-row');
       const rowCount = itemsTable.rows.length;
@@ -813,7 +837,7 @@
       });
 // Auto Remarks based on Expiry Date
 expiryInput.addEventListener('change', function () {
-  const remarksInput = row.querySelector('.remarks-input');
+  const statusInput = row.querySelector('.status-input');
   const val = this.value.trim();
   if (!val || val.length < 5) return; // Skip if invalid format
 
@@ -834,11 +858,11 @@ expiryInput.addEventListener('change', function () {
     expiryDate < currentDate ||
     (parseInt(yy) === currentYear && parseInt(mm) === currentMonth)
   ) {
-    remarksInput.value = 'Expired';
+    statusInput.value = 'Expired';
   } else if (expiryDate <= sixMonthsLater) {
-    remarksInput.value = 'Short Expiry';
+    statusInput.value = 'Short Expiry';
   } else {
-    remarksInput.value = 'Long Expiry';
+    statusInput.value = 'Long Expiry';
   }
 });
 
@@ -849,42 +873,57 @@ expiryInput.addEventListener('change', function () {
       qtyInput.className = 'qty-input'; 
       qtyInput.value = '1';
       row.insertCell(4).appendChild(qtyInput); // Index 4
+// FQty
+const fqtyInput = document.createElement('input');
+fqtyInput.type = 'number';
+fqtyInput.min = '0';
+fqtyInput.className = 'fqty-input';
+fqtyInput.value = '0';
+row.insertCell(5).appendChild(fqtyInput);
 
       // Rate
       const rateInput = document.createElement('input');
       rateInput.type = 'number';
       rateInput.min = '0';
       rateInput.className = 'rate-input'; 
-      rateInput.value = ' ';
+      rateInput.value = '';
       rateInput.step = '0.01';
-      row.insertCell(5).appendChild(rateInput); // Index 5
+      row.insertCell(6).appendChild(rateInput); // Index 5
 
       // GST %
       const gstSelect = createSelect(gstOptions, 'gst-select', true);
       gstSelect.value = 5; // Default to 5%
-      row.insertCell(6).appendChild(gstSelect); // Index 6
+      row.insertCell(7).appendChild(gstSelect); // Index 6
 
       // GST Value
-      row.insertCell(7).appendChild(createReadOnlyInput('gst-value-display')); // Index 7
+      row.insertCell(8).appendChild(createReadOnlyInput('gst-value-display')); // Index 7
       
       // Taxable Value
-      row.insertCell(8).appendChild(createReadOnlyInput('taxable-value-display')); // Index 8
+      row.insertCell(9).appendChild(createReadOnlyInput('taxable-value-display')); // Index 8
       
       // Total Value
-      row.insertCell(9).appendChild(createReadOnlyInput('total-value-display')); // Index 9
+      row.insertCell(10).appendChild(createReadOnlyInput('total-value-display')); // Index 9
 
-      // Remarks
-      const remarksInput = document.createElement('textarea');
-      remarksInput.className = 'remarks-input'; 
-      remarksInput.rows = '1';
-      row.insertCell(10).appendChild(remarksInput); // Index 10
+      // Status
+const statusInput = document.createElement('input');
+statusInput.className = 'status-input';
+statusInput.style.width = "90px";
+statusInput.readOnly = true;      // ← ADD THIS LINE
+statusInput.tabIndex = -1;        // ← optional (prevents cursor focus)
+row.insertCell(11).appendChild(statusInput);
+
+// Remarks
+const remarksInput = document.createElement('textarea');
+remarksInput.className = 'remarks-input';
+remarksInput.rows = '1';
+row.insertCell(12).appendChild(remarksInput);
       
       // Action
       const removeBtn = document.createElement('button');
       removeBtn.textContent = 'X';
       removeBtn.className = 'remove small';
       removeBtn.onclick = () => { row.remove(); updateSNoAndGrandTotal(); };
-      row.insertCell(11).appendChild(removeBtn); // Index 11
+      row.insertCell(13).appendChild(removeBtn); // Index 11
 
       // Event Listeners
       [qtyInput, rateInput, gstSelect].forEach(el => {
@@ -942,12 +981,14 @@ expiryInput.addEventListener('change', function () {
 batch: row.querySelector('.batch-input').value,
             expiry: row.querySelector('.expiry-input').value, // This value is already in MM/YY format
             qty: row.querySelector('.qty-input').value,
+fqty: row.querySelector('.fqty-input').value,
             rate: row.querySelector('.rate-input').value,
             gstPercent: row.querySelector('.gst-select').value,
             gstValue: row.querySelector('.gst-value-display').value,
             taxableValue: row.querySelector('.taxable-value-display').value,
             totalValue: row.querySelector('.total-value-display').value,
-            remarks: row.querySelector('.remarks-input').value,
+            status: row.querySelector('.status-input').value,
+remarks: row.querySelector('.remarks-input').value,
         })).filter(r => r.prod && parseFloat(r.qty) > 0);
 
         const cInvDate = dateEl.value;
@@ -960,6 +1001,8 @@ batch: row.querySelector('.batch-input').value,
         const noOfBoxes = noOfBoxesEl.value;
         const grandTotal = totalValueDisplay.textContent;
  const memberID = document.getElementById('memberID').value;
+const courierName = document.getElementById('courierName').value;
+const podNo = document.getElementById('podNo').value;
         
         if (!cInvDate || !cInvNo || !stockistName) {
             alert("Please fill C.Inv Date, C.Inv No., and Stockist Name.");
@@ -970,7 +1013,7 @@ batch: row.querySelector('.batch-input').value,
             return null;
         }
 
-        return { rows, cInvDate, cInvNo, stockistName, stockistCode, area, team, noOfBoxes, grandTotal, returnNature, memberID };
+        return { rows, cInvDate, cInvNo, stockistName, stockistCode, area, team, noOfBoxes, grandTotal, returnNature, memberID, courierName, podNo };
     }
 
     function generatePreview() {
@@ -981,7 +1024,7 @@ batch: row.querySelector('.batch-input').value,
         
         // Reformat date from YYYY-MM-DD to DD-MM-YYYY
         const [year, month, day] = cInvDate.split('-');
-        const formattedDate = `${day}-${month}-${year}`;
+        const formattedDate = `${day}/${month}/${year}`;
 
         // START NEW PREVIEW LAYOUT
         let html = `
@@ -992,7 +1035,10 @@ batch: row.querySelector('.batch-input').value,
                 <div class="report-header">
                     <div class="report-meta-item"><strong>Stockist Name:</strong> ${stockistName}</div>
                     <div class="report-meta-item"><strong>C.Inv No.:</strong> ${cInvNo}</div>
-                    <div class="report-meta-item"><strong>C.Inv Date:</strong> ${formattedDate}</div>                          <div class="report-meta-item"><strong>SR REF NO.</strong>${data.memberID}</div>
+                    <div class="report-meta-item"><strong>C.Inv Date:</strong> ${formattedDate}</div>
+<div class="report-meta-item"><strong>SR REF NO.</strong>${data.memberID}</div>
+<div class="report-meta-item"><strong>Courier:</strong> ${data.courierName}</div>
+<div class="report-meta-item"><strong>POD No:</strong> ${data.podNo}</div>
                     <div class="report-meta-item"><strong>Stockist Code:</strong> ${stockistCode}</div>
 
                     <div class="report-meta-item"><strong>Nature:</strong> ${returnNature}</div>
@@ -1008,12 +1054,14 @@ batch: row.querySelector('.batch-input').value,
                             <th style="width:10%">Batch</th>
                             <th style="width:7%;text-align:center;">Expiry</th>
                             <th style="width:5%;text-align:center;">Qty</th>
+<th style="width:5%;text-align:center;">FQty</th>
                             <th style="width:8%;text-align:right;">Rate</th>
                             <th style="width:5%;text-align:center;">GST %</th>
                             <th style="width:10%;text-align:right;">Taxable</th>
                             <th style="width:10%;text-align:right;">GST Val</th>
                             <th style="width:12%;text-align:right;">Total</th>
-                            <th style="width:15%">Remarks</th>
+                            <th style="width:10%">Status</th>
+<th style="width:15%">Remarks</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1024,12 +1072,14 @@ batch: row.querySelector('.batch-input').value,
                                 <td>${r.batch}</td>
                                 <td style="text-align:center;">${r.expiry || ''}</td>
                                 <td style="text-align:center;">${r.qty}</td>
+<td style="text-align:center;">${r.fqty}</td>
                                 <td style="text-align:right;">${parseFloat(r.rate).toFixed(2)}</td>
                                 <td style="text-align:center;">${r.gstPercent}%</td>
                                 <td style="text-align:right;">${parseFloat(r.taxableValue).toFixed(2)}</td>
                                 <td style="text-align:right;">${parseFloat(r.gstValue).toFixed(2)}</td>
                                 <td style="text-align:right;font-weight:bold;">${parseFloat(r.totalValue).toFixed(2)}</td>
-                                <td>${r.remarks}</td>
+                                <td>${r.status}</td>
+<td>${r.remarks}</td>
                             </tr>
                         `).join('')}
                     </tbody>
@@ -1058,30 +1108,36 @@ batch: row.querySelector('.batch-input').value,
         const now = new Date();
         const generatedDateTime = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
         
-        const formData = { cInvDate: selectedDateFormatted, memberID: data.memberID,
-            cInvNo: cInvNo,
-            noOfBoxes: noOfBoxes,
-            totalValue: grandTotal,
-            generatedDateTime: generatedDateTime,
-            stockistName: stockistName,
-            stockistCode: stockistCode,
-            area: area,
-            team: team,
-            itemRows: rows.map((r, i) => ({
-                sNo: i + 1,
-                product: r.prod,
-                nature: returnNature, // Use the single nature value
-                batch: r.batch,
-                expiry: r.expiry || "", // FIX 2: Directly use r.expiry (e.g., "12/25")
-                qty: r.qty,
-                rate: r.rate,
-                gstPercent: r.gstPercent,
-                taxableValue: r.taxableValue,
-                gstValue: r.gstValue,
-                totalValue: r.totalValue,
-                remarks: r.remarks,
-            }))
-        };
+        const formData = {
+  cInvDate: selectedDateFormatted,
+  memberID: data.memberID,
+  cInvNo: cInvNo,
+  noOfBoxes: noOfBoxes,
+  totalValue: grandTotal,
+  generatedDateTime: generatedDateTime,
+  stockistName: stockistName,
+  stockistCode: stockistCode,
+  area: area,
+  team: team,
+  courierName: data.courierName,
+  podNo: data.podNo,
+
+  itemRows: rows.map((r, i) => ({
+      sNo: i + 1,
+      product: r.prod,
+      batch: r.batch,
+      expiry: r.expiry || "",
+      qty: r.qty,
+      fqty: r.fqty || "",
+      rate: r.rate,
+      gstPercent: r.gstPercent,
+      taxableValue: r.taxableValue,
+      gstValue: r.gstValue,
+      totalValue: r.totalValue,
+      status: r.status || "",
+      remarks: r.remarks || ""
+  }))
+};
 
         uploadStatus.style.display = 'inline';
         uploadStatus.textContent = 'Uploading...';
@@ -1148,14 +1204,14 @@ batch: row.querySelector('.batch-input').value,
       const ws = XLSX.utils.aoa_to_sheet(excelData);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Report");
-      XLSX.writeFile(wb, `${stockistName.replace(/\s+/g,'_')}_${selectedDateFormatted}_Palepu.xlsx`);
+      XLSX.writeFile(wb, `${stockistName.replace(/\s+/g,'_')}_${selectedDateFormatted}-PalepuSS.xlsx`);
     }
 
     function generatePlainTextReport(data) {
         if (!data) return "";
         const { rows, cInvDate, cInvNo, stockistName, stockistCode, area, team, noOfBoxes, grandTotal, returnNature, memberID } = data;
         
-        let plainText = `PRISTINE PEARL PHARMA PVT LTD - SALES RETURN REPORT\n\n`;
+        let plainText = `Palepu Pharma Distributors (SS) - SALES RETURN REPORT\n\n`;
         plainText += `Stockist: ${stockistName} (${stockistCode})\n`;
         plainText += `Area / Team: ${area} / ${team}\n`;
         plainText += `C.Inv Date: ${cInvDate}\nC.Inv No.: ${cInvNo}\n`;
@@ -1209,6 +1265,44 @@ batch: row.querySelector('.batch-input').value,
 document.getElementById("viewReport").addEventListener("click", function () {
     window.open("report.html", "_blank");
 });
+  </script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+<script>
+const searchInput = document.getElementById("stockistSearch");
+const stockistSelect = document.getElementById("stockist");
+
+// Save original options
+const originalOptions = Array.from(stockistSelect.options);
+
+searchInput.addEventListener("input", function () {
+  const keyword = this.value.toLowerCase();
+  stockistSelect.innerHTML = "";
+
+  originalOptions.forEach(opt => {
+    if (opt.text.toLowerCase().includes(keyword) || opt.value === "") {
+      stockistSelect.appendChild(opt.cloneNode(true));
+    }
+  });
+
+  // Expand dropdown while typing
+  stockistSelect.size = Math.min(8, stockistSelect.options.length);
+});
+
+// Collapse dropdown after selection
+stockistSelect.addEventListener("change", () => {
+  stockistSelect.size = 1;
+});
+
+// Auto collapse when leaving search
+searchInput.addEventListener("blur", () => {
+  setTimeout(() => stockistSelect.size = 1, 200);
+});
+
+/* ===============================
+   AUTO SAVE DRAFT (POWER CUT SAFE)
+   =============================== */
+
 function saveDraft() {
   const draft = {
     date: document.getElementById("date")?.value || "",
@@ -1230,7 +1324,13 @@ function saveDraft() {
   localStorage.setItem("SR_DRAFT", JSON.stringify(draft));
 }
 
+// Auto-save every 3 seconds
 setInterval(saveDraft, 3000);
+
+
+/* ===============================
+   RESTORE DRAFT AFTER RESTART
+   =============================== */
 window.addEventListener("load", () => {
   const draft = localStorage.getItem("SR_DRAFT");
   if (!draft) return;
@@ -1241,21 +1341,31 @@ window.addEventListener("load", () => {
     document.getElementById("date").value = data.date || "";
     document.getElementById("cInvNo").value = data.cInvNo || "";
 
+    // ✅ FIX STARTS HERE
     const stockistEl = document.getElementById("stockist");
     stockistEl.value = data.stockist;
     stockistEl.dispatchEvent(new Event("change"));
+    // ✅ FIX ENDS HERE
 
+    // Clear rows once
     itemsTable.innerHTML = "";
 
+    // Restore products
     data.items.forEach(item => {
       newRow(item);
     });
   }
 });
+
+
+/* ===============================
+   CLEAR DRAFT AFTER SUCCESS SAVE
+   =============================== */
 function clearDraft() {
   localStorage.removeItem("SR_DRAFT");
 }
-  </script>
-  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+</script>
+
 </body>
 </html>
